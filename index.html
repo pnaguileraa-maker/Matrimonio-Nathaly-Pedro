@@ -4,19 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nathaly & Pedro | Invitación de Matrimonio</title>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Cormorant Garamond y Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <!-- Iconos Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Botón de Calendario Nativo -->
+
+    <!-- Botón de Calendario Nativo Móvil -->
     <script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@2" async defer></script>
+
+    <style>
+        .font-serif-custom { font-family: 'Cormorant Garamond', serif; }
+        .font-sans-custom { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+        }
+    </style>
 </head>
-<body class="bg-stone-100 text-stone-800 font-sans antialiased">
+<body class="bg-[#FAF8F5] text-stone-800 font-sans-custom antialiased selection:bg-amber-100">
 
 <!-- Reproductor de Audio Flotante -->
 <div class="fixed top-4 right-4 z-40">
-    <button id="music-btn" onclick="toggleMusic()" class="bg-white/90 backdrop-blur border border-stone-200 p-3 rounded-full shadow-lg text-stone-700 hover:text-stone-900 transition flex items-center justify-center">
-        <i id="music-icon" data-lucide="music"></i>
+    <button id="music-btn" onclick="toggleMusic()" class="bg-white/90 backdrop-blur border border-stone-200/80 p-3 rounded-full shadow-lg text-stone-700 hover:text-stone-900 transition flex items-center justify-center">
+        <i id="music-icon" data-lucide="music" class="w-5 h-5"></i>
     </button>
     <!-- Canción de fondo -->
     <audio id="bg-music" loop>
@@ -24,50 +41,53 @@
     </audio>
 </div>
 
-<!-- Contenedor Principal estilo celular -->
-<main class="max-w-md mx-auto bg-white min-h-screen shadow-2xl flex flex-col items-center pb-12 relative">
+<!-- Contenedor Principal Celular / Desktop -->
+<main class="max-w-md mx-auto bg-[#FAF8F5] min-h-screen shadow-2xl flex flex-col items-center pb-16 relative">
 
-    <!-- Portada con la foto real -->
-    <header class="w-full relative text-center bg-stone-200">
-        <img src="portada.jpg"
-             alt="Nathaly y Pedro"
-             class="w-full h-96 object-cover object-center shadow-inner block">
+    <!-- Portada Editorial Estilo Arco -->
+    <header class="w-full relative text-center pt-8 px-4">
+        <div class="relative max-w-[280px] mx-auto overflow-hidden rounded-t-full shadow-2xl border-4 border-white">
+            <img src="portada.jpg"
+                 alt="Nathaly y Pedro en Río de Janeiro"
+                 class="w-full h-[380px] object-cover object-center transform hover:scale-105 transition duration-700 ease-out block">
+        </div>
 
-        <div class="p-6 bg-white border-b shadow-sm relative -mt-6 rounded-t-3xl mx-2">
-            <p class="text-xs uppercase tracking-widest text-amber-700 font-semibold mb-1">¡Nos Casamos!</p>
-            <h1 class="text-3xl font-serif font-bold text-stone-800">Nathaly & Pedro</h1>
-            <p class="text-xs text-stone-500 mt-2">Sábado, 06 de Febrero de 2027 • 18:30 hrs</p>
-            <p class="text-xs text-stone-400">Chillán, Chile</p>
+        <div class="glass-card p-6 border border-stone-200/60 shadow-xl relative -mt-10 rounded-2xl mx-2 z-10">
+            <p class="text-[10px] uppercase tracking-[0.3em] text-amber-900 font-semibold mb-1">Nos Casamos</p>
+            <h1 class="text-4xl font-serif-custom font-bold text-stone-800 tracking-wide">Nathaly & Pedro</h1>
+            <div class="w-12 h-[1px] bg-amber-800/30 mx-auto my-3"></div>
+            <p class="text-xs text-stone-600 font-medium">Sábado, 06 de Febrero de 2027 • 18:30 hrs</p>
+            <p class="text-[11px] text-stone-400 tracking-wider mt-0.5">CHILLÁN, CHILE</p>
         </div>
     </header>
 
     <!-- Reloj de Cuenta Regresiva -->
-    <section class="w-full p-6 text-center border-b border-stone-100">
-        <h2 class="text-xs uppercase tracking-wider text-stone-400 mb-4 font-semibold">Faltan pocos días</h2>
+    <section class="w-full px-6 py-8 text-center">
+        <h2 class="text-[11px] uppercase tracking-[0.2em] text-stone-400 mb-5 font-semibold">Cuenta Regresiva</h2>
         <div id="countdown" class="grid grid-cols-4 gap-2 text-center">
-            <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 shadow-sm">
-                <span id="days" class="block text-2xl font-bold text-stone-700">00</span>
-                <span class="text-[10px] uppercase tracking-wider text-stone-400">Días</span>
+            <div class="bg-white p-3 rounded-2xl border border-stone-200/60 shadow-sm">
+                <span id="days" class="block text-2xl font-serif-custom font-bold text-amber-950">00</span>
+                <span class="text-[9px] uppercase tracking-wider text-stone-400">Días</span>
             </div>
-            <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 shadow-sm">
-                <span id="hours" class="block text-2xl font-bold text-stone-700">00</span>
-                <span class="text-[10px] uppercase tracking-wider text-stone-400">Horas</span>
+            <div class="bg-white p-3 rounded-2xl border border-stone-200/60 shadow-sm">
+                <span id="hours" class="block text-2xl font-serif-custom font-bold text-amber-950">00</span>
+                <span class="text-[9px] uppercase tracking-wider text-stone-400">Horas</span>
             </div>
-            <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 shadow-sm">
-                <span id="minutes" class="block text-2xl font-bold text-stone-700">00</span>
-                <span class="text-[10px] uppercase tracking-wider text-stone-400">Min</span>
+            <div class="bg-white p-3 rounded-2xl border border-stone-200/60 shadow-sm">
+                <span id="minutes" class="block text-2xl font-serif-custom font-bold text-amber-950">00</span>
+                <span class="text-[9px] uppercase tracking-wider text-stone-400">Min</span>
             </div>
-            <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 shadow-sm">
-                <span id="seconds" class="block text-2xl font-bold text-stone-700">00</span>
-                <span class="text-[10px] uppercase tracking-wider text-stone-400">Seg</span>
+            <div class="bg-white p-3 rounded-2xl border border-stone-200/60 shadow-sm">
+                <span id="seconds" class="block text-2xl font-serif-custom font-bold text-amber-950">00</span>
+                <span class="text-[9px] uppercase tracking-wider text-stone-400">Seg</span>
             </div>
         </div>
     </section>
 
     <!-- Botonera Interactiva Alinear -->
-    <section class="w-full px-6 py-4 space-y-3">
+    <section class="w-full px-6 space-y-3">
 
-        <!-- Contenedor alineado para el Calendario -->
+        <!-- Contenedor centrado para el Calendario Nativo -->
         <div class="w-full flex justify-center">
             <add-to-calendar-button
                     name="Matrimonio Nathaly y Pedro"
@@ -86,35 +106,74 @@
         </div>
 
         <!-- Ubicación Mapa -->
-        <a href="https://maps.google.com" target="_blank" class="w-full py-3 px-4 bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-300 font-medium rounded-xl flex items-center justify-center gap-2 transition text-sm">
-            <i data-lucide="map-pin" class="w-4 h-4"></i>
+        <a href="https://maps.google.com" target="_blank" class="w-full py-3.5 px-4 bg-white hover:bg-stone-50 text-stone-700 border border-stone-200/80 font-medium rounded-xl flex items-center justify-center gap-2 transition text-xs shadow-sm">
+            <i data-lucide="map-pin" class="w-4 h-4 text-amber-800"></i>
             Ver Ubicación en el Mapa
         </a>
 
-        <!-- Regalitos -->
-        <button onclick="toggleModal(true)" class="w-full py-3 px-4 bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-300 font-medium rounded-xl flex items-center justify-center gap-2 transition text-sm">
-            <i data-lucide="gift" class="w-4 h-4"></i>
+        <!-- Mesa de Regalos -->
+        <button onclick="toggleModal(true)" class="w-full py-3.5 px-4 bg-white hover:bg-stone-50 text-stone-700 border border-stone-200/80 font-medium rounded-xl flex items-center justify-center gap-2 transition text-xs shadow-sm">
+            <i data-lucide="gift" class="w-4 h-4 text-amber-800"></i>
             Ver Datos de Regalos
         </button>
     </section>
 
-    <!-- Formulario RSVP -->
-    <section class="w-full px-6 py-6 border-t border-stone-100">
+    <!-- Itinerario del Evento (Timeline) -->
+    <section class="w-full px-6 py-10 border-t border-stone-200/60 mt-8">
+        <div class="text-center mb-8">
+            <i data-lucide="clock" class="w-6 h-6 mx-auto text-amber-800 mb-2"></i>
+            <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Programa de la Boda</h3>
+            <p class="text-[11px] text-stone-400 tracking-wider uppercase mt-1">Sábado 06 de Febrero</p>
+        </div>
+
+        <div class="relative border-l border-amber-800/30 ml-4 pl-6 space-y-6 text-left">
+            <div class="relative">
+                <div class="absolute -left-[31px] top-1 w-3.5 h-3.5 bg-amber-800 rounded-full border-2 border-white"></div>
+                <p class="text-xs font-semibold text-amber-900">18:30 hrs</p>
+                <h4 class="text-base font-serif-custom font-bold text-stone-800">Ceremonia</h4>
+                <p class="text-xs text-stone-500">Bienvenida e inicio de nuestra unión formal.</p>
+            </div>
+
+            <div class="relative">
+                <div class="absolute -left-[31px] top-1 w-3.5 h-3.5 bg-amber-800 rounded-full border-2 border-white"></div>
+                <p class="text-xs font-semibold text-amber-900">19:30 hrs</p>
+                <h4 class="text-base font-serif-custom font-bold text-stone-800">Cóctel & Fotografías</h4>
+                <p class="text-xs text-stone-500">Tragos de bienvenida, aperitivos y fotos con los invitados.</p>
+            </div>
+
+            <div class="relative">
+                <div class="absolute -left-[31px] top-1 w-3.5 h-3.5 bg-amber-800 rounded-full border-2 border-white"></div>
+                <p class="text-xs font-semibold text-amber-900">21:00 hrs</p>
+                <h4 class="text-base font-serif-custom font-bold text-stone-800">Cena & Brindis</h4>
+                <p class="text-xs text-stone-500">Banquete principal y palabras dedicadas a la pareja.</p>
+            </div>
+
+            <div class="relative">
+                <div class="absolute -left-[31px] top-1 w-3.5 h-3.5 bg-amber-800 rounded-full border-2 border-white"></div>
+                <p class="text-xs font-semibold text-amber-900">23:00 hrs</p>
+                <h4 class="text-base font-serif-custom font-bold text-stone-800">Fiesta & Baile</h4>
+                <p class="text-xs text-stone-500">Apertura de la pista de baile y bar abierto.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulario RSVP (Confirmación de Asistencia) -->
+    <section class="w-full px-6 py-8 border-t border-stone-200/60 bg-white rounded-2xl shadow-sm my-4 mx-2">
         <div class="text-center mb-6">
-            <i data-lucide="mail-check" class="w-8 h-8 mx-auto text-amber-700 mb-2"></i>
-            <h3 class="text-xl font-serif font-bold text-stone-800">Confirmar Asistencia</h3>
+            <i data-lucide="mail-check" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
+            <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Confirmar Asistencia</h3>
             <p class="text-xs text-stone-500 mt-1">Por favor confirma tu presencia para ayudarnos con los preparativos.</p>
         </div>
 
         <form id="rsvp-form" onsubmit="handleRSVP(event)" class="space-y-4">
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">Nombre Completo *</label>
-                <input type="text" id="rsvp-name" required placeholder="Ej: Juan Pérez" class="w-full p-3 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-stone-600">
+                <input type="text" id="rsvp-name" required placeholder="Ej: Juan Pérez" class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#FAF8F5]">
             </div>
 
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">¿Asistirás al matrimonio? *</label>
-                <select id="rsvp-status" required class="w-full p-3 border border-stone-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-stone-600">
+                <select id="rsvp-status" required class="w-full p-3 border border-stone-200 rounded-xl text-xs bg-[#FAF8F5] focus:outline-none focus:ring-2 focus:ring-amber-800">
                     <option value="">Selecciona una opción</option>
                     <option value="Si">¡Sí, ahí estaré celebrando!</option>
                     <option value="No">Lamentablemente no podré ir</option>
@@ -123,15 +182,15 @@
 
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">Restricciones Alimentarias / Alergias</label>
-                <input type="text" id="rsvp-diet" placeholder="Ej: Vegetariano, celíaco, ninguno..." class="w-full p-3 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-stone-600">
+                <input type="text" id="rsvp-diet" placeholder="Ej: Vegetariano, celíaco, ninguno..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#FAF8F5]">
             </div>
 
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">Mensaje para los Novios</label>
-                <textarea id="rsvp-message" rows="2" placeholder="Déjanos unas palabras..." class="w-full p-3 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-stone-600"></textarea>
+                <textarea id="rsvp-message" rows="2" placeholder="Déjanos unas palabras..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#FAF8F5]"></textarea>
             </div>
 
-            <button type="submit" class="w-full py-3 bg-amber-800 hover:bg-amber-900 text-white font-medium rounded-xl shadow transition text-sm">
+            <button type="submit" class="w-full py-3.5 bg-stone-900 hover:bg-stone-800 text-white font-medium rounded-xl shadow transition text-xs uppercase tracking-wider">
                 Enviar Confirmación
             </button>
         </form>
@@ -142,16 +201,16 @@
 
 <!-- Modal Emergente Datos Bancarios -->
 <div id="gift-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl relative">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl relative border border-stone-100">
         <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-stone-400 hover:text-stone-600">
             <i data-lucide="x" class="w-5 h-5"></i>
         </button>
-        <i data-lucide="gift" class="w-10 h-10 mx-auto text-amber-800 mb-2"></i>
-        <h3 class="text-xl font-serif font-bold text-stone-800 mb-2">Mesa de Regalos</h3>
+        <i data-lucide="gift" class="w-8 h-8 mx-auto text-amber-800 mb-2"></i>
+        <h3 class="text-2xl font-serif-custom font-bold text-stone-800 mb-2">Mesa de Regalos</h3>
         <p class="text-xs text-stone-500 mb-4 leading-relaxed">
             Tu presencia es lo más importante. Si deseas realizarnos un obsequio para nuestra luna de miel, puedes hacerlo a nuestra cuenta:
         </p>
-        <div class="bg-stone-50 p-4 rounded-xl border text-left text-xs space-y-1 text-stone-700 font-mono">
+        <div class="bg-[#FAF8F5] p-4 rounded-xl border border-stone-200/60 text-left text-xs space-y-1.5 text-stone-700 font-mono">
             <p><strong>Banco:</strong> Banco Falabella / Santander</p>
             <p><strong>Tipo:</strong> Cuenta Corriente / Vista</p>
             <p><strong>Rut:</strong> XX.XXX.XXX-X</p>
@@ -163,6 +222,7 @@
     </div>
 </div>
 
+<!-- Script de Lógica -->
 <script src="script.js"></script>
 <script>
     lucide.createIcons();
