@@ -146,13 +146,17 @@
     </div>
 </div>
 
-<!-- Control de Música Flotante -->
-<div class="fixed top-4 right-4 z-40">
+<!-- Control de Música Flotante con "Sarà perché ti amo" -->
+<div class="fixed top-4 right-4 z-40 flex items-center gap-2">
+    <div class="bg-stone-900/90 text-white text-[10px] px-3 py-1.5 rounded-full backdrop-blur shadow-md font-medium tracking-wide">
+        🎵 Sarà perché ti amo
+    </div>
     <button id="music-btn" onclick="toggleMusic()" class="bg-white/90 backdrop-blur border border-stone-200/80 p-3 rounded-full shadow-lg text-stone-700 hover:text-stone-900 transition flex items-center justify-center">
         <i id="music-icon" data-lucide="music" class="w-5 h-5 text-amber-900"></i>
     </button>
     <audio id="bg-music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        <!-- Puedes reemplazar la fuente con la versión MP3 de "Sarà perché ti amo" que vayas a alojar en tu repositorio -->
+        <source src="sara-perche-ti-amo.mp3" type="audio/mpeg">
     </audio>
 </div>
 
