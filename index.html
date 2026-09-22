@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Iconos Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Botón de Calendario Nativo Móvil -->
+    <!-- Botón de Calendario Nativo -->
     <script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@2" async defer></script>
 </head>
 <body class="bg-stone-100 text-stone-800 font-sans antialiased">
@@ -28,10 +28,10 @@
 <main class="max-w-md mx-auto bg-white min-h-screen shadow-2xl flex flex-col items-center pb-12 relative">
 
     <!-- Portada con la foto real -->
-    <header class="w-full relative text-center">
+    <header class="w-full relative text-center bg-stone-200">
         <img src="portada.jpg"
              alt="Nathaly y Pedro"
-             class="w-full h-96 object-cover object-center shadow-inner">
+             class="w-full h-96 object-cover object-center shadow-inner block">
 
         <div class="p-6 bg-white border-b shadow-sm relative -mt-6 rounded-t-3xl mx-2">
             <p class="text-xs uppercase tracking-widest text-amber-700 font-semibold mb-1">¡Nos Casamos!</p>
@@ -64,24 +64,26 @@
         </div>
     </section>
 
-    <!-- Botonera Interactiva -->
+    <!-- Botonera Interactiva Alinear -->
     <section class="w-full px-6 py-4 space-y-3">
-        <!-- Botón Agendar -->
-        <add-to-calendar-button
-                name="Matrimonio Nathaly y Pedro"
-                description="¡Acompáñanos a celebrar nuestro matrimonio!"
-                startDate="2027-02-06"
-                startTime="18:30"
-                endDate="2027-02-07"
-                endTime="03:30"
-                timeZone="America/Santiago"
-                location="Chillán, Chile"
-                options="'Google','Apple','iCal'"
-                buttonStyle="round"
-                language="es"
-                styleLight="--btn-background: #292524; --btn-text: #ffffff; --btn-shadow: none; --btn-border-radius: 0.75rem;"
-                class="w-full">
-        </add-to-calendar-button>
+
+        <!-- Contenedor alineado para el Calendario -->
+        <div class="w-full flex justify-center">
+            <add-to-calendar-button
+                    name="Matrimonio Nathaly y Pedro"
+                    description="¡Acompáñanos a celebrar nuestro matrimonio!"
+                    startDate="2027-02-06"
+                    startTime="18:30"
+                    endDate="2027-02-07"
+                    endTime="03:30"
+                    timeZone="America/Santiago"
+                    location="Chillán, Chile"
+                    options="'Google','Apple','iCal'"
+                    buttonStyle="round"
+                    language="es"
+                    styleLight="--btn-background: #292524; --btn-text: #ffffff; --btn-shadow: none; --btn-border-radius: 0.75rem;">
+            </add-to-calendar-button>
+        </div>
 
         <!-- Ubicación Mapa -->
         <a href="https://maps.google.com" target="_blank" class="w-full py-3 px-4 bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-300 font-medium rounded-xl flex items-center justify-center gap-2 transition text-sm">
@@ -96,7 +98,7 @@
         </button>
     </section>
 
-    <!-- Formulario RSVP (Confirmación de Asistencia) -->
+    <!-- Formulario RSVP -->
     <section class="w-full px-6 py-6 border-t border-stone-100">
         <div class="text-center mb-6">
             <i data-lucide="mail-check" class="w-8 h-8 mx-auto text-amber-700 mb-2"></i>
@@ -161,7 +163,6 @@
     </div>
 </div>
 
-<!-- Script de Lógica -->
 <script src="script.js"></script>
 <script>
     lucide.createIcons();
