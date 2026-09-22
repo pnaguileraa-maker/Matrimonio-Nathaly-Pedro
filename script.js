@@ -35,18 +35,44 @@ function toggleModal(show) {
         modal.classList.remove('flex');
     }
 }
-// Generar evento en Google Calendar (Compatible con Móviles y Desktop)
+// Generar evento de calendario compatible 100% con celulares y escritorio
 function addToCalendar() {
-    const title = encodeURIComponent("Matrimonio Nathaly y Pedro");
-    const details = encodeURIComponent("¡Acompáñanos a celebrar nuestro matrimonio!");
-    const location = encodeURIComponent("Chillán, Chile");
+    const title = "Matrimonio Nathaly y Pedro";
+    const details = "¡Acompáñanos a celebrar nuestro matrimonio!";
+    const location = "Chillán, Chile";
 
-    // Fecha local exacta (AñoMesDíaTHoraMinutoSegundo)
-    const startDate = "20270206T183000";
-    const endDate = "20270207T033000";
+    // Fechas en formato UTC (06/Feb/2027 18:30 Chile = 21:30 UTC)
+    const startDate = "20270206T213000Z";
+    const endDate = "20270207T063000Z";
 
-    // Usamos ctz=America/Santiago para forzar la zona horaria de Chile en móviles
-    const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDate}/${endDate}&details=${details}&location=${location}&ctz=America/Santiago`;
+    // Si es un dispositivo móvil, generamos y descargamos un archivo .ics (iCalendar)
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    window.open(googleUrl, '_blank');
+    if (isMobile) {
+        const icsData = [
+            "BEGIN:VCALENDAR",
+            "VERSION:2.0",
+            "PRODID:-//Invitacion Matrimonio//ES",
+            "BEGIN:VEVENT",
+            `SUMMARY:${title}`,
+            `DESCRIPTION:${details}`,
+            `LOCATION:${location}`,
+            `DTSTART:${startDate}`,
+            `DTEND:${endDate}`,
+            "END:VEVENT",
+            "END:VCALENDAR"
+        ].join("\n");
+
+        const blob = new Blob([icsData], { type: "text/calendar;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.setAttribute("download", "Matrimonio_Nathaly_y_Pedro.ics");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } else {
+        // En computadoras de escritorio se abre la web de Google Calendar
+        const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}`;
+        window.open(googleUrl, '_blank');
+    }
 }
