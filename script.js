@@ -1,5 +1,5 @@
-// Fecha del evento (puedes ajustar la fecha exacta)
-const eventDate = new Date("2026-11-20T18:00:00").getTime();
+// Fecha del evento
+const eventDate = new Date("2027-02-06T18:30:00").getTime();
 
 function updateCountdown() {
     const now = new Date().getTime();
@@ -23,3 +23,27 @@ function updateCountdown() {
 
 setInterval(updateCountdown, 1000);
 updateCountdown();
+
+// Abrir / Cerrar Modal de Regalos
+function toggleModal(show) {
+    const modal = document.getElementById('gift-modal');
+    if (show) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    } else {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+}
+
+// Generar evento en Google Calendar
+function addToCalendar() {
+    const title = encodeURIComponent("Matrimonio Nathaly y Pedro");
+    const details = encodeURIComponent("¡Acompáñanos a celebrar nuestro matrimonio!");
+    const location = encodeURIComponent("Chillán, Chile");
+    const startDate = "20261120T180000";
+    const endDate = "20261121T030000";
+
+    const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDate}/${endDate}&details=${details}&location=${location}`;
+    window.open(googleUrl, '_blank');
+}

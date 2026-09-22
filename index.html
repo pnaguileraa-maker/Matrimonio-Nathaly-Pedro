@@ -6,21 +6,22 @@
     <title>Nathaly & Pedro | Invitación de Matrimonio</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Iconos Lucide para botones elegantes -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-stone-100 text-stone-800 font-sans antialiased">
 
-<!-- Contenedor principal estilo móvil -->
+<!-- Contenedor principal estilo celular -->
 <main class="max-w-md mx-auto bg-white min-h-screen shadow-xl flex flex-col items-center pb-12">
 
-    <!-- Portada con Imagen y Nombres -->
+    <!-- Portada -->
     <header class="w-full relative text-center bg-stone-200">
-        <!-- Imagen principal (reemplazar la URL cuando tengan la foto definitiva) -->
         <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80"
              alt="Nathaly y Pedro"
              class="w-full h-80 object-cover">
 
         <div class="p-6 bg-white border-b shadow-sm">
-            <p class="text-xs uppercase tracking-widest text-stone-500 mb-1">Nos Casamos</p>
+            <p class="text-xs uppercase tracking-widest text-stone-500 mb-1">¡Nos Casamos!</p>
             <h1 class="text-3xl font-serif font-bold text-stone-700">Nathaly & Pedro</h1>
         </div>
     </header>
@@ -28,7 +29,6 @@
     <!-- Cuenta Regresiva -->
     <section class="w-full p-6 text-center border-b border-stone-100">
         <h2 class="text-xs uppercase tracking-wider text-stone-400 mb-4 font-semibold">Faltan pocos días</h2>
-
         <div id="countdown" class="grid grid-cols-4 gap-2 text-center">
             <div class="bg-stone-50 p-3 rounded-lg border border-stone-200">
                 <span id="days" class="block text-2xl font-bold text-stone-700">00</span>
@@ -49,16 +49,57 @@
         </div>
     </section>
 
-    <!-- Mensaje de Bienvenida -->
-    <section class="p-6 text-center">
-        <p class="text-stone-600 text-sm leading-relaxed">
-            Queremos invitarte a compartir con nosotros este momento tan especial. ¡Esperamos contar con tu presencia!
-        </p>
+    <!-- Botonera Interactiva -->
+    <section class="w-full p-6 space-y-3">
+        <!-- Agendar Evento -->
+        <button onclick="addToCalendar()" class="w-full py-3 px-4 bg-stone-800 hover:bg-stone-900 text-white font-medium rounded-lg shadow-sm flex items-center justify-center gap-2 transition">
+            <i data-lucide="calendar"></i>
+            Agendar Recordatorio
+        </button>
+
+        <!-- Ubicación GPS -->
+        <a href="https://maps.google.com" target="_blank" class="w-full py-3 px-4 bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-300 font-medium rounded-lg flex items-center justify-center gap-2 transition">
+            <i data-lucide="map-pin"></i>
+            Ver Ubicación (Mapa)
+        </a>
+
+        <!-- Datos de Regalo (Modal) -->
+        <button onclick="toggleModal(true)" class="w-full py-3 px-4 bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-300 font-medium rounded-lg flex items-center justify-center gap-2 transition">
+            <i data-lucide="gift"></i>
+            Ver Datos para Regalos
+        </button>
     </section>
 
 </main>
 
-<!-- Script de Cuenta Regresiva -->
+<!-- Modal Emergente para Datos Bancarios -->
+<div id="gift-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-xl max-w-sm w-full p-6 text-center shadow-2xl relative">
+        <button onclick="toggleModal(false)" class="absolute top-3 right-3 text-stone-400 hover:text-stone-600">
+            <i data-lucide="x"></i>
+        </button>
+        <i data-lucide="gift" class="w-10 h-10 mx-auto text-stone-600 mb-2"></i>
+        <h3 class="text-xl font-serif font-bold text-stone-700 mb-2">Mesa de Regalos</h3>
+        <p class="text-xs text-stone-500 mb-4 leading-relaxed">
+            Tu presencia es nuestro mejor regalo. Si deseas hacernos un presente, puedes colaborar para nuestra luna de miel:
+        </p>
+        <div class="bg-stone-50 p-4 rounded-lg border text-left text-xs space-y-1 text-stone-600 font-mono">
+            <p><strong>Banco:</strong> Banco Falabella / Santander</p>
+            <p><strong>Tipo:</strong> Cuenta Corriente / Vista</p>
+            <p><strong>Rut:</strong> XX.XXX.XXX-X</p>
+            <p><strong>Email:</strong> ejemplo@email.com</p>
+        </div>
+        <button onclick="toggleModal(false)" class="mt-5 w-full py-2 bg-stone-700 text-white text-sm rounded-lg">
+            Cerrar
+        </button>
+    </div>
+</div>
+
+<!-- Script de Cuenta Regresiva y Lógica -->
 <script src="script.js"></script>
+<script>
+    // Inicializar iconos
+    lucide.createIcons();
+</script>
 </body>
 </html>
