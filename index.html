@@ -29,7 +29,7 @@
             overflow-x: hidden;
         }
 
-        /* PERSPECTIVA 3D */
+        /* SOBRE EN PERSPECTIVA 3D */
         .envelope-perspective {
             perspective: 1200px;
         }
@@ -73,7 +73,7 @@
             z-index: 1 !important;
         }
 
-        /* SELLO DE LACRE DORADO */
+        /* SELLO DE LACRE DORADO Y ANIMACIÓN ZOOM */
         .wax-seal-btn {
             background: radial-gradient(circle at 35% 35%, #eab308 0%, #ca8a04 50%, #854d0e 100%);
             box-shadow: 0 6px 15px -3px rgba(161, 98, 7, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.5);
@@ -83,19 +83,16 @@
             transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease-out;
         }
 
-        /* ANIMACIÓN: EL SELLO SE AGRANDA DIRECTO HACIA EL VEEDOR/PANTALLA Y SE DESVANECE */
         .seal-zoom-forward {
             transform: scale3d(8, 8, 8) translateZ(400px) !important;
             opacity: 0 !important;
         }
 
-        /* Desvanecimiento de textos de apoyo */
         .fade-out-fast {
             opacity: 0;
             transition: opacity 0.4s ease-out;
         }
 
-        /* Salida fluida de la pantalla del sobre */
         .envelope-screen-fade {
             opacity: 0;
             transform: translateY(-100%);
@@ -104,8 +101,8 @@
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.94);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
         }
     </style>
 </head>
@@ -119,7 +116,7 @@
         <!-- Encabezado Destinatario -->
         <div id="header-text" class="space-y-0.5 transition-opacity duration-300">
             <p class="text-[10px] uppercase tracking-[0.25em] text-stone-500 font-semibold">INVITACIÓN PARA</p>
-            <h3 class="text-2xl font-script-custom text-stone-700">Familia & Amigos</h3>
+            <h3 id="guest-name" class="text-2xl font-script-custom text-stone-700">Familia & Amigos</h3>
         </div>
 
         <!-- Sobre 3D -->
@@ -132,7 +129,7 @@
                 <div class="absolute inset-0 envelope-fold-right"></div>
                 <div id="top-flap" class="envelope-fold-top"></div>
 
-                <!-- Sello de Lacre Dorado Interactiva (Animación Zoom hacia ti) -->
+                <!-- Sello de Lacre -->
                 <button id="seal-btn" onclick="openEnvelope()" class="relative w-14 h-14 wax-seal-btn rounded-full flex items-center justify-center cursor-pointer transform hover:scale-105 active:scale-95">
                     <span class="font-script-custom text-amber-50 text-xl font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">NP</span>
                 </button>
@@ -160,33 +157,43 @@
 </div>
 
 <!-- CONTENIDO PRINCIPAL DE LA INVITACIÓN -->
-<main class="max-w-md mx-auto bg-[#F4F1EA] min-h-screen shadow-2xl flex flex-col items-center pb-16 relative">
+<main class="max-w-md mx-auto bg-[#F4F1EA] min-h-screen shadow-2xl flex flex-col items-center pb-16 relative overflow-hidden">
 
-    <!-- Header con Foto de Portada -->
-    <header class="w-full relative text-center pt-8 px-4">
-        <p class="text-[10px] uppercase tracking-[0.3em] text-amber-900 font-semibold mb-2">MATRIMONIO DE</p>
-        <h1 class="text-4xl font-serif-custom font-bold text-stone-800 tracking-wide mb-1">Nathaly & Pedro</h1>
-        <p class="text-[10px] uppercase tracking-[0.25em] text-stone-400 font-medium mb-6">SAVE THE DATE</p>
+    <!-- INICIO CON FOTO DE FONDO TRANSPARENTE (ESTILO REFERENCIA) -->
+    <header class="w-full relative min-h-screen flex flex-col items-center justify-between text-center p-6 bg-cover bg-center" style="background-image: url('portada.jpg');">
 
-        <div class="relative max-w-[270px] mx-auto overflow-hidden rounded-t-full shadow-2xl border-4 border-white">
-            <img src="portada.jpg"
-                 alt="Nathaly y Pedro en Río de Janeiro"
-                 class="w-full h-[380px] object-cover object-center transform hover:scale-105 transition duration-700 ease-out block">
+        <!-- Capa blanca semitransparente que suaviza la imagen de fondo -->
+        <div class="absolute inset-0 bg-white/75 backdrop-blur-[2px]"></div>
+
+        <div class="relative z-10 w-full pt-10 space-y-2">
+            <p class="text-[11px] uppercase tracking-[0.3em] text-stone-500 font-semibold">MATRIMONIO DE</p>
+            <div class="w-8 h-[1px] bg-stone-400 mx-auto opacity-50"></div>
         </div>
 
-        <div class="glass-card p-6 border border-stone-200/80 shadow-xl relative -mt-8 rounded-2xl mx-2 z-10">
-            <p class="text-xs text-stone-600 font-medium">Sábado, 06 de Febrero de 2027 • 18:30 hrs</p>
-            <p class="text-[11px] text-stone-400 tracking-wider mt-0.5">CHILLÁN, CHILE</p>
+        <!-- Nombres Centrales Grandes -->
+        <div class="relative z-10 w-full space-y-1 my-auto py-6">
+            <h1 class="text-6xl font-script-custom text-stone-900 tracking-wide">Nathaly</h1>
+            <p class="text-xl font-serif-custom italic text-stone-400 font-light">&</p>
+            <h1 class="text-6xl font-script-custom text-stone-900 tracking-wide">Pedro</h1>
+        </div>
+
+        <!-- Detalles Inferiores -->
+        <div class="relative z-10 w-full space-y-3 pb-8">
+            <div class="w-8 h-[1px] bg-stone-400 mx-auto opacity-50"></div>
+            <p class="text-[11px] uppercase tracking-[0.25em] text-stone-500 font-semibold">SAVE THE DATE</p>
+            <p class="text-sm font-serif-custom font-medium text-stone-800">Sábado, 06 de Febrero de 2027</p>
+            <p class="text-xs text-stone-600 font-medium tracking-wider">18:30 hrs</p>
+            <p class="text-[11px] text-stone-400 tracking-widest pt-1">CHILLÁN, CHILE</p>
         </div>
     </header>
 
-    <!-- Historia de Amor / Dedicatoria -->
-    <section class="w-full px-8 pt-8 text-center space-y-3">
-        <p class="text-xs font-serif-custom italic text-stone-600 leading-relaxed">
+    <!-- Mensaje Especial / Historia de Amor -->
+    <section class="w-full px-8 pt-10 text-center space-y-3">
+        <p class="text-sm font-serif-custom italic text-stone-700 leading-relaxed">
             "Con muchísima alegría queremos invitarte a ser parte de uno de los días más importantes de nuestras vidas."
         </p>
-        <p class="text-[11px] text-stone-500 leading-relaxed font-light">
-            Después de 7 años juntos y 5 compartiendo nuestro hogar, decidimos dar este gran paso para celebrar nuestro amor rodeados de quienes más queremos[cite: 9].
+        <p class="text-xs text-stone-500 leading-relaxed font-light">
+            Después de 7 años juntos y 5 compartiendo nuestro hogar, decidimos dar este gran paso para celebrar nuestro amor rodeados de quienes más queremos[cite: 10, 11].
         </p>
     </section>
 
@@ -194,19 +201,19 @@
     <section class="w-full px-6 py-8 text-center">
         <h2 class="text-[10px] uppercase tracking-[0.25em] text-stone-400 mb-4 font-semibold">LA CUENTA REGRESIVA COMIENZA</h2>
         <div id="countdown" class="grid grid-cols-4 gap-2 text-center">
-            <div class="bg-white p-3 rounded-2xl border border-stone-200/60 shadow-sm">
+            <div class="bg-white/80 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
                 <span id="days" class="block text-2xl font-serif-custom font-bold text-amber-950">00</span>
                 <span class="text-[9px] uppercase tracking-wider text-stone-400">Días</span>
             </div>
-            <div class="bg-white p-3 rounded-2xl border border-stone-200/60 shadow-sm">
+            <div class="bg-white/80 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
                 <span id="hours" class="block text-2xl font-serif-custom font-bold text-amber-950">00</span>
                 <span class="text-[9px] uppercase tracking-wider text-stone-400">Horas</span>
             </div>
-            <div class="bg-white p-3 rounded-2xl border border-stone-200/60 shadow-sm">
+            <div class="bg-white/80 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
                 <span id="minutes" class="block text-2xl font-serif-custom font-bold text-amber-950">00</span>
                 <span class="text-[9px] uppercase tracking-wider text-stone-400">Min</span>
             </div>
-            <div class="bg-white p-3 rounded-2xl border border-stone-200/60 shadow-sm">
+            <div class="bg-white/80 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
                 <span id="seconds" class="block text-2xl font-serif-custom font-bold text-amber-950">00</span>
                 <span class="text-[9px] uppercase tracking-wider text-stone-400">Seg</span>
             </div>
@@ -248,11 +255,11 @@
         <p class="text-xs text-stone-600 mt-1">Chillán, Chile</p>
 
         <div class="grid grid-cols-2 gap-3 mt-4">
-            <a href="https://maps.google.com" target="_blank" class="py-3 px-3 bg-white hover:bg-stone-50 text-stone-700 border border-stone-200 font-medium rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-sm">
+            <a href="https://maps.google.com" target="_blank" class="py-3 px-3 bg-white/90 hover:bg-white text-stone-700 border border-stone-200 font-medium rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-sm">
                 <i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-800"></i>
                 Google Maps
             </a>
-            <a href="https://waze.com/ul" target="_blank" class="py-3 px-3 bg-white hover:bg-stone-50 text-stone-700 border border-stone-200 font-medium rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-sm">
+            <a href="https://waze.com/ul" target="_blank" class="py-3 px-3 bg-white/90 hover:bg-white text-stone-700 border border-stone-200 font-medium rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-sm">
                 <i data-lucide="navigation" class="w-3.5 h-3.5 text-amber-800"></i>
                 Abrir en Waze
             </a>
@@ -299,7 +306,7 @@
     </section>
 
     <!-- Código de Vestimenta -->
-    <section class="w-full px-6 py-8 border-t border-stone-200/60 text-center bg-white my-2 rounded-2xl shadow-sm">
+    <section class="w-full px-6 py-8 border-t border-stone-200/60 text-center bg-white/70 my-2 rounded-2xl shadow-sm">
         <i data-lucide="sparkles" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
         <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Código de Vestimenta</h3>
         <p class="text-xs font-semibold uppercase tracking-wider text-amber-900 mt-1">Formal / Elegante</p>
@@ -315,14 +322,14 @@
         <p class="text-xs text-stone-500 mt-2 max-w-xs mx-auto leading-relaxed">
             El mejor regalo es tu presencia. Si deseas realizarnos un obsequio para nuestra luna de miel, puedes hacerlo a nuestra cuenta bancaria.
         </p>
-        <button onclick="toggleModal(true)" class="mt-4 py-3 px-6 bg-white hover:bg-stone-50 border border-stone-200/80 text-stone-700 font-medium rounded-xl text-xs transition shadow-sm inline-flex items-center gap-2">
+        <button onclick="toggleModal(true)" class="mt-4 py-3 px-6 bg-white/90 hover:bg-white border border-stone-200/80 text-stone-700 font-medium rounded-xl text-xs transition shadow-sm inline-flex items-center gap-2">
             <i data-lucide="credit-card" class="w-4 h-4 text-amber-800"></i>
             Ver Datos de Transferencia
         </button>
     </section>
 
     <!-- Formulario RSVP -->
-    <section class="w-full px-6 py-8 border-t border-stone-200/60 bg-white rounded-2xl shadow-sm my-4 mx-2">
+    <section class="w-full px-6 py-8 border-t border-stone-200/60 bg-white/90 rounded-2xl shadow-sm my-4 mx-2">
         <div class="text-center mb-6">
             <i data-lucide="mail-check" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
             <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Confirmar Asistencia</h3>
@@ -406,19 +413,14 @@
         const footerText = document.getElementById('footer-text');
         const envelopeScreen = document.getElementById('envelope-screen');
 
-        // 1. Desvanecer textos circundantes
         headerText.classList.add('fade-out-fast');
         footerText.classList.add('fade-out-fast');
-
-        // 2. EFECTO ZOOM HACIA LA PANTALLA DEL SELLO Y SUS LETRAS (NP)
         sealBtn.classList.add('seal-zoom-forward');
 
-        // 3. Apertura 3D de la solapa
         setTimeout(() => {
             topFlap.classList.add('flap-open');
         }, 100);
 
-        // 4. Salida suave del sobre
         setTimeout(() => {
             envelopeScreen.classList.add('envelope-screen-fade');
         }, 450);
