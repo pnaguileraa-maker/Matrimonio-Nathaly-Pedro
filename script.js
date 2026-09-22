@@ -1,4 +1,4 @@
-// Fecha del evento
+// Fecha del matrimonio: 06 de Febrero de 2027 a las 18:30 hrs
 const eventDate = new Date("2027-02-06T18:30:00").getTime();
 
 function updateCountdown() {
@@ -6,7 +6,7 @@ function updateCountdown() {
     const distance = eventDate - now;
 
     if (distance < 0) {
-        document.getElementById("countdown").innerHTML = "<p class='col-span-4 text-center font-bold text-stone-700'>¡Hoy es el gran día!</p>";
+        document.getElementById("countdown").innerHTML = "<p class='col-span-4 text-center font-bold text-stone-700'>¡Hoy es nuestro gran día!</p>";
         return;
     }
 
@@ -36,14 +36,17 @@ function toggleModal(show) {
     }
 }
 
-// Generar evento en Google Calendar
+// Generar evento en Google Calendar para el 06-02-2027 a las 18:30 hrs
 function addToCalendar() {
     const title = encodeURIComponent("Matrimonio Nathaly y Pedro");
     const details = encodeURIComponent("¡Acompáñanos a celebrar nuestro matrimonio!");
     const location = encodeURIComponent("Chillán, Chile");
-    const startDate = "20261120T180000";
-    const endDate = "20261121T030000";
 
-    const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDate}/${endDate}&details=${details}&location=${location}`;
+    // Inicio: 06/Feb/2027 a las 18:30 hrs | Término: 07/Feb/2027 a las 03:30 hrs
+    const startDate = "20270206T183000";
+    const endDate = "20270207T033000";
+
+    const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDate}/${endDate}&details=${details}&location=${location}&ctz=America/Santiago`;
+
     window.open(googleUrl, '_blank');
 }
