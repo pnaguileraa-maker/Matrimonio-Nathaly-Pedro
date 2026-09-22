@@ -23,35 +23,44 @@
         .font-serif-custom { font-family: 'Playfair Display', serif; }
         .font-sans-custom { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-        /* Fondo de Papelería Fina de Nupcias */
         body {
-            background-color: #F8F5F0;
+            background-color: #F9F6F0;
         }
 
-        /* SOBRE REALISTA EN 3D */
-        .envelope-wrapper {
-            background: #EFECE6;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        /* SOBRE DE APERTURA INTERACTIVO */
+        .envelope-container {
+            background: #F2EDE4;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.04), 0 30px 60px -12px rgba(0, 0, 0, 0.18);
         }
 
-        .envelope-flap {
-            width: 0;
-            height: 0;
-            border-left: 170px solid transparent;
-            border-right: 170px solid transparent;
-            border-top: 130px solid #E5E0D8;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+        /* Solapa Superior en Ángulo */
+        .envelope-top-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 160px;
+            background: #E8E2D6;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            z-index: 2;
         }
 
-        /* Animación de Salida del Sobre */
-        .envelope-screen-fade {
+        /* Sello de Lacre Dorado con Relieve Realista */
+        .wax-seal {
+            background: radial-gradient(circle at 35% 35%, #eab308 0%, #ca8a04 45%, #854d0e 85%, #713f12 100%);
+            box-shadow: 0 10px 25px -5px rgba(161, 98, 7, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4), inset 0 -3px 6px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(254, 240, 138, 0.3);
+        }
+
+        /* Animación de Transición del Sobre */
+        .envelope-open-anim {
             opacity: 0;
             transform: translateY(-100%);
-            transition: all 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+            transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
             pointer-events: none;
         }
 
-        /* Glassmorphism para las tarjetas */
         .glass-card {
             background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(10px);
@@ -60,33 +69,31 @@
 </head>
 <body class="text-stone-800 font-sans-custom antialiased selection:bg-amber-100 min-h-screen">
 
-<!-- SOBRE DE APERTURA INTERACTIVO (PANTALLA COMPLETA) -->
-<div id="envelope-screen" class="fixed inset-0 z-50 bg-[#F4F0EA] flex flex-col items-center justify-center p-4">
+<!-- EXPERIENCIA DEL SOBRE DIGITAL (PANTALLA DE APERTURA) -->
+<div id="envelope-screen" class="fixed inset-0 z-50 bg-[#ECE7DE] flex flex-col items-center justify-center p-4">
 
-    <!-- Tarjeta / Sobre Físico -->
-    <div class="relative max-w-sm w-full envelope-wrapper rounded-2xl p-8 text-center border border-stone-300/60 overflow-hidden flex flex-col items-center justify-center min-h-[480px]">
+    <div class="relative max-w-sm w-full envelope-container rounded-3xl p-8 text-center border border-stone-300/70 overflow-hidden flex flex-col items-center justify-between min-h-[520px]">
 
-        <!-- Solapa Superior del Sobre -->
-        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 envelope-flap"></div>
+        <!-- Solapa Dinámica del Sobre -->
+        <div class="envelope-top-flap"></div>
 
-        <div class="relative z-10 my-auto">
-            <p class="text-[10px] uppercase tracking-[0.3em] text-stone-500 font-medium mb-6">INVITACIÓN PARA NUESTRA BODA</p>
-
-            <!-- Sello de Lacre Dorado Elegante -->
-            <button onclick="openEnvelope()" class="w-20 h-20 mx-auto my-4 bg-gradient-to-tr from-amber-700 via-amber-600 to-amber-800 rounded-full flex items-center justify-center shadow-xl cursor-pointer transform hover:scale-105 active:scale-95 transition duration-300 border-2 border-amber-300/50 group">
-                <span class="font-serif-custom font-bold text-amber-50 text-xl tracking-widest drop-shadow">N & P</span>
+        <!-- Sello de Lacre Centrado en la Solapa -->
+        <div class="relative z-10 mt-20 mb-4">
+            <button onclick="openEnvelope()" class="w-20 h-20 mx-auto wax-seal rounded-full flex items-center justify-center cursor-pointer transform hover:scale-105 active:scale-95 transition duration-300 group">
+                <span class="font-serif-custom font-bold text-amber-100 text-xl tracking-widest drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">N & P</span>
             </button>
-
-            <p class="text-[10px] text-amber-800 uppercase tracking-widest font-semibold mt-2 mb-6">Toca el sello para abrir</p>
-
-            <h2 class="text-3xl font-serif-custom font-bold text-stone-800 mb-1">Nathaly & Pedro</h2>
-            <p class="text-xs text-stone-500 font-medium">Sábado, 06 de Febrero de 2027</p>
-            <p class="text-[11px] text-stone-400 mt-0.5">Chillán, Chile</p>
         </div>
 
-        <!-- Detalle Inferior del Sobre -->
-        <div class="absolute bottom-3 text-[9px] uppercase tracking-widest text-stone-400 font-light">
-            Con amor • 2027
+        <!-- Texto de Invitación -->
+        <div class="relative z-10 my-auto space-y-2">
+            <p class="text-[10px] uppercase tracking-[0.3em] text-amber-900 font-semibold">Toca el sello para abrir</p>
+            <h2 class="text-3xl font-serif-custom font-bold text-stone-800">Nathaly & Pedro</h2>
+            <p class="text-xs text-stone-600 font-medium">Sábado, 06 de Febrero de 2027</p>
+            <p class="text-[11px] text-stone-400">Chillán, Chile</p>
+        </div>
+
+        <div class="relative z-10 pb-2 text-[9px] uppercase tracking-[0.2em] text-stone-400 font-light">
+            Invitación Especial
         </div>
     </div>
 </div>
@@ -101,8 +108,8 @@
     </audio>
 </div>
 
-<!-- CONTENIDO PRINCIPAL DE LA INVITACIÓN -->
-<main class="max-w-md mx-auto bg-[#F8F5F0] min-h-screen shadow-2xl flex flex-col items-center pb-16 relative">
+<!-- CONTENIDO PRINCIPAL -->
+<main class="max-w-md mx-auto bg-[#F9F6F0] min-h-screen shadow-2xl flex flex-col items-center pb-16 relative">
 
     <!-- Header con Foto de Portada y Marco Curvo -->
     <header class="w-full relative text-center pt-8 px-4">
@@ -122,13 +129,13 @@
         </div>
     </header>
 
-    <!-- Mensaje Especial / Historia de Amor -->
+    <!-- Mensaje Dedicado / Historia -->
     <section class="w-full px-8 pt-8 text-center space-y-3">
         <p class="text-xs font-serif-custom italic text-stone-600 leading-relaxed">
             "Con muchísima alegría queremos invitarte a ser parte de uno de los días más importantes de nuestras vidas."
         </p>
         <p class="text-[11px] text-stone-500 leading-relaxed font-light">
-            Después de 7 años juntos y 5 compartiendo nuestro hogar, decidimos dar este gran paso para celebrar nuestro amor rodeados de quienes más queremos[cite: 9].
+            Después de 7 años juntos y 5 compartiendo nuestro hogar, decidimos dar este gran paso para celebrar nuestro amor rodeados de quienes más queremos[cite: 10].
         </p>
     </section>
 
@@ -175,7 +182,7 @@
         </div>
     </section>
 
-    <!-- Cuadro de Fotografía Estilo Polaroid -->
+    <!-- Fotografía Estilo Polaroid -->
     <section class="w-full px-6 py-6 text-center">
         <div class="bg-white p-4 pb-6 rounded-xl shadow-md border border-stone-200/60 max-w-[260px] mx-auto transform -rotate-1">
             <img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-52 object-cover rounded">
@@ -201,7 +208,7 @@
         </div>
     </section>
 
-    <!-- Cronograma del Evento -->
+    <!-- Cronograma -->
     <section class="w-full px-6 py-8 border-t border-stone-200/60">
         <div class="text-center mb-8">
             <i data-lucide="clock" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
@@ -263,7 +270,7 @@
         </button>
     </section>
 
-    <!-- Formulario RSVP (Confirmación de Asistencia) -->
+    <!-- Formulario RSVP -->
     <section class="w-full px-6 py-8 border-t border-stone-200/60 bg-white rounded-2xl shadow-sm my-4 mx-2">
         <div class="text-center mb-6">
             <i data-lucide="mail-check" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
@@ -274,12 +281,12 @@
         <form id="rsvp-form" onsubmit="handleRSVP(event)" class="space-y-4">
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">Nombre Completo *</label>
-                <input type="text" id="rsvp-name" required placeholder="Ej: Juan Pérez" class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#F8F5F0]">
+                <input type="text" id="rsvp-name" required placeholder="Ej: Juan Pérez" class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#F9F6F0]">
             </div>
 
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">¿Asistirás al matrimonio? *</label>
-                <select id="rsvp-status" required class="w-full p-3 border border-stone-200 rounded-xl text-xs bg-[#F8F5F0] focus:outline-none focus:ring-2 focus:ring-amber-800">
+                <select id="rsvp-status" required class="w-full p-3 border border-stone-200 rounded-xl text-xs bg-[#F9F6F0] focus:outline-none focus:ring-2 focus:ring-amber-800">
                     <option value="">Selecciona una opción</option>
                     <option value="Si">¡Sí, ahí estaré celebrando!</option>
                     <option value="No">Lamentablemente no podré ir</option>
@@ -288,12 +295,12 @@
 
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">Restricciones Alimentarias / Alergias</label>
-                <input type="text" id="rsvp-diet" placeholder="Ej: Vegetariano, celíaco, ninguno..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#F8F5F0]">
+                <input type="text" id="rsvp-diet" placeholder="Ej: Vegetariano, celíaco, ninguno..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#F9F6F0]">
             </div>
 
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">Mensaje para los Novios</label>
-                <textarea id="rsvp-message" rows="2" placeholder="Déjanos unas palabras..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#F8F5F0]"></textarea>
+                <textarea id="rsvp-message" rows="2" placeholder="Déjanos unas palabras..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#F9F6F0]"></textarea>
             </div>
 
             <button type="submit" class="w-full py-3.5 bg-stone-900 hover:bg-stone-800 text-white font-medium rounded-xl shadow transition text-xs uppercase tracking-wider">
@@ -313,7 +320,7 @@
 
 </main>
 
-<!-- Modal Emergente Datos Bancarios -->
+<!-- Modal Datos Bancarios -->
 <div id="gift-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl relative border border-stone-100">
         <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-stone-400 hover:text-stone-600">
@@ -324,7 +331,7 @@
         <p class="text-xs text-stone-500 mb-4 leading-relaxed">
             Tu presencia es lo más importante. Si deseas realizar un regalo a nuestra cuenta bancaria:
         </p>
-        <div class="bg-[#F8F5F0] p-4 rounded-xl border border-stone-200/60 text-left text-xs space-y-1.5 text-stone-700 font-mono">
+        <div class="bg-[#F9F6F0] p-4 rounded-xl border border-stone-200/60 text-left text-xs space-y-1.5 text-stone-700 font-mono">
             <p><strong>Banco:</strong> Banco Falabella / Santander</p>
             <p><strong>Tipo:</strong> Cuenta Corriente / Vista</p>
             <p><strong>Rut:</strong> XX.XXX.XXX-X</p>
@@ -341,12 +348,9 @@
 <script>
     lucide.createIcons();
 
-    // Lógica de apertura con el Sello de Lacre
     function openEnvelope() {
         const envelopeScreen = document.getElementById('envelope-screen');
-        envelopeScreen.classList.add('envelope-screen-fade');
-
-        // Inicia la música al tocar el sello
+        envelopeScreen.classList.add('envelope-open-anim');
         toggleMusic();
     }
 </script>
