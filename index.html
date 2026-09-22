@@ -29,17 +29,16 @@
             overflow-x: hidden;
         }
 
-        /* ESTRUCTURA Y PERSPECTIVA 3D DEL SOBRE */
+        /* PERSPECTIVA 3D */
         .envelope-perspective {
             perspective: 1200px;
         }
 
         .envelope-card {
             background: #EFECE6;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.12);
             border: 1px solid rgba(215, 210, 198, 0.9);
             position: relative;
-            transform-style: preserve-3d;
         }
 
         /* Pliegues del sobre */
@@ -56,8 +55,6 @@
             background: #E5DFC0;
             z-index: 2;
         }
-
-        /* Solapa Superior en 3D */
         .envelope-fold-top {
             position: absolute;
             top: 0;
@@ -69,40 +66,40 @@
             transform-origin: top;
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 3;
-            backface-visibility: hidden;
         }
 
-        /* Giro de 180 grados de la solapa hacia arriba */
         .flap-open {
             transform: rotateX(180deg);
             z-index: 1 !important;
         }
 
-        /* Sello de Lacre */
+        /* SELLO DE LACRE DORADO */
         .wax-seal-btn {
             background: radial-gradient(circle at 35% 35%, #eab308 0%, #ca8a04 50%, #854d0e 100%);
             box-shadow: 0 6px 15px -3px rgba(161, 98, 7, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.5);
             border: 1.5px solid rgba(254, 240, 138, 0.4);
-            z-index: 4;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        /* ANIMACIÓN DINÁMICA: LETRAS QUE SE AGRANDAN EN 3D Y DESVANECEN */
-        .text-zoom-3d {
-            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease-out;
+            z-index: 20;
             transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease-out;
         }
 
-        .text-zooming {
-            transform: scale3d(2.2, 2.2, 2.2) translateZ(100px);
+        /* ANIMACIÓN: EL SELLO SE AGRANDA DIRECTO HACIA EL VEEDOR/PANTALLA Y SE DESVANECE */
+        .seal-zoom-forward {
+            transform: scale3d(8, 8, 8) translateZ(400px) !important;
+            opacity: 0 !important;
+        }
+
+        /* Desvanecimiento de textos de apoyo */
+        .fade-out-fast {
             opacity: 0;
+            transition: opacity 0.4s ease-out;
         }
 
-        /* Salida fluida de toda la pantalla del sobre */
+        /* Salida fluida de la pantalla del sobre */
         .envelope-screen-fade {
             opacity: 0;
             transform: translateY(-100%);
-            transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1) 0.5s, opacity 0.8s ease 0.5s;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1) 0.4s, opacity 0.7s ease 0.4s;
             pointer-events: none;
         }
 
@@ -114,13 +111,13 @@
 </head>
 <body class="text-stone-800 font-sans-custom antialiased selection:bg-amber-100 min-h-screen">
 
-<!-- PANTALLA SOBRE INICIAL INTERACTIVO EN 3D -->
+<!-- PANTALLA SOBRE INICIAL COMPACTO -->
 <div id="envelope-screen" class="fixed inset-0 z-50 bg-[#F4F1EA] flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden">
 
     <div class="max-w-[320px] w-full flex flex-col items-center space-y-4">
 
-        <!-- Encabezado Destinatario con Animación 3D -->
-        <div id="header-text" class="space-y-0.5 text-zoom-3d">
+        <!-- Encabezado Destinatario -->
+        <div id="header-text" class="space-y-0.5 transition-opacity duration-300">
             <p class="text-[10px] uppercase tracking-[0.25em] text-stone-500 font-semibold">INVITACIÓN PARA</p>
             <h3 class="text-2xl font-script-custom text-stone-700">Familia & Amigos</h3>
         </div>
@@ -135,18 +132,18 @@
                 <div class="absolute inset-0 envelope-fold-right"></div>
                 <div id="top-flap" class="envelope-fold-top"></div>
 
-                <!-- Sello de Lacre Dorado -->
-                <button id="seal-btn" onclick="openEnvelope()" class="relative w-13 h-13 wax-seal-btn rounded-full flex items-center justify-center cursor-pointer transform hover:scale-105 active:scale-95 transition duration-300">
-                    <span class="font-script-custom text-amber-50 text-lg font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">NP</span>
+                <!-- Sello de Lacre Dorado Interactiva (Animación Zoom hacia ti) -->
+                <button id="seal-btn" onclick="openEnvelope()" class="relative w-14 h-14 wax-seal-btn rounded-full flex items-center justify-center cursor-pointer transform hover:scale-105 active:scale-95">
+                    <span class="font-script-custom text-amber-50 text-xl font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">NP</span>
                 </button>
             </div>
         </div>
 
-        <!-- Nombres de Novios con Animación 3D hacia el espectador -->
-        <div id="footer-text" class="space-y-1 pt-1 text-zoom-3d">
+        <!-- Nombres de Novios y Fecha -->
+        <div id="footer-text" class="space-y-1 pt-1 transition-opacity duration-300">
             <h2 class="text-3xl font-script-custom text-stone-800">Nathaly & Pedro</h2>
             <p class="text-[10px] uppercase tracking-[0.2em] text-stone-500 font-medium">06 DE FEBRERO DE 2027</p>
-            <p id="sub-instruction" class="text-[9px] text-amber-900/60 tracking-widest font-medium pt-1 transition-opacity duration-300">TOCA EL SELLO PARA ABRIR</p>
+            <p id="sub-instruction" class="text-[9px] text-amber-900/60 tracking-widest font-medium pt-1">TOCA EL SELLO PARA ABRIR</p>
         </div>
 
     </div>
@@ -189,7 +186,7 @@
             "Con muchísima alegría queremos invitarte a ser parte de uno de los días más importantes de nuestras vidas."
         </p>
         <p class="text-[11px] text-stone-500 leading-relaxed font-light">
-            Después de 7 años juntos y 5 compartiendo nuestro hogar, decidimos dar este gran paso para celebrar nuestro amor rodeados de quienes más queremos[cite: 10, 11].
+            Después de 7 años juntos y 5 compartiendo nuestro hogar, decidimos dar este gran paso para celebrar nuestro amor rodeados de quienes más queremos[cite: 9].
         </p>
     </section>
 
@@ -407,29 +404,24 @@
         const sealBtn = document.getElementById('seal-btn');
         const headerText = document.getElementById('header-text');
         const footerText = document.getElementById('footer-text');
-        const subInstruction = document.getElementById('sub-instruction');
         const envelopeScreen = document.getElementById('envelope-screen');
 
-        // 1. Ocultar la instrucción sutilmente
-        subInstruction.style.opacity = '0';
+        // 1. Desvanecer textos circundantes
+        headerText.classList.add('fade-out-fast');
+        footerText.classList.add('fade-out-fast');
 
-        // 2. Animación de zoom 3D + desvanecimiento en los textos
-        headerText.classList.add('text-zooming');
-        footerText.classList.add('text-zooming');
+        // 2. EFECTO ZOOM HACIA LA PANTALLA DEL SELLO Y SUS LETRAS (NP)
+        sealBtn.classList.add('seal-zoom-forward');
 
-        // 3. Ocultar el sello
-        sealBtn.style.opacity = '0';
-        sealBtn.style.transform = 'scale(0.5)';
-
-        // 4. Apertura 3D de la solapa
+        // 3. Apertura 3D de la solapa
         setTimeout(() => {
             topFlap.classList.add('flap-open');
         }, 100);
 
-        // 5. Desplazamiento final para descubrir la invitación
+        // 4. Salida suave del sobre
         setTimeout(() => {
             envelopeScreen.classList.add('envelope-screen-fade');
-        }, 600);
+        }, 450);
 
         toggleMusic();
     }
