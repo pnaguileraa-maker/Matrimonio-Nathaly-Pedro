@@ -35,18 +35,18 @@ function toggleModal(show) {
         modal.classList.remove('flex');
     }
 }
-
-// Generar evento en Google Calendar para el 06-02-2027 a las 18:30 hrs
+// Generar evento en Google Calendar sin errores de zona horaria
 function addToCalendar() {
     const title = encodeURIComponent("Matrimonio Nathaly y Pedro");
     const details = encodeURIComponent("¡Acompáñanos a celebrar nuestro matrimonio!");
     const location = encodeURIComponent("Chillán, Chile");
 
-    // Inicio: 06/Feb/2027 a las 18:30 hrs | Término: 07/Feb/2027 a las 03:30 hrs
-    const startDate = "20270206T183000";
-    const endDate = "20270207T033000";
+    // Inicio: 06/Feb/2027 a las 18:30 Chile (21:30 UTC)
+    // Fin:    07/Feb/2027 a las 03:30 Chile (06:30 UTC del día siguiente)
+    const startDate = "20270206T213000Z";
+    const endDate = "20270207T063000Z";
 
-    const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDate}/${endDate}&details=${details}&location=${location}&ctz=America/Santiago`;
+    const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDate}/${endDate}&details=${details}&location=${location}`;
 
     window.open(googleUrl, '_blank');
 }
