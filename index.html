@@ -22,44 +22,78 @@
     <style>
         .font-serif-custom { font-family: 'Playfair Display', serif; }
         .font-sans-custom { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        /* Fondo de Papelería Fina de Nupcias */
+        body {
+            background-color: #F8F5F0;
+        }
+
+        /* SOBRE REALISTA EN 3D */
+        .envelope-wrapper {
+            background: #EFECE6;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .envelope-flap {
+            width: 0;
+            height: 0;
+            border-left: 170px solid transparent;
+            border-right: 170px solid transparent;
+            border-top: 130px solid #E5E0D8;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+        }
+
+        /* Animación de Salida del Sobre */
+        .envelope-screen-fade {
+            opacity: 0;
+            transform: translateY(-100%);
+            transition: all 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+            pointer-events: none;
+        }
+
+        /* Glassmorphism para las tarjetas */
         .glass-card {
             background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(10px);
         }
-        /* Animación para ocultar el sobre */
-        .envelope-hidden {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-            transform: translateY(-100%);
-        }
     </style>
 </head>
-<body class="bg-[#FBF9F5] text-stone-800 font-sans-custom antialiased selection:bg-amber-100">
+<body class="text-stone-800 font-sans-custom antialiased selection:bg-amber-100 min-h-screen">
 
-<!-- SOBRE DE APERTURA (PANTALLA INICIAL INTERACTIVA) -->
-<div id="envelope-screen" class="fixed inset-0 z-50 bg-[#F5F2EC] flex flex-col items-center justify-center p-4 transition-all duration-700">
-    <div class="max-w-sm w-full bg-white rounded-2xl p-8 text-center shadow-2xl border border-stone-200/80 relative overflow-hidden">
-        <p class="text-[10px] uppercase tracking-[0.3em] text-amber-900 font-semibold mb-6">Invitación Especial</p>
+<!-- SOBRE DE APERTURA INTERACTIVO (PANTALLA COMPLETA) -->
+<div id="envelope-screen" class="fixed inset-0 z-50 bg-[#F4F0EA] flex flex-col items-center justify-center p-4">
 
-        <!-- Sello de Lacre Dorado -->
-        <div onclick="openEnvelope()" class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-amber-600 via-amber-700 to-amber-900 rounded-full flex items-center justify-center shadow-lg cursor-pointer transform hover:scale-105 transition duration-300 border-2 border-amber-300/40">
-            <span class="font-serif-custom font-bold text-white text-xl tracking-wider">N & P</span>
+    <!-- Tarjeta / Sobre Físico -->
+    <div class="relative max-w-sm w-full envelope-wrapper rounded-2xl p-8 text-center border border-stone-300/60 overflow-hidden flex flex-col items-center justify-center min-h-[480px]">
+
+        <!-- Solapa Superior del Sobre -->
+        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 envelope-flap"></div>
+
+        <div class="relative z-10 my-auto">
+            <p class="text-[10px] uppercase tracking-[0.3em] text-stone-500 font-medium mb-6">INVITACIÓN PARA NUESTRA BODA</p>
+
+            <!-- Sello de Lacre Dorado Elegante -->
+            <button onclick="openEnvelope()" class="w-20 h-20 mx-auto my-4 bg-gradient-to-tr from-amber-700 via-amber-600 to-amber-800 rounded-full flex items-center justify-center shadow-xl cursor-pointer transform hover:scale-105 active:scale-95 transition duration-300 border-2 border-amber-300/50 group">
+                <span class="font-serif-custom font-bold text-amber-50 text-xl tracking-widest drop-shadow">N & P</span>
+            </button>
+
+            <p class="text-[10px] text-amber-800 uppercase tracking-widest font-semibold mt-2 mb-6">Toca el sello para abrir</p>
+
+            <h2 class="text-3xl font-serif-custom font-bold text-stone-800 mb-1">Nathaly & Pedro</h2>
+            <p class="text-xs text-stone-500 font-medium">Sábado, 06 de Febrero de 2027</p>
+            <p class="text-[11px] text-stone-400 mt-0.5">Chillán, Chile</p>
         </div>
 
-        <h2 class="text-2xl font-serif-custom font-bold text-stone-800 mb-1">Nathaly & Pedro</h2>
-        <p class="text-xs text-stone-500 font-medium mb-8">06 de Febrero de 2027</p>
-
-        <button onclick="openEnvelope()" class="w-full py-3.5 bg-stone-900 hover:bg-stone-800 text-white font-medium rounded-xl shadow-md transition text-xs uppercase tracking-widest flex items-center justify-center gap-2">
-            <i data-lucide="mail-open" class="w-4 h-4"></i>
-            Abrir Invitación
-        </button>
+        <!-- Detalle Inferior del Sobre -->
+        <div class="absolute bottom-3 text-[9px] uppercase tracking-widest text-stone-400 font-light">
+            Con amor • 2027
+        </div>
     </div>
 </div>
 
 <!-- Control de Música Flotante -->
 <div class="fixed top-4 right-4 z-40">
-    <button id="music-btn" onclick="toggleMusic()" class="bg-white/90 backdrop-blur border border-stone-200 p-3 rounded-full shadow-lg text-stone-700 hover:text-stone-900 transition flex items-center justify-center">
+    <button id="music-btn" onclick="toggleMusic()" class="bg-white/90 backdrop-blur border border-stone-200/80 p-3 rounded-full shadow-lg text-stone-700 hover:text-stone-900 transition flex items-center justify-center">
         <i id="music-icon" data-lucide="music" class="w-5 h-5 text-amber-900"></i>
     </button>
     <audio id="bg-music" loop>
@@ -67,15 +101,14 @@
     </audio>
 </div>
 
-<!-- CONTENIDO PRINCIPAL -->
-<main class="max-w-md mx-auto bg-[#FBF9F5] min-h-screen shadow-2xl flex flex-col items-center pb-16 relative">
+<!-- CONTENIDO PRINCIPAL DE LA INVITACIÓN -->
+<main class="max-w-md mx-auto bg-[#F8F5F0] min-h-screen shadow-2xl flex flex-col items-center pb-16 relative">
 
-    <!-- Portada Principal con Marco de Arco -->
+    <!-- Header con Foto de Portada y Marco Curvo -->
     <header class="w-full relative text-center pt-8 px-4">
-        <p class="text-[10px] uppercase tracking-[0.3em] text-amber-900 font-semibold mb-3">MATRIMONIO DE</p>
-
-        <h1 class="text-4xl font-serif-custom font-bold text-stone-800 tracking-wide mb-1">Cata & Pedro</h1>
-        <p class="text-[11px] uppercase tracking-[0.2em] text-stone-400 font-medium mb-6">SAVE THE DATE</p>
+        <p class="text-[10px] uppercase tracking-[0.3em] text-amber-900 font-semibold mb-2">MATRIMONIO DE</p>
+        <h1 class="text-4xl font-serif-custom font-bold text-stone-800 tracking-wide mb-1">Nathaly & Pedro</h1>
+        <p class="text-[10px] uppercase tracking-[0.25em] text-stone-400 font-medium mb-6">SAVE THE DATE</p>
 
         <div class="relative max-w-[270px] mx-auto overflow-hidden rounded-t-full shadow-2xl border-4 border-white">
             <img src="portada.jpg"
@@ -89,13 +122,13 @@
         </div>
     </header>
 
-    <!-- Mensaje de Bienvenida Dedicado -->
+    <!-- Mensaje Especial / Historia de Amor -->
     <section class="w-full px-8 pt-8 text-center space-y-3">
         <p class="text-xs font-serif-custom italic text-stone-600 leading-relaxed">
             "Con muchísima alegría queremos invitarte a ser parte de uno de los días más importantes de nuestras vidas."
         </p>
         <p class="text-[11px] text-stone-500 leading-relaxed font-light">
-            Después de 7 años juntos y 5 compartiendo hogar, decidimos dar este gran paso y celebrar nuestro amor rodeados de las personas que más queremos.
+            Después de 7 años juntos y 5 compartiendo nuestro hogar, decidimos dar este gran paso para celebrar nuestro amor rodeados de quienes más queremos[cite: 9].
         </p>
     </section>
 
@@ -142,10 +175,10 @@
         </div>
     </section>
 
-    <!-- Fotografía Estilo Polaroid -->
+    <!-- Cuadro de Fotografía Estilo Polaroid -->
     <section class="w-full px-6 py-6 text-center">
         <div class="bg-white p-4 pb-6 rounded-xl shadow-md border border-stone-200/60 max-w-[260px] mx-auto transform -rotate-1">
-            <img src="portada.jpg" alt="Foto Pareja" class="w-full h-52 object-cover rounded">
+            <img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-52 object-cover rounded">
             <p class="text-amber-800 text-sm mt-3">❤️</p>
         </div>
     </section>
@@ -153,7 +186,7 @@
     <!-- Ubicación y Mapas -->
     <section class="w-full px-6 py-8 border-t border-stone-200/60 text-center">
         <i data-lucide="church" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
-        <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Ceremonia & Recepción</h3>
+        <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Ceremonia & Fiesta</h3>
         <p class="text-xs text-stone-600 mt-1">Chillán, Chile</p>
 
         <div class="grid grid-cols-2 gap-3 mt-4">
@@ -168,12 +201,12 @@
         </div>
     </section>
 
-    <!-- Itinerario / Cronograma -->
+    <!-- Cronograma del Evento -->
     <section class="w-full px-6 py-8 border-t border-stone-200/60">
         <div class="text-center mb-8">
             <i data-lucide="clock" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
-            <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Itinerario del Día</h3>
-            <p class="text-[10px] text-stone-400 tracking-widest uppercase mt-1">Sábado 06 de Febrero</p>
+            <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Itinerario</h3>
+            <p class="text-[10px] text-stone-400 tracking-widest uppercase mt-1">Sábado 06 de Febrero de 2027</p>
         </div>
 
         <div class="relative border-l border-amber-800/30 ml-4 pl-6 space-y-6 text-left">
@@ -181,39 +214,39 @@
                 <div class="absolute -left-[31px] top-1 w-3.5 h-3.5 bg-amber-800 rounded-full border-2 border-white"></div>
                 <p class="text-xs font-semibold text-amber-900">18:30 hrs</p>
                 <h4 class="text-base font-serif-custom font-bold text-stone-800">Ceremonia</h4>
-                <p class="text-xs text-stone-500">Inicio de nuestro matrimonio.</p>
+                <p class="text-xs text-stone-500">Bienvenida e inicio de nuestro matrimonio.</p>
             </div>
 
             <div class="relative">
                 <div class="absolute -left-[31px] top-1 w-3.5 h-3.5 bg-amber-800 rounded-full border-2 border-white"></div>
                 <p class="text-xs font-semibold text-amber-900">19:30 hrs</p>
                 <h4 class="text-base font-serif-custom font-bold text-stone-800">Cóctel de Bienvenida</h4>
-                <p class="text-xs text-stone-500">Tragos y bocadillos para celebrar.</p>
+                <p class="text-xs text-stone-500">Tragos, aperitivos y fotos.</p>
             </div>
 
             <div class="relative">
                 <div class="absolute -left-[31px] top-1 w-3.5 h-3.5 bg-amber-800 rounded-full border-2 border-white"></div>
                 <p class="text-xs font-semibold text-amber-900">21:00 hrs</p>
                 <h4 class="text-base font-serif-custom font-bold text-stone-800">Cena & Brindis</h4>
-                <p class="text-xs text-stone-500">Banquete principal y momentos especiales.</p>
+                <p class="text-xs text-stone-500">Banquete principal y momentos inolvidables.</p>
             </div>
 
             <div class="relative">
                 <div class="absolute -left-[31px] top-1 w-3.5 h-3.5 bg-amber-800 rounded-full border-2 border-white"></div>
                 <p class="text-xs font-semibold text-amber-900">23:00 hrs</p>
-                <h4 class="text-base font-serif-custom font-bold text-stone-800">Fiesta</h4>
-                <p class="text-xs text-stone-500">Baile y bar abierto hasta la madrugada.</p>
+                <h4 class="text-base font-serif-custom font-bold text-stone-800">Fiesta & Baile</h4>
+                <p class="text-xs text-stone-500">Apertura de la pista y bar abierto.</p>
             </div>
         </div>
     </section>
 
     <!-- Código de Vestimenta -->
     <section class="w-full px-6 py-8 border-t border-stone-200/60 text-center bg-white my-2 rounded-2xl shadow-sm">
-        <i data-lucide="shirt" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
+        <i data-lucide="sparkles" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
         <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Código de Vestimenta</h3>
-        <p class="text-xs font-semibold uppercase tracking-wider text-amber-900 mt-1">Formal / Semiformal</p>
+        <p class="text-xs font-semibold uppercase tracking-wider text-amber-900 mt-1">Formal / Elegante</p>
         <p class="text-[11px] text-stone-500 mt-2 max-w-xs mx-auto leading-relaxed">
-            Queremos que te sientas cómodo y elegante para disfrutar toda la noche con nosotros.
+            Te invitamos a asistir con vestuario formal para compartir esta noche especial.
         </p>
     </section>
 
@@ -222,7 +255,7 @@
         <i data-lucide="gift" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
         <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Mesa de Regalos</h3>
         <p class="text-xs text-stone-500 mt-2 max-w-xs mx-auto leading-relaxed">
-            Tu presencia es nuestro mejor regalo. Si deseas realizarnos un obsequio, puedes hacerlo a nuestra cuenta bancaria.
+            El mejor regalo es tu presencia. Si deseas realizarnos un obsequio para nuestra luna de miel, puedes hacerlo a nuestra cuenta bancaria.
         </p>
         <button onclick="toggleModal(true)" class="mt-4 py-3 px-6 bg-white hover:bg-stone-50 border border-stone-200/80 text-stone-700 font-medium rounded-xl text-xs transition shadow-sm inline-flex items-center gap-2">
             <i data-lucide="credit-card" class="w-4 h-4 text-amber-800"></i>
@@ -230,7 +263,7 @@
         </button>
     </section>
 
-    <!-- Formulario RSVP & Opción WhatsApp -->
+    <!-- Formulario RSVP (Confirmación de Asistencia) -->
     <section class="w-full px-6 py-8 border-t border-stone-200/60 bg-white rounded-2xl shadow-sm my-4 mx-2">
         <div class="text-center mb-6">
             <i data-lucide="mail-check" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
@@ -241,12 +274,12 @@
         <form id="rsvp-form" onsubmit="handleRSVP(event)" class="space-y-4">
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">Nombre Completo *</label>
-                <input type="text" id="rsvp-name" required placeholder="Ej: Juan Pérez" class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#FBF9F5]">
+                <input type="text" id="rsvp-name" required placeholder="Ej: Juan Pérez" class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#F8F5F0]">
             </div>
 
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">¿Asistirás al matrimonio? *</label>
-                <select id="rsvp-status" required class="w-full p-3 border border-stone-200 rounded-xl text-xs bg-[#FBF9F5] focus:outline-none focus:ring-2 focus:ring-amber-800">
+                <select id="rsvp-status" required class="w-full p-3 border border-stone-200 rounded-xl text-xs bg-[#F8F5F0] focus:outline-none focus:ring-2 focus:ring-amber-800">
                     <option value="">Selecciona una opción</option>
                     <option value="Si">¡Sí, ahí estaré celebrando!</option>
                     <option value="No">Lamentablemente no podré ir</option>
@@ -254,23 +287,23 @@
             </div>
 
             <div>
-                <label class="block text-xs font-semibold text-stone-600 mb-1">Restricciones Alimentarias</label>
-                <input type="text" id="rsvp-diet" placeholder="Ej: Vegetariano, celíaco, ninguno..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#FBF9F5]">
+                <label class="block text-xs font-semibold text-stone-600 mb-1">Restricciones Alimentarias / Alergias</label>
+                <input type="text" id="rsvp-diet" placeholder="Ej: Vegetariano, celíaco, ninguno..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#F8F5F0]">
             </div>
 
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">Mensaje para los Novios</label>
-                <textarea id="rsvp-message" rows="2" placeholder="Déjanos un mensaje..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#FBF9F5]"></textarea>
+                <textarea id="rsvp-message" rows="2" placeholder="Déjanos unas palabras..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#F8F5F0]"></textarea>
             </div>
 
-            <button type="submit" class="w-full py-3.5 bg-amber-900 hover:bg-amber-950 text-white font-medium rounded-xl shadow transition text-xs uppercase tracking-wider">
+            <button type="submit" class="w-full py-3.5 bg-stone-900 hover:bg-stone-800 text-white font-medium rounded-xl shadow transition text-xs uppercase tracking-wider">
                 Confirmar Asistencia
             </button>
         </form>
         <p id="rsvp-feedback" class="text-xs text-center mt-3 hidden font-semibold"></p>
 
         <div class="mt-6 pt-4 border-t border-stone-100 text-center">
-            <p class="text-[11px] text-stone-400 mb-2">¿Prefieres responder por chat?</p>
+            <p class="text-[11px] text-stone-400 mb-2">¿Prefieres confirmar directamente por chat?</p>
             <a href="https://wa.me/56900000000?text=Hola%20Nathaly%20y%20Pedro!%20Quiero%20confirmar%20mi%20asistencia%20para%20su%20matrimonio" target="_blank" class="inline-flex items-center justify-center gap-2 text-xs text-emerald-700 font-semibold hover:underline">
                 <i data-lucide="message-circle" class="w-4 h-4"></i>
                 Confirmar por WhatsApp
@@ -280,7 +313,7 @@
 
 </main>
 
-<!-- Modal Datos Bancarios -->
+<!-- Modal Emergente Datos Bancarios -->
 <div id="gift-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl relative border border-stone-100">
         <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-stone-400 hover:text-stone-600">
@@ -291,7 +324,7 @@
         <p class="text-xs text-stone-500 mb-4 leading-relaxed">
             Tu presencia es lo más importante. Si deseas realizar un regalo a nuestra cuenta bancaria:
         </p>
-        <div class="bg-[#FBF9F5] p-4 rounded-xl border border-stone-200/60 text-left text-xs space-y-1.5 text-stone-700 font-mono">
+        <div class="bg-[#F8F5F0] p-4 rounded-xl border border-stone-200/60 text-left text-xs space-y-1.5 text-stone-700 font-mono">
             <p><strong>Banco:</strong> Banco Falabella / Santander</p>
             <p><strong>Tipo:</strong> Cuenta Corriente / Vista</p>
             <p><strong>Rut:</strong> XX.XXX.XXX-X</p>
@@ -303,20 +336,17 @@
     </div>
 </div>
 
-<!-- Script de Lógica -->
+<!-- Scripts -->
 <script src="script.js"></script>
 <script>
     lucide.createIcons();
 
-    // Función para abrir el sobre con animación
+    // Lógica de apertura con el Sello de Lacre
     function openEnvelope() {
-        const envelope = document.getElementById('envelope-screen');
-        envelope.classList.add('envelope-hidden');
-        setTimeout(() => {
-            envelope.style.display = 'none';
-        }, 800);
+        const envelopeScreen = document.getElementById('envelope-screen');
+        envelopeScreen.classList.add('envelope-screen-fade');
 
-        // Inicia la música automáticamente si el usuario interactúa
+        // Inicia la música al tocar el sello
         toggleMusic();
     }
 </script>
