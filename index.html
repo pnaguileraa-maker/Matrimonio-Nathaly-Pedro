@@ -8,7 +8,7 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts: Playfair Display, Great Vibes y Plus Jakarta Sans -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
     <!-- Iconos Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Botón de Calendario Nativo -->
+    <!-- Botón Calendario -->
     <script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@2" async defer></script>
 
     <style>
@@ -26,21 +26,23 @@
 
         body {
             background-color: #F4F1EA;
+            overflow-x: hidden;
         }
 
-        /* ESTRUCTURA DEL SOBRE EN 3D */
-        .envelope-wrapper {
-            perspective: 1000px;
+        /* ESTRUCTURA Y PERSPECTIVA 3D DEL SOBRE */
+        .envelope-perspective {
+            perspective: 1200px;
         }
 
         .envelope-card {
             background: #EFECE6;
-            box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
             border: 1px solid rgba(215, 210, 198, 0.9);
             position: relative;
+            transform-style: preserve-3d;
         }
 
-        /* Pliegues estáticos */
+        /* Pliegues del sobre */
         .envelope-fold-left {
             clip-path: polygon(0 0, 50% 50%, 0 100%);
             background: #ECE7DC;
@@ -55,7 +57,7 @@
             z-index: 2;
         }
 
-        /* Solapa Superior con Animación 3D */
+        /* Solapa Superior en 3D */
         .envelope-fold-top {
             position: absolute;
             top: 0;
@@ -67,9 +69,10 @@
             transform-origin: top;
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 3;
+            backface-visibility: hidden;
         }
 
-        /* Clase aplicada al abrir: la solapa gira 180° hacia arriba */
+        /* Giro de 180 grados de la solapa hacia arriba */
         .flap-open {
             transform: rotateX(180deg);
             z-index: 1 !important;
@@ -84,11 +87,22 @@
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        /* Animación de Salida de la Pantalla del Sobre */
+        /* ANIMACIÓN DINÁMICA: LETRAS QUE SE AGRANDAN EN 3D Y DESVANECEN */
+        .text-zoom-3d {
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        .text-zooming {
+            transform: scale3d(2.2, 2.2, 2.2) translateZ(100px);
+            opacity: 0;
+        }
+
+        /* Salida fluida de toda la pantalla del sobre */
         .envelope-screen-fade {
             opacity: 0;
             transform: translateY(-100%);
-            transition: all 0.9s cubic-bezier(0.65, 0, 0.35, 1) 0.6s;
+            transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1) 0.5s, opacity 0.8s ease 0.5s;
             pointer-events: none;
         }
 
@@ -100,20 +114,20 @@
 </head>
 <body class="text-stone-800 font-sans-custom antialiased selection:bg-amber-100 min-h-screen">
 
-<!-- PANTALLA SOBRE INICIAL COMPACTO Y DINÁMICO -->
-<div id="envelope-screen" class="fixed inset-0 z-50 bg-[#F4F1EA] flex flex-col items-center justify-center p-6 text-center select-none">
+<!-- PANTALLA SOBRE INICIAL INTERACTIVO EN 3D -->
+<div id="envelope-screen" class="fixed inset-0 z-50 bg-[#F4F1EA] flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden">
 
     <div class="max-w-[320px] w-full flex flex-col items-center space-y-4">
 
-        <!-- Encabezado Destinatario -->
-        <div class="space-y-0.5">
+        <!-- Encabezado Destinatario con Animación 3D -->
+        <div id="header-text" class="space-y-0.5 text-zoom-3d">
             <p class="text-[10px] uppercase tracking-[0.25em] text-stone-500 font-semibold">INVITACIÓN PARA</p>
             <h3 class="text-2xl font-script-custom text-stone-700">Familia & Amigos</h3>
         </div>
 
-        <!-- Sobre 3D Compacto -->
-        <div class="envelope-wrapper w-full">
-            <div id="envelope-body" class="relative w-full h-[180px] envelope-card rounded-xl flex items-center justify-center overflow-hidden my-1">
+        <!-- Sobre 3D -->
+        <div class="envelope-perspective w-full">
+            <div id="envelope-body" class="relative w-full h-[180px] envelope-card rounded-xl flex items-center justify-center my-1">
 
                 <!-- Pliegues -->
                 <div class="absolute inset-0 envelope-fold-bottom"></div>
@@ -128,11 +142,11 @@
             </div>
         </div>
 
-        <!-- Pie Compacto con los Nombres -->
-        <div class="space-y-1 pt-1">
+        <!-- Nombres de Novios con Animación 3D hacia el espectador -->
+        <div id="footer-text" class="space-y-1 pt-1 text-zoom-3d">
             <h2 class="text-3xl font-script-custom text-stone-800">Nathaly & Pedro</h2>
             <p class="text-[10px] uppercase tracking-[0.2em] text-stone-500 font-medium">06 DE FEBRERO DE 2027</p>
-            <p class="text-[9px] text-amber-900/60 tracking-widest font-medium pt-1">TOCA EL SELLO PARA ABRIR</p>
+            <p id="sub-instruction" class="text-[9px] text-amber-900/60 tracking-widest font-medium pt-1 transition-opacity duration-300">TOCA EL SELLO PARA ABRIR</p>
         </div>
 
     </div>
@@ -151,7 +165,7 @@
 <!-- CONTENIDO PRINCIPAL DE LA INVITACIÓN -->
 <main class="max-w-md mx-auto bg-[#F4F1EA] min-h-screen shadow-2xl flex flex-col items-center pb-16 relative">
 
-    <!-- Header con Foto de Portada y Marco Curvo -->
+    <!-- Header con Foto de Portada -->
     <header class="w-full relative text-center pt-8 px-4">
         <p class="text-[10px] uppercase tracking-[0.3em] text-amber-900 font-semibold mb-2">MATRIMONIO DE</p>
         <h1 class="text-4xl font-serif-custom font-bold text-stone-800 tracking-wide mb-1">Nathaly & Pedro</h1>
@@ -169,7 +183,7 @@
         </div>
     </header>
 
-    <!-- Mensaje Especial / Historia de Amor -->
+    <!-- Historia de Amor / Dedicatoria -->
     <section class="w-full px-8 pt-8 text-center space-y-3">
         <p class="text-xs font-serif-custom italic text-stone-600 leading-relaxed">
             "Con muchísima alegría queremos invitarte a ser parte de uno de los días más importantes de nuestras vidas."
@@ -391,21 +405,31 @@
     function openEnvelope() {
         const topFlap = document.getElementById('top-flap');
         const sealBtn = document.getElementById('seal-btn');
+        const headerText = document.getElementById('header-text');
+        const footerText = document.getElementById('footer-text');
+        const subInstruction = document.getElementById('sub-instruction');
         const envelopeScreen = document.getElementById('envelope-screen');
 
-        // 1. Desaparece el sello suavemente
+        // 1. Ocultar la instrucción sutilmente
+        subInstruction.style.opacity = '0';
+
+        // 2. Animación de zoom 3D + desvanecimiento en los textos
+        headerText.classList.add('text-zooming');
+        footerText.classList.add('text-zooming');
+
+        // 3. Ocultar el sello
         sealBtn.style.opacity = '0';
         sealBtn.style.transform = 'scale(0.5)';
 
-        // 2. Giro en 3D de la solapa hacia arriba
+        // 4. Apertura 3D de la solapa
         setTimeout(() => {
             topFlap.classList.add('flap-open');
         }, 100);
 
-        // 3. Desplazamiento hacia arriba de la pantalla completa del sobre
+        // 5. Desplazamiento final para descubrir la invitación
         setTimeout(() => {
             envelopeScreen.classList.add('envelope-screen-fade');
-        }, 500);
+        }, 600);
 
         toggleMusic();
     }
