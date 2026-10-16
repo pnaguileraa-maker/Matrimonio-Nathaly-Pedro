@@ -60,6 +60,7 @@ function handleRSVP(event) {
     const name = document.getElementById('rsvp-name').value;
     const status = document.getElementById('rsvp-status').value;
     const diet = document.getElementById('rsvp-diet').value;
+    const song = document.getElementById('rsvp-song').value;
     const message = document.getElementById('rsvp-message').value;
     const feedback = document.getElementById('rsvp-feedback');
 
