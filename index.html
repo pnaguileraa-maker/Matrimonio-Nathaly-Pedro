@@ -2,8 +2,18 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Nathaly & Pedro | Invitación de Matrimonio</title>
+
+    <!-- Open Graph: tarjeta de vista previa al compartir el enlace en WhatsApp / redes -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Matrimonio Nathaly & Pedro 💍">
+    <meta property="og:description" content="¡Nos casamos! Toca aquí para ver tu invitación digital.">
+    <meta property="og:image" content="https://pnaguilera.github.io/Matrimonio-Nathaly-Pedro/portada.jpg">
+    <meta property="og:url" content="https://pnaguilera.github.io/Matrimonio-Nathaly-Pedro/">
+
+    <!-- Favicon: emoji embebido, sin depender de un archivo externo -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,127 +30,287 @@
     <script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@2" async defer></script>
 
     <style>
+        :root {
+            --cream: #F6F1E7;
+            --cream-deep: #EFE8D9;
+            --ink: #4A3F33;
+            --ink-soft: #8A7D6B;
+            --sage: #8A9681;
+            --sage-deep: #7A8570;
+            --gold: #B8935B;
+        }
+
         .font-serif-custom { font-family: 'Playfair Display', serif; }
         .font-sans-custom { font-family: 'Plus Jakarta Sans', sans-serif; }
         .font-script-custom { font-family: 'Great Vibes', cursive; }
 
         body {
-            background-color: #F4F1EA;
+            background-color: var(--cream);
             overflow-x: hidden;
         }
 
-        /* SOBRE EN PERSPECTIVA 3D */
+        /* ===== DECORACIÓN BOTÁNICA ===== */
+        .leaf-sprig { color: var(--sage); }
+        .leaf-corner {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.35;
+            filter: blur(0.2px);
+        }
+        .leaf-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: var(--sage-deep);
+            opacity: 0.6;
+        }
+        .leaf-divider .line {
+            height: 1px;
+            width: 2.5rem;
+            background: currentColor;
+            opacity: 0.4;
+        }
+
+        /* Flores de esquina: imágenes reales (PNG transparente), no formas CSS.
+           Si el archivo aún no existe, se ocultan solas (onerror en el <img>) en vez de
+           mostrar el ícono de "imagen rota". */
+        .floral-corner {
+            position: absolute;
+            width: 38vw;
+            max-width: 170px;
+            height: auto;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .floral-tl { top: 0; left: 0; }
+        .floral-bl { bottom: 0; left: 0; }
+
+        /* SOBRE 3D COMPACTO EN VERDE SALVIA: papel completamente liso, sin texto gofrado */
         .envelope-perspective {
             perspective: 1200px;
         }
 
         .envelope-card {
-            background: #EFECE6;
-            box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.12);
-            border: 1px solid rgba(215, 210, 198, 0.9);
+            background: #7A8570;
+            border-radius: 1.25rem;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.25), 0 8px 16px -6px rgba(0, 0, 0, 0.15);
             position: relative;
+            overflow: visible;
         }
 
-        /* Pliegues del sobre */
-        .envelope-fold-left {
-            clip-path: polygon(0 0, 50% 50%, 0 100%);
-            background: #ECE7DC;
-        }
-        .envelope-fold-right {
-            clip-path: polygon(100% 0, 50% 50%, 100% 100%);
-            background: #ECE7DC;
-        }
-        .envelope-fold-bottom {
-            clip-path: polygon(0 100%, 50% 45%, 100% 100%);
-            background: #E5DFC0;
-            z-index: 2;
-        }
+        /* Solapa en "V": el separador real es filter:drop-shadow (un box-shadow normal no
+           puede seguir un clip-path, queda recortado e invisible). backface-visibility:hidden
+           evita que al rotar pasado los 90° se vea "pasando raro" por detrás del sobre. */
         .envelope-fold-top {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             height: 100%;
-            clip-path: polygon(0 0, 100% 0, 50% 55%);
-            background: #E4DDD0;
+            clip-path: polygon(0 0, 100% 0, 50% 52%);
+            background: #7A8570;
+            border-radius: 1.25rem 1.25rem 0 0;
             transform-origin: top;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 3;
+            filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.22));
+            backface-visibility: hidden;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
         }
 
         .flap-open {
             transform: rotateX(180deg);
-            z-index: 1 !important;
         }
 
-        /* SELLO DE LACRE DORADO Y ANIMACIÓN ZOOM */
+        /* SELLO DE LACRE DORADO (base #C99A41): centrado absoluto estricto, anclado al
+           vértice exacto de la "V" (65%). No hay transform en :hover/:active — el único
+           cambio de transform ocurre en .seal-zoom-forward, que respeta el translate de centrado. */
         .wax-seal-btn {
-            background: radial-gradient(circle at 35% 35%, #eab308 0%, #ca8a04 50%, #854d0e 100%);
-            box-shadow: 0 6px 15px -3px rgba(161, 98, 7, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.5);
-            border: 1.5px solid rgba(254, 240, 138, 0.4);
+            position: absolute;
+            top: 52%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle at 35% 35%, #E8E6DE 0%, #B0AEA3 50%, #6E6C62 100%);
+            box-shadow:
+                0 8px 16px -3px rgba(40, 40, 36, 0.45),
+                0 3px 6px -1px rgba(30, 30, 26, 0.3),
+                inset -2px -2px 4px rgba(255, 255, 250, 0.6),
+                inset 2px 3px 5px rgba(50, 50, 44, 0.45),
+                inset 0 0 0 1.5px rgba(230, 230, 222, 0.4),
+                0 0 0 0 rgba(176, 174, 163, 0.5);
+            border: 1.5px solid rgba(235, 235, 228, 0.55);
             z-index: 20;
             transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease-out;
+            transition: box-shadow 0.3s ease, opacity 0.8s ease-out;
+            animation: seal-pulse 2.2s ease-in-out infinite;
+        }
+        .wax-seal-btn:focus {
+            outline: none;
         }
 
+        /* Anillo decorativo fijo, estilo borde de cera estampada */
+        .wax-seal-btn::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            border: 2px dotted rgba(176, 174, 163, 0.45);
+            pointer-events: none;
+        }
+
+        /* Halo/anillo de pulso que se EXPANDE continuamente invitando al clic */
+        .wax-seal-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 1.5px solid rgba(176, 174, 163, 0.6);
+            animation: pulse-ring 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.6; }
+            100% { transform: scale(1.9); opacity: 0; }
+        }
+
+        @keyframes seal-pulse {
+            0%, 100% {
+                box-shadow:
+                    0 8px 16px -3px rgba(80, 56, 10, 0.5),
+                    0 3px 6px -1px rgba(60, 40, 5, 0.35),
+                    inset -2px -2px 4px rgba(255, 245, 210, 0.55),
+                    inset 2px 3px 5px rgba(70, 48, 10, 0.5),
+                    inset 0 0 0 1.5px rgba(255, 230, 160, 0.35),
+                    0 0 0 0 rgba(176, 174, 163, 0.4);
+            }
+            50% {
+                box-shadow:
+                    0 8px 18px -3px rgba(40, 40, 36, 0.5),
+                    0 3px 6px -1px rgba(30, 30, 26, 0.3),
+                    inset -2px -2px 4px rgba(255, 255, 250, 0.7),
+                    inset 2px 3px 5px rgba(50, 50, 44, 0.5),
+                    inset 0 0 0 1.5px rgba(230, 230, 222, 0.4),
+                    0 0 0 6px rgba(176, 174, 163, 0);
+            }
+        }
+
+        /* FASE 1 (0s): el sello escala al frente y desaparece.
+           El translate(-50%,-50%) se mantiene SIEMPRE para que el sello no se desvíe. */
         .seal-zoom-forward {
-            transform: scale3d(8, 8, 8) translateZ(400px) !important;
+            animation: none !important;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease-out !important;
+            transform: translate(-50%, -50%) scale(3.5) !important;
             opacity: 0 !important;
+        }
+        .seal-zoom-forward::before,
+        .seal-zoom-forward::after {
+            display: none;
         }
 
         .fade-out-fast {
             opacity: 0;
-            transition: opacity 0.4s ease-out;
+            transition: opacity 0.3s ease-out;
         }
 
+        /* FASE 3 (1.0s): desvanecimiento puro del contenedor completo, sin desplazamiento
+           (un solo tipo de movimiento a la vez evita que los elementos "choquen" entre sí) */
         .envelope-screen-fade {
             opacity: 0;
-            transform: translateY(-100%);
-            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1) 0.4s, opacity 0.7s ease 0.4s;
             pointer-events: none;
+            transition: opacity 0.6s ease;
         }
 
         .glass-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
         }
+
+        /* ===== LINE ART VESTIMENTA ===== */
+        .attire-icon { color: var(--ink-soft); }
+
+        /* ===== ACORDEÓN REGALOS ===== */
+        .accordion-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .accordion-panel.open {
+            max-height: 320px;
+        }
+        .accordion-chevron {
+            transition: transform 0.4s ease;
+        }
+        .accordion-chevron.rotated {
+            transform: rotate(180deg);
+        }
+
+        /* Polaroid collage */
+        .polaroid {
+            background: #fff;
+            padding: 10px 10px 22px 10px;
+            box-shadow: 0 10px 20px -6px rgba(0,0,0,0.15);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
     </style>
 </head>
-<body class="text-stone-800 font-sans-custom antialiased selection:bg-amber-100 min-h-screen">
+<body class="text-stone-800 font-sans-custom antialiased selection:bg-[#DCE1D3] min-h-screen">
 
-<!-- PANTALLA SOBRE INICIAL COMPACTO -->
-<div id="envelope-screen" class="fixed inset-0 z-50 bg-[#F4F1EA] flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden">
+<!-- Sprite SVG oculto: sprig botánico reutilizable (separadores de sección) -->
+<svg style="display:none" aria-hidden="true">
+    <symbol id="leaf-sprig" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M50 92 C50 62 50 40 50 8"/>
+        <path d="M50 72 C40 62 25 60 15 46 C30 49 42 56 50 72 Z"/>
+        <path d="M50 54 C60 44 75 42 85 28 C70 31 58 39 50 54 Z"/>
+        <path d="M50 34 C42 27 32 26 25 17 C35 19 44 24 50 34 Z"/>
+    </symbol>
+</svg>
 
-    <div class="max-w-[320px] w-full flex flex-col items-center space-y-4">
+<!-- PANTALLA SOBRE INICIAL -->
+<div id="envelope-screen" class="fixed inset-0 min-h-[100dvh] z-50 bg-[#F9F9F8] flex flex-col items-center justify-center overflow-hidden p-6 text-center select-none">
 
-        <!-- Encabezado Destinatario -->
-        <div id="header-text" class="space-y-0.5 transition-opacity duration-300">
-            <p class="text-[10px] uppercase tracking-[0.25em] text-stone-500 font-semibold">INVITACIÓN PARA</p>
-            <h3 id="guest-name" class="text-2xl font-script-custom text-stone-700">Familia & Amigos</h3>
+    <!-- Flores de esquina: fotos reales en PNG transparente (ramas/hojas botánicas).
+         Coloca los archivos en la raíz del proyecto, junto a portada.jpg, con estos nombres exactos:
+         flor-superior-izquierda.png y flor-inferior-izquierda.png
+         Mientras no existan, el onerror las oculta en vez de mostrar el ícono de imagen rota. -->
+    <img src="flor-superior-izquierda.png" alt="" class="floral-corner floral-tl" onerror="this.style.display='none'">
+    <img src="flor-inferior-izquierda.png" alt="" class="floral-corner floral-bl" onerror="this.style.display='none'">
+
+    <div class="relative w-full max-w-[360px] flex flex-col items-center space-y-6" style="z-index: 10;">
+
+        <!-- Encabezado: versalitas pequeñas arriba, calígrafa negra grande debajo -->
+        <div id="header-text" class="space-y-1 transition-opacity duration-300">
+            <p class="font-serif-custom text-xs uppercase tracking-[0.2em] text-[#2b2b2b] font-semibold">¡Nos Casamos!</p>
+            <h1 class="font-script-custom text-5xl sm:text-6xl text-black leading-tight">Nathaly &amp; Pedro</h1>
         </div>
 
-        <!-- Sobre 3D -->
+        <!-- Sobre 3D: formato horizontal clásico, bajo y ancho -->
         <div class="envelope-perspective w-full">
-            <div id="envelope-body" class="relative w-full h-[180px] envelope-card rounded-xl flex items-center justify-center my-1">
+            <div id="envelope-body" class="relative w-full max-w-[340px] mx-auto h-[220px] envelope-card">
 
-                <!-- Pliegues -->
-                <div class="absolute inset-0 envelope-fold-bottom"></div>
-                <div class="absolute inset-0 envelope-fold-left"></div>
-                <div class="absolute inset-0 envelope-fold-right"></div>
                 <div id="top-flap" class="envelope-fold-top"></div>
 
-                <!-- Sello de Lacre -->
-                <button id="seal-btn" onclick="openEnvelope()" class="relative w-14 h-14 wax-seal-btn rounded-full flex items-center justify-center cursor-pointer transform hover:scale-105 active:scale-95">
-                    <span class="font-script-custom text-amber-50 text-xl font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">NP</span>
+                <!-- Sello de Lacre: el centrado (left/top/translate) vive SOLO en la clase .wax-seal-btn (CSS),
+                     para que no pueda desviarse en :hover/:active ni durante el zoom de apertura -->
+                <button id="seal-btn" onclick="openEnvelope()" class="w-16 h-16 wax-seal-btn rounded-full flex items-center justify-center cursor-pointer">
+                    <span class="font-serif-custom text-[#3a3a36] text-base font-bold tracking-wide" style="text-shadow: 0 1px 1px rgba(255,255,255,0.4), 0 -1px 0 rgba(0,0,0,0.2);">N&amp;P</span>
                 </button>
+
+                <!-- "Haz clic aquí", integrado justo debajo de la cera -->
+                <p class="absolute left-1/2 top-[68%] -translate-x-1/2 w-full text-center text-[9px] text-stone-500 tracking-wide" style="z-index: 2;">Haz clic aquí</p>
             </div>
         </div>
 
-        <!-- Nombres de Novios y Fecha -->
-        <div id="footer-text" class="space-y-1 pt-1 transition-opacity duration-300">
-            <h2 class="text-3xl font-script-custom text-stone-800">Nathaly & Pedro</h2>
-            <p class="text-[10px] uppercase tracking-[0.2em] text-stone-500 font-medium">06 DE FEBRERO DE 2027</p>
-            <p id="sub-instruction" class="text-[9px] text-amber-900/60 tracking-widest font-medium pt-1">TOCA EL SELLO PARA ABRIR</p>
+        <!-- Pie: invitado, frase, divisor y fecha -->
+        <div id="footer-text" class="space-y-2 transition-opacity duration-300">
+            <p id="guest-name" class="font-sans-custom text-sm text-stone-700">Familia &amp; Amigos</p>
+            <p class="font-sans-custom text-xs text-stone-500">El comienzo de nuestro para siempre.</p>
+            <div class="flex items-center justify-center gap-2 text-[#7A8570] opacity-70 py-1">
+                <span class="h-px w-6 bg-current"></span>
+                <svg class="w-3.5 h-3.5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+                <span class="h-px w-6 bg-current"></span>
+            </div>
+            <p class="font-serif-custom text-xs uppercase tracking-[0.2em] text-stone-700">06 de Febrero de 2027</p>
         </div>
 
     </div>
@@ -152,7 +322,7 @@
         🎵 Sarà perché ti amo
     </div>
     <button id="music-btn" onclick="toggleMusic()" class="bg-white/90 backdrop-blur border border-stone-200/80 p-3 rounded-full shadow-lg text-stone-700 hover:text-stone-900 transition flex items-center justify-center">
-        <i id="music-icon" data-lucide="music" class="w-5 h-5 text-amber-900"></i>
+        <i id="music-icon" data-lucide="music" class="w-5 h-5 text-[#5c6650]"></i>
     </button>
     <audio id="bg-music" loop>
         <source src="sara-perche-ti-amo.mp3" type="audio/mpeg">
@@ -161,23 +331,27 @@
 </div>
 
 <!-- CONTENIDO PRINCIPAL DE LA INVITACIÓN -->
-<main class="max-w-md mx-auto bg-[#F4F1EA] min-h-screen shadow-2xl flex flex-col items-center pb-16 relative overflow-hidden">
+<main class="max-w-md mx-auto bg-[#F6F1E7] min-h-screen shadow-2xl flex flex-col items-center pb-16 relative overflow-hidden">
 
-    <!-- INICIO CON FOTO DE FONDO TRANSPARENTE (ESTILO REFERENCIA) -->
+    <!-- INICIO CON FOTO DE FONDO (ESTILO REFERENCIA) -->
     <header class="w-full relative min-h-screen flex flex-col items-center justify-between text-center p-6 bg-cover bg-center" style="background-image: url('portada.jpg');">
 
-        <!-- Capa blanca semitransparente que suaviza la imagen de fondo -->
-        <div class="absolute inset-0 bg-white/75 backdrop-blur-[2px]"></div>
+        <!-- Capa clara semitransparente que suaviza la imagen de fondo -->
+        <div class="absolute inset-0 bg-[#F6F1E7]/75 backdrop-blur-[2px]"></div>
+
+        <!-- Detalles botánicos de esquina del hero -->
+        <svg class="leaf-corner w-24 h-24 top-4 left-2 z-[5]" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <svg class="leaf-corner w-24 h-24 bottom-4 right-2 z-[5]" viewBox="0 0 100 100" style="transform: rotate(180deg);"><use href="#leaf-sprig"/></svg>
 
         <div class="relative z-10 w-full pt-10 space-y-2">
-            <p class="text-[11px] uppercase tracking-[0.3em] text-stone-500 font-semibold">MATRIMONIO DE</p>
+            <p class="text-[11px] uppercase tracking-[0.3em] text-stone-500 font-semibold px-4">Acompáñanos a celebrar nuestra boda</p>
             <div class="w-8 h-[1px] bg-stone-400 mx-auto opacity-50"></div>
         </div>
 
         <!-- Nombres Centrales Grandes -->
         <div class="relative z-10 w-full space-y-1 my-auto py-6">
             <h1 class="text-6xl font-script-custom text-stone-900 tracking-wide">Nathaly</h1>
-            <p class="text-xl font-serif-custom italic text-stone-400 font-light">&</p>
+            <p class="text-xl font-serif-custom italic text-stone-400 font-light">&amp;</p>
             <h1 class="text-6xl font-script-custom text-stone-900 tracking-wide">Pedro</h1>
         </div>
 
@@ -197,35 +371,41 @@
             "Con muchísima alegría queremos invitarte a ser parte de uno de los días más importantes de nuestras vidas."
         </p>
         <p class="text-xs text-stone-500 leading-relaxed font-light">
-            Después de 7 años juntos y 5 compartiendo nuestro hogar, decidimos dar este gran paso para celebrar nuestro amor rodeados de quienes más queremos[cite: 10, 11].
+            Después de 7 años juntos y 5 compartiendo nuestro hogar, decidimos dar este gran paso para celebrar nuestro amor rodeados de quienes más queremos.
         </p>
     </section>
 
+    <div class="leaf-divider w-full py-6">
+        <span class="line"></span>
+        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <span class="line"></span>
+    </div>
+
     <!-- Reloj de Cuenta Regresiva -->
-    <section class="w-full px-6 py-8 text-center">
+    <section class="w-full px-6 pb-6 text-center">
         <h2 class="text-[10px] uppercase tracking-[0.25em] text-stone-400 mb-4 font-semibold">LA CUENTA REGRESIVA COMIENZA</h2>
         <div id="countdown" class="grid grid-cols-4 gap-2 text-center">
-            <div class="bg-white/80 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
-                <span id="days" class="block text-2xl font-serif-custom font-bold text-amber-950">00</span>
+            <div class="bg-white/70 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
+                <span id="days" class="block text-2xl font-serif-custom font-bold text-[#3f4536]">00</span>
                 <span class="text-[9px] uppercase tracking-wider text-stone-400">Días</span>
             </div>
-            <div class="bg-white/80 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
-                <span id="hours" class="block text-2xl font-serif-custom font-bold text-amber-950">00</span>
+            <div class="bg-white/70 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
+                <span id="hours" class="block text-2xl font-serif-custom font-bold text-[#3f4536]">00</span>
                 <span class="text-[9px] uppercase tracking-wider text-stone-400">Horas</span>
             </div>
-            <div class="bg-white/80 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
-                <span id="minutes" class="block text-2xl font-serif-custom font-bold text-amber-950">00</span>
+            <div class="bg-white/70 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
+                <span id="minutes" class="block text-2xl font-serif-custom font-bold text-[#3f4536]">00</span>
                 <span class="text-[9px] uppercase tracking-wider text-stone-400">Min</span>
             </div>
-            <div class="bg-white/80 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
-                <span id="seconds" class="block text-2xl font-serif-custom font-bold text-amber-950">00</span>
+            <div class="bg-white/70 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
+                <span id="seconds" class="block text-2xl font-serif-custom font-bold text-[#3f4536]">00</span>
                 <span class="text-[9px] uppercase tracking-wider text-stone-400">Seg</span>
             </div>
         </div>
     </section>
 
     <!-- Botón de Agendar Fecha -->
-    <section class="w-full px-6 space-y-3">
+    <section class="w-full px-6 pb-2 space-y-3">
         <div class="w-full flex justify-center">
             <add-to-calendar-button
                     name="Matrimonio Nathaly y Pedro"
@@ -244,97 +424,204 @@
         </div>
     </section>
 
-    <!-- Cuadro de Fotografía Estilo Polaroid -->
-    <section class="w-full px-6 py-6 text-center">
-        <div class="bg-white p-4 pb-6 rounded-xl shadow-md border border-stone-200/60 max-w-[260px] mx-auto transform -rotate-1">
-            <img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-52 object-cover rounded">
-            <p class="text-amber-800 text-sm mt-3">❤️</p>
+    <div class="leaf-divider w-full py-6">
+        <span class="line"></span>
+        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <span class="line"></span>
+    </div>
+
+    <!-- Las Fotitos: Collage estilo Polaroid -->
+    <section class="w-full px-6 pb-4 text-center">
+        <h3 class="text-2xl font-serif-custom font-bold text-stone-800 mb-1">Las Fotitos</h3>
+        <p class="text-xs font-serif-custom italic text-stone-500 mb-6">"Un camino que comenzó siendo dos y hoy celebramos como uno solo."</p>
+
+        <div class="relative h-[300px] max-w-[280px] mx-auto">
+            <div class="polaroid absolute left-0 top-2 w-[150px] transform -rotate-6 z-10">
+                <img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-[150px] object-cover">
+                <p class="text-center text-[#7A8570] text-xs mt-2">❤️</p>
+            </div>
+            <div class="polaroid absolute right-0 top-0 w-[150px] transform rotate-3 z-20">
+                <img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-[150px] object-cover">
+                <p class="text-center text-[#7A8570] text-xs mt-2">✨</p>
+            </div>
+            <div class="polaroid absolute left-1/2 -translate-x-1/2 bottom-0 w-[160px] transform rotate-1 z-30">
+                <img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-[155px] object-cover">
+                <p class="text-center text-[#7A8570] text-xs mt-2">💍</p>
+            </div>
         </div>
+        <!-- Reemplaza los src de las imágenes anteriores por foto2.jpg / foto3.jpg cuando tengas más fotos -->
     </section>
+
+    <div class="leaf-divider w-full py-6">
+        <span class="line"></span>
+        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <span class="line"></span>
+    </div>
+
+    <!-- Álbum de Fotos Compartido -->
+    <section class="w-full px-6 pb-2 text-center">
+        <i data-lucide="camera" class="w-7 h-7 mx-auto text-[#7A8570] mb-2"></i>
+        <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Comparte tus Fotos</h3>
+        <p class="text-xs text-stone-500 mt-2 max-w-xs mx-auto leading-relaxed">
+            Captura los mejores momentos del día y súbelos a nuestro álbum compartido escaneando este código QR.
+        </p>
+        <div class="bg-white p-4 rounded-2xl border border-stone-200/60 shadow-sm mt-4 inline-block">
+            <img src="qr-fotos.png" alt="Código QR del álbum de fotos" class="w-36 h-36 mx-auto">
+        </div>
+        <a href="https://photos.app.goo.gl/SWeqjgCmPxRYdSsLA" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center justify-center gap-2 py-3 px-6 bg-white/90 hover:bg-white border border-stone-200/80 text-stone-700 font-medium rounded-xl text-xs transition shadow-sm">
+            <i data-lucide="image" class="w-4 h-4 text-[#7A8570]"></i>
+            Abrir Álbum de Fotos
+        </a>
+    </section>
+
+    <div class="leaf-divider w-full py-6">
+        <span class="line"></span>
+        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <span class="line"></span>
+    </div>
 
     <!-- Ubicación y Mapas -->
-    <section class="w-full px-6 py-8 border-t border-stone-200/60 text-center">
-        <i data-lucide="church" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
-        <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Ceremonia & Fiesta</h3>
+    <section class="w-full px-6 pb-2 text-center">
+        <i data-lucide="church" class="w-7 h-7 mx-auto text-[#7A8570] mb-2"></i>
+        <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Ceremonia &amp; Fiesta</h3>
         <p class="text-xs text-stone-600 mt-1">Pasaje Los Olivos, Km 14 camino a Huape, Chillán, Chile</p>
 
-        <div class="grid grid-cols-2 gap-3 mt-4">
-            <a href="https://maps.app.goo.gl/tSTQGXgVq4JnNagX6?g_st=iw" target="_blank" rel="noopener noreferrer" class="py-3 px-3 bg-white/90 hover:bg-white text-stone-700 border border-stone-200 font-medium rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-sm">
-                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-800"></i>
-                Google Maps
-            </a>
-            <a href="https://waze.com/ul/h63kxersdm" target="_blank" rel="noopener noreferrer" class="py-3 px-3 bg-white/90 hover:bg-white text-stone-700 border border-stone-200 font-medium rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-sm">
-                <i data-lucide="navigation" class="w-3.5 h-3.5 text-amber-800"></i>
-                Abrir en Waze
-            </a>
+        <div class="bg-white/70 border border-stone-200/60 rounded-2xl p-4 mt-4 shadow-sm">
+            <div class="grid grid-cols-2 gap-3">
+                <a href="https://maps.app.goo.gl/tSTQGXgVq4JnNagX6?g_st=iw" target="_blank" rel="noopener noreferrer" class="py-3 px-3 bg-white hover:bg-stone-50 text-stone-700 border border-stone-200 font-medium rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-sm">
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-[#7A8570]"></i>
+                    Ver Mapa
+                </a>
+                <a href="https://waze.com/ul/h63kxersdm" target="_blank" rel="noopener noreferrer" class="py-3 px-3 bg-white hover:bg-stone-50 text-stone-700 border border-stone-200 font-medium rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-sm">
+                    <i data-lucide="navigation" class="w-3.5 h-3.5 text-[#7A8570]"></i>
+                    Abrir Waze
+                </a>
+            </div>
         </div>
     </section>
 
+    <div class="leaf-divider w-full py-6">
+        <span class="line"></span>
+        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <span class="line"></span>
+    </div>
+
     <!-- Cronograma del Evento -->
-    <section class="w-full px-6 py-8 border-t border-stone-200/60">
+    <section class="w-full px-6 pb-2">
         <div class="text-center mb-8">
-            <i data-lucide="clock" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
+            <i data-lucide="clock" class="w-7 h-7 mx-auto text-[#7A8570] mb-2"></i>
             <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Itinerario</h3>
             <p class="text-[10px] text-stone-400 tracking-widest uppercase mt-1">Sábado 06 de Febrero de 2027</p>
         </div>
 
-        <div class="relative border-l border-amber-800/30 ml-4 pl-6 space-y-6 text-left">
+        <div class="relative border-l border-[#7A8570]/30 ml-4 pl-6 space-y-7 text-left">
             <div class="relative">
-                <div class="absolute -left-[31px] top-1 w-3.5 h-3.5 bg-amber-800 rounded-full border-2 border-white"></div>
-                <p class="text-xs font-semibold text-amber-900">18:30 hrs</p>
+                <div class="absolute -left-[39px] top-0 w-7 h-7 bg-white border border-[#7A8570]/40 rounded-full flex items-center justify-center shadow-sm">
+                    <i data-lucide="gem" class="w-3.5 h-3.5 text-[#7A8570]"></i>
+                </div>
+                <p class="text-xs font-semibold text-[#5c6650]">18:30 hrs</p>
                 <h4 class="text-base font-serif-custom font-bold text-stone-800">Ceremonia</h4>
                 <p class="text-xs text-stone-500">Bienvenida e inicio de nuestro matrimonio.</p>
             </div>
 
             <div class="relative">
-                <div class="absolute -left-[31px] top-1 w-3.5 h-3.5 bg-amber-800 rounded-full border-2 border-white"></div>
-                <p class="text-xs font-semibold text-amber-900">19:30 hrs</p>
+                <div class="absolute -left-[39px] top-0 w-7 h-7 bg-white border border-[#7A8570]/40 rounded-full flex items-center justify-center shadow-sm">
+                    <i data-lucide="martini" class="w-3.5 h-3.5 text-[#7A8570]"></i>
+                </div>
+                <p class="text-xs font-semibold text-[#5c6650]">19:30 hrs</p>
                 <h4 class="text-base font-serif-custom font-bold text-stone-800">Cóctel de Bienvenida</h4>
                 <p class="text-xs text-stone-500">Tragos, aperitivos y fotos.</p>
             </div>
 
             <div class="relative">
-                <div class="absolute -left-[31px] top-1 w-3.5 h-3.5 bg-amber-800 rounded-full border-2 border-white"></div>
-                <p class="text-xs font-semibold text-amber-900">21:00 hrs</p>
-                <h4 class="text-base font-serif-custom font-bold text-stone-800">Cena & Brindis</h4>
+                <div class="absolute -left-[39px] top-0 w-7 h-7 bg-white border border-[#7A8570]/40 rounded-full flex items-center justify-center shadow-sm">
+                    <i data-lucide="utensils-crossed" class="w-3.5 h-3.5 text-[#7A8570]"></i>
+                </div>
+                <p class="text-xs font-semibold text-[#5c6650]">21:00 hrs</p>
+                <h4 class="text-base font-serif-custom font-bold text-stone-800">Cena &amp; Brindis</h4>
                 <p class="text-xs text-stone-500">Banquete principal y momentos inolvidables.</p>
             </div>
 
             <div class="relative">
-                <div class="absolute -left-[31px] top-1 w-3.5 h-3.5 bg-amber-800 rounded-full border-2 border-white"></div>
-                <p class="text-xs font-semibold text-amber-900">23:00 hrs</p>
-                <h4 class="text-base font-serif-custom font-bold text-stone-800">Fiesta & Baile</h4>
+                <div class="absolute -left-[39px] top-0 w-7 h-7 bg-white border border-[#7A8570]/40 rounded-full flex items-center justify-center shadow-sm">
+                    <i data-lucide="music" class="w-3.5 h-3.5 text-[#7A8570]"></i>
+                </div>
+                <p class="text-xs font-semibold text-[#5c6650]">23:00 hrs</p>
+                <h4 class="text-base font-serif-custom font-bold text-stone-800">Fiesta &amp; Baile</h4>
                 <p class="text-xs text-stone-500">Apertura de la pista y bar abierto.</p>
             </div>
         </div>
     </section>
 
+    <div class="leaf-divider w-full py-6">
+        <span class="line"></span>
+        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <span class="line"></span>
+    </div>
+
     <!-- Código de Vestimenta -->
-    <section class="w-full px-6 py-8 border-t border-stone-200/60 text-center bg-white/70 my-2 rounded-2xl shadow-sm">
-        <i data-lucide="sparkles" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
+    <section class="w-full px-6 py-8 text-center bg-white/60 my-2 rounded-2xl shadow-sm">
+        <i data-lucide="sparkles" class="w-7 h-7 mx-auto text-[#7A8570] mb-2"></i>
         <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Código de Vestimenta</h3>
-        <p class="text-xs font-semibold uppercase tracking-wider text-amber-900 mt-1">Formal / Elegante</p>
+        <p class="text-xs font-semibold uppercase tracking-wider text-[#5c6650] mt-1">Formal / Elegante</p>
         <p class="text-[11px] text-stone-500 mt-2 max-w-xs mx-auto leading-relaxed">
             Te invitamos a asistir con vestuario formal para compartir esta noche especial.
         </p>
+
+        <!-- Ilustraciones Line-Art -->
+        <div class="flex items-center justify-center gap-10 mt-6">
+            <div class="flex flex-col items-center gap-1">
+                <svg class="attire-icon w-14 h-24" viewBox="0 0 80 150" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                    <path d="M40 6 C34 6 30 10 30 10 L22 26 C20 34 22 46 28 52 L18 100 C16 115 16 128 20 138 C33 144 47 144 60 138 C64 128 64 115 62 100 L52 52 C58 46 60 34 58 26 L50 10 C50 10 46 6 40 6 Z"/>
+                    <path d="M30 10 L40 24 L50 10"/>
+                </svg>
+                <span class="text-[10px] uppercase tracking-wider text-stone-400">Ella</span>
+            </div>
+            <div class="flex flex-col items-center gap-1">
+                <svg class="attire-icon w-14 h-24" viewBox="0 0 80 150" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                    <path d="M40 8 L28 20 L16 30 L12 60 L20 56 L22 140 L40 146 L58 140 L60 56 L68 60 L64 30 L52 20 Z"/>
+                    <path d="M34 20 L40 40 L30 60"/>
+                    <path d="M46 20 L40 40 L50 60"/>
+                    <line x1="40" y1="60" x2="40" y2="140"/>
+                </svg>
+                <span class="text-[10px] uppercase tracking-wider text-stone-400">Él</span>
+            </div>
+        </div>
     </section>
 
-    <!-- Mesa de Regalos -->
-    <section class="w-full px-6 py-8 border-t border-stone-200/60 text-center">
-        <i data-lucide="gift" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
-        <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Mesa de Regalos</h3>
+    <div class="leaf-divider w-full py-6">
+        <span class="line"></span>
+        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <span class="line"></span>
+    </div>
+
+    <!-- Mesa de Regalos / Sugerencias de Regalo -->
+    <section class="w-full px-6 pb-2 text-center">
+        <i data-lucide="mail" class="w-7 h-7 mx-auto text-[#7A8570] mb-2"></i>
+        <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Sugerencias de Regalo</h3>
         <p class="text-xs text-stone-500 mt-2 max-w-xs mx-auto leading-relaxed">
             El mejor regalo es tu presencia. Si deseas realizarnos un obsequio para nuestra luna de miel, puedes hacerlo a nuestra cuenta bancaria.
         </p>
-        <button onclick="toggleModal(true)" class="mt-4 py-3 px-6 bg-white/90 hover:bg-white border border-stone-200/80 text-stone-700 font-medium rounded-xl text-xs transition shadow-sm inline-flex items-center gap-2">
-            <i data-lucide="credit-card" class="w-4 h-4 text-amber-800"></i>
+
+        <button onclick="toggleGiftDetails()" id="gift-toggle-btn" class="mt-4 w-full max-w-xs mx-auto py-3 px-6 bg-white/90 hover:bg-white border border-stone-200/80 text-stone-700 font-medium rounded-xl text-xs transition shadow-sm flex items-center justify-center gap-2">
+            <i data-lucide="credit-card" class="w-4 h-4 text-[#7A8570]"></i>
             Ver Datos de Transferencia
+            <i data-lucide="chevron-down" id="gift-chevron" class="w-4 h-4 text-stone-400 accordion-chevron"></i>
         </button>
+
+        <div id="gift-panel" class="accordion-panel max-w-xs mx-auto">
+            <div class="bg-white p-4 rounded-xl border border-stone-200/60 text-left text-xs space-y-1.5 text-stone-700 font-mono mt-3 shadow-sm">
+                <p><strong>Banco:</strong> Banco Falabella / Santander</p>
+                <p><strong>Tipo:</strong> Cuenta Corriente / Vista</p>
+                <p><strong>Rut:</strong> XX.XXX.XXX-X</p>
+                <p><strong>Email:</strong> ejemplo@email.com</p>
+            </div>
+        </div>
     </section>
 
     <!-- Módulo Spotify: Pide tu Canción para la Fiesta -->
     <section class="w-full px-6 py-8">
-        <div class="rounded-2xl p-6 text-center shadow-xl border border-amber-400/30" style="background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);">
+        <div class="rounded-2xl p-6 text-center shadow-xl border border-[#8A9681]/30" style="background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);">
             <i data-lucide="disc-3" class="w-8 h-8 mx-auto text-emerald-400 mb-3"></i>
             <h3 class="text-xl font-serif-custom font-bold text-white">¡Pide tu Canción para la Fiesta!</h3>
             <p class="text-[11px] text-stone-300 mt-2 max-w-xs mx-auto leading-relaxed">
@@ -344,50 +631,66 @@
                 <i data-lucide="music-2" class="w-4 h-4"></i>
                 Agregar canción en Spotify
             </a>
-            <p class="text-[10px] text-amber-300/80 mt-3 tracking-wide">🎶 ¡Que no falte tu tema favorito en la pista de baile!</p>
+            <p class="text-[10px] text-[#A8B398]/80 mt-3 tracking-wide">🎶 ¡Que no falte tu tema favorito en la pista de baile!</p>
         </div>
     </section>
 
     <!-- Formulario RSVP -->
-    <section class="w-full px-6 py-8 border-t border-stone-200/60 bg-white/90 rounded-2xl shadow-sm my-4 mx-2">
+    <section class="w-full px-6 py-8 bg-white/90 rounded-2xl shadow-sm my-4 mx-2">
         <div class="text-center mb-6">
-            <i data-lucide="mail-check" class="w-7 h-7 mx-auto text-amber-800 mb-2"></i>
+            <i data-lucide="mail-check" class="w-7 h-7 mx-auto text-[#7A8570] mb-2"></i>
             <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Confirmar Asistencia</h3>
             <p class="text-xs text-stone-500 mt-1">¿Nos acompañas en este gran día?</p>
+            <p id="cupos-notice" class="hidden text-xs font-semibold text-[#5c6650] bg-[#EFE8D9] inline-block px-4 py-2 rounded-full mt-3"></p>
         </div>
 
         <form id="rsvp-form" onsubmit="handleRSVP(event)" class="space-y-4">
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">Nombre Completo *</label>
-                <input type="text" id="rsvp-name" required placeholder="Ej: Juan Pérez" class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#F4F1EA]">
+                <input type="text" id="rsvp-name" required placeholder="Ej: Juan Pérez" class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#7A8570] bg-[#F6F1E7]">
             </div>
 
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">¿Asistirás al matrimonio? *</label>
-                <select id="rsvp-status" required class="w-full p-3 border border-stone-200 rounded-xl text-xs bg-[#F4F1EA] focus:outline-none focus:ring-2 focus:ring-amber-800">
+                <select id="rsvp-status" required class="w-full p-3 border border-stone-200 rounded-xl text-xs bg-[#F6F1E7] focus:outline-none focus:ring-2 focus:ring-[#7A8570]">
                     <option value="">Selecciona una opción</option>
                     <option value="Si">¡Sí, ahí estaré celebrando!</option>
                     <option value="No">Lamentablemente no podré ir</option>
                 </select>
             </div>
 
+            <div id="guests-select-wrapper">
+                <label class="block text-xs font-semibold text-stone-600 mb-1">Cantidad de Asistentes *</label>
+                <select id="rsvp-guests" required onchange="handleGuestsChange(this.value)" class="w-full p-3 border border-stone-200 rounded-xl text-xs bg-[#F6F1E7] focus:outline-none focus:ring-2 focus:ring-[#7A8570]">
+                    <option value="">Selecciona una cantidad</option>
+                    <option value="1">1 persona</option>
+                    <option value="2">2 personas</option>
+                    <option value="3">3 personas</option>
+                    <option value="4">4 personas</option>
+                    <option value="5+">5 o más personas</option>
+                </select>
+            </div>
+
+            <div id="companion-fields" class="space-y-3"></div>
+
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">Restricciones Alimentarias / Alergias</label>
-                <input type="text" id="rsvp-diet" placeholder="Ej: Vegetariano, celíaco, ninguno..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#F4F1EA]">
+                <input type="text" id="rsvp-diet" placeholder="Ej: Vegetariano, celíaco, ninguno..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#7A8570] bg-[#F6F1E7]">
             </div>
 
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">¿Qué canción no puede faltar en la fiesta?</label>
-                <input type="text" id="rsvp-song" placeholder="Ej: Bad Bunny - Titi Me Pregunto" class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#F4F1EA]">
+                <input type="text" id="rsvp-song" placeholder="Ej: Bad Bunny - Titi Me Pregunto" class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#7A8570] bg-[#F6F1E7]">
             </div>
 
             <div>
                 <label class="block text-xs font-semibold text-stone-600 mb-1">Mensaje para los Novios</label>
-                <textarea id="rsvp-message" rows="2" placeholder="Déjanos unas palabras..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-800 bg-[#F4F1EA]"></textarea>
+                <textarea id="rsvp-message" rows="2" placeholder="Déjanos unas palabras..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#7A8570] bg-[#F6F1E7]"></textarea>
             </div>
 
-            <button type="submit" class="w-full py-3.5 bg-stone-900 hover:bg-stone-800 text-white font-medium rounded-xl shadow transition text-xs uppercase tracking-wider">
-                Confirmar Asistencia
+            <button type="submit" id="rsvp-submit-btn" class="w-full py-3.5 bg-stone-900 hover:bg-stone-800 text-white font-medium rounded-xl shadow transition text-xs uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                <i id="rsvp-submit-spinner" data-lucide="loader-2" class="w-4 h-4 animate-spin hidden"></i>
+                <span id="rsvp-submit-text">Confirmar Asistencia</span>
             </button>
         </form>
         <p id="rsvp-feedback" class="text-xs text-center mt-3 hidden font-semibold"></p>
@@ -401,36 +704,89 @@
         </div>
     </section>
 
+    <div class="leaf-divider w-full pt-2 pb-4">
+        <svg class="w-6 h-6" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+    </div>
+
 </main>
 
-<!-- Modal Datos Bancarios -->
-<div id="gift-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl relative border border-stone-100">
-        <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-stone-400 hover:text-stone-600">
-            <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-        <i data-lucide="gift" class="w-8 h-8 mx-auto text-amber-800 mb-2"></i>
-        <h3 class="text-2xl font-serif-custom font-bold text-stone-800 mb-2">Mesa de Regalos</h3>
-        <p class="text-xs text-stone-500 mb-4 leading-relaxed">
-            Tu presencia es lo más importante. Si deseas realizar un regalo a nuestra cuenta bancaria:
-        </p>
-        <div class="bg-[#F4F1EA] p-4 rounded-xl border border-stone-200/60 text-left text-xs space-y-1.5 text-stone-700 font-mono">
-            <p><strong>Banco:</strong> Banco Falabella / Santander</p>
-            <p><strong>Tipo:</strong> Cuenta Corriente / Vista</p>
-            <p><strong>Rut:</strong> XX.XXX.XXX-X</p>
-            <p><strong>Email:</strong> ejemplo@email.com</p>
-        </div>
-        <button onclick="toggleModal(false)" class="mt-5 w-full py-2.5 bg-stone-800 text-white text-xs rounded-xl font-medium">
-            Cerrar
-        </button>
-    </div>
-</div>
-
 <!-- Scripts -->
-<script src="script.js"></script>
 <script>
     lucide.createIcons();
 
+    /* ===== URL del Web App de Google Apps Script =====
+       Reemplaza este valor por la URL de implementación de tu Apps Script
+       (Implementar > Nueva implementación > Aplicación web > Acceso: Cualquier usuario). */
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyimvgU7DeVcMJBFcBAPcdilyt4Lk8__83RbWWBF_0m_6KZw9XVEgGD-0tApL2O5_EG/exec";
+
+    /* ===== Personalización por Parámetros de URL (?nombre=...&cupos=...) ===== */
+    const urlParams = new URLSearchParams(window.location.search);
+    const guestParam = urlParams.get('nombre');
+    const cuposParam = parseInt(urlParams.get('cupos'), 10);
+    const hasCupos = !isNaN(cuposParam) && cuposParam > 0;
+
+    function applyGuestPersonalization() {
+        // textContent (no innerHTML) evita que el parámetro de la URL inyecte HTML/JS
+        document.getElementById('guest-name').textContent = guestParam ? `¡Hola, ${guestParam}!` : '¡Bienvenido(a)!';
+
+        if (guestParam) {
+            document.getElementById('rsvp-name').value = guestParam;
+        }
+
+        if (hasCupos) {
+            const cuposNotice = document.getElementById('cupos-notice');
+            cuposNotice.textContent = cuposParam > 1
+                ? `Hemos reservado ${cuposParam} cupos para ti y ${cuposParam > 2 ? 'tus acompañantes' : 'tu acompañante'}`
+                : 'Hemos reservado 1 cupo para ti';
+            cuposNotice.classList.remove('hidden');
+
+            // El cupo ya viene definido por la URL: se oculta el selector manual y se fija su valor
+            document.getElementById('guests-select-wrapper').classList.add('hidden');
+            const guestsSelect = document.getElementById('rsvp-guests');
+            guestsSelect.required = false;
+            guestsSelect.value = cuposParam <= 4 ? String(cuposParam) : '5+';
+
+            renderCompanionFields(cuposParam);
+        }
+    }
+
+    /* ===== Campos dinámicos de acompañantes ===== */
+    function renderCompanionFields(count) {
+        const container = document.getElementById('companion-fields');
+        container.innerHTML = '';
+        if (!count || count <= 1) return;
+
+        if (count > 5) {
+            // Para grupos grandes, un campo de texto libre es más práctico que N inputs
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = `
+                <label class="block text-xs font-semibold text-stone-600 mb-1">Nombres de tus acompañantes</label>
+                <textarea id="rsvp-companions" rows="2" placeholder="Nombre y apellido de cada acompañante (opcional)" class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#7A8570] bg-[#F6F1E7]"></textarea>
+            `;
+            container.appendChild(wrapper);
+            return;
+        }
+
+        for (let i = 1; i < count; i++) {
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = `
+                <label class="block text-xs font-semibold text-stone-600 mb-1">Nombre del acompañante ${i}</label>
+                <input type="text" class="rsvp-companion-input w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#7A8570] bg-[#F6F1E7]" placeholder="Nombre completo (opcional)">
+            `;
+            container.appendChild(wrapper);
+        }
+    }
+
+    // Solo aplica cuando no hay cupos fijados por URL: el invitado elige manualmente
+    function handleGuestsChange(value) {
+        if (hasCupos) return;
+        const count = value === '5+' ? 6 : parseInt(value, 10);
+        renderCompanionFields(count || 0);
+    }
+
+    applyGuestPersonalization();
+
+    /* ===== Apertura del Sobre ===== */
     function openEnvelope() {
         const topFlap = document.getElementById('top-flap');
         const sealBtn = document.getElementById('seal-btn');
@@ -438,19 +794,138 @@
         const footerText = document.getElementById('footer-text');
         const envelopeScreen = document.getElementById('envelope-screen');
 
+        // La música arranca en el mismo instante en que se inicia la secuencia
+        toggleMusic();
+
+        // FASE 1 (0s): el sello escala hacia el frente y desaparece. Los textos
+        // se desvanecen en paralelo para que no queden "flotando" sobre la animación.
+        sealBtn.classList.add('seal-zoom-forward');
         headerText.classList.add('fade-out-fast');
         footerText.classList.add('fade-out-fast');
-        sealBtn.classList.add('seal-zoom-forward');
 
+        // FASE 2 (0.3s): recién CUANDO el sello ya desapareció, rota la solapa.
+        // Esperar a que termine la Fase 1 evita que ambas animaciones "choquen" visualmente.
         setTimeout(() => {
             topFlap.classList.add('flap-open');
-        }, 100);
+        }, 300);
 
+        // FASE 3 (0.9s): con la solapa ya abierta, el contenedor completo se desvanece
+        // y libera los eventos de puntero, revelando la invitación.
         setTimeout(() => {
             envelopeScreen.classList.add('envelope-screen-fade');
-        }, 450);
+        }, 1000);
+    }
 
-        toggleMusic();
+    /* ===== Cuenta Regresiva ===== */
+    const eventDate = new Date("2027-02-06T18:30:00").getTime();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = eventDate - now;
+
+        if (distance < 0) {
+            document.getElementById("countdown").innerHTML = "<p class='col-span-4 text-center font-bold text-stone-700'>¡Hoy es nuestro gran día!</p>";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerText = days < 10 ? '0' + days : days;
+        document.getElementById("hours").innerText = hours < 10 ? '0' + hours : hours;
+        document.getElementById("minutes").innerText = minutes < 10 ? '0' + minutes : minutes;
+        document.getElementById("seconds").innerText = seconds < 10 ? '0' + seconds : seconds;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    /* ===== Acordeón Mesa de Regalos ===== */
+    function toggleGiftDetails() {
+        const panel = document.getElementById('gift-panel');
+        const chevron = document.getElementById('gift-chevron');
+        panel.classList.toggle('open');
+        chevron.classList.toggle('rotated');
+    }
+
+    /* ===== Reproductor de Música de Fondo ===== */
+    let isPlaying = false;
+    function toggleMusic() {
+        const music = document.getElementById('bg-music');
+        const icon = document.getElementById('music-icon');
+
+        if (isPlaying) {
+            music.pause();
+            icon.setAttribute('data-lucide', 'music');
+        } else {
+            music.play();
+            icon.setAttribute('data-lucide', 'pause');
+        }
+        isPlaying = !isPlaying;
+        lucide.createIcons();
+    }
+
+    /* ===== Envío del Formulario RSVP a Google Apps Script ===== */
+    function handleRSVP(event) {
+        event.preventDefault();
+
+        const submitBtn = document.getElementById('rsvp-submit-btn');
+        const submitText = document.getElementById('rsvp-submit-text');
+        const submitSpinner = document.getElementById('rsvp-submit-spinner');
+        const feedback = document.getElementById('rsvp-feedback');
+
+        const name = document.getElementById('rsvp-name').value;
+        const status = document.getElementById('rsvp-status').value;
+        const guests = document.getElementById('rsvp-guests').value || String(hasCupos ? cuposParam : 1);
+        const diet = document.getElementById('rsvp-diet').value;
+        const song = document.getElementById('rsvp-song').value;
+        const message = document.getElementById('rsvp-message').value;
+
+        const companionInputs = document.querySelectorAll('.rsvp-companion-input');
+        const companionsTextarea = document.getElementById('rsvp-companions');
+        const companions = companionInputs.length > 0
+            ? Array.from(companionInputs).map(input => input.value).filter(Boolean).join(', ')
+            : (companionsTextarea ? companionsTextarea.value : '');
+
+        // Deshabilita el botón y muestra el spinner para evitar envíos duplicados por doble clic
+        submitBtn.disabled = true;
+        submitText.textContent = 'Enviando...';
+        submitSpinner.classList.remove('hidden');
+        feedback.classList.add('hidden');
+
+        const payload = new FormData();
+        payload.append('nombre', name);
+        payload.append('asistencia', status);
+        payload.append('cupos', guests);
+        payload.append('acompanantes', companions);
+        payload.append('restricciones', diet);
+        payload.append('cancion', song);
+        payload.append('mensaje', message);
+
+        // mode: 'no-cors' es obligatorio porque los Web Apps de Apps Script no
+        // devuelven cabeceras CORS; a cambio la respuesta llega "opaca" (no se
+        // puede leer su contenido), así que solo nos sirve para detectar fallos de red reales.
+        fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: payload })
+            .then(() => {
+                feedback.classList.remove('hidden');
+                feedback.className = "text-xs text-center mt-3 font-semibold text-emerald-700";
+                feedback.innerText = `¡Muchas gracias ${name}! Tu respuesta ha sido registrada exitosamente.`;
+                document.getElementById('rsvp-form').reset();
+                document.getElementById('companion-fields').innerHTML = '';
+                submitText.textContent = '¡Respuesta Enviada!';
+            })
+            .catch(() => {
+                feedback.classList.remove('hidden');
+                feedback.className = "text-xs text-center mt-3 font-semibold text-red-600";
+                feedback.innerText = 'No pudimos enviar tu respuesta. Revisa tu conexión e inténtalo nuevamente.';
+                submitBtn.disabled = false;
+                submitText.textContent = 'Confirmar Asistencia';
+            })
+            .finally(() => {
+                submitSpinner.classList.add('hidden');
+            });
     }
 </script>
 </body>
