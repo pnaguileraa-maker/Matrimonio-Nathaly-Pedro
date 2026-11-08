@@ -31,13 +31,14 @@
 
     <style>
         :root {
-            --cream: #F6F1E7;
-            --cream-deep: #EFE8D9;
-            --ink: #4A3F33;
-            --ink-soft: #8A7D6B;
-            --sage: #8A9681;
-            --sage-deep: #7A8570;
-            --gold: #B8935B;
+            --cream: #F7F6F2;
+            --forest: #1E4338;
+            --forest-deep: #15322A;
+            --sage: #5B7B6D;
+            --sage-deep: #4C6A5D;
+            --gold: #C5A059;
+            --gold-deep: #D4AF37;
+            --ink: #2B352E;
         }
 
         .font-serif-custom { font-family: 'Playfair Display', serif; }
@@ -50,11 +51,11 @@
         }
 
         /* ===== DECORACIÓN BOTÁNICA ===== */
-        .leaf-sprig { color: var(--sage); }
+        .leaf-sprig { color: var(--gold); }
         .leaf-corner {
             position: absolute;
             pointer-events: none;
-            opacity: 0.35;
+            opacity: 0.4;
             filter: blur(0.2px);
         }
         .leaf-divider {
@@ -62,14 +63,14 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            color: var(--sage-deep);
-            opacity: 0.6;
+            color: var(--gold);
+            opacity: 0.75;
         }
         .leaf-divider .line {
             height: 1px;
             width: 2.5rem;
             background: currentColor;
-            opacity: 0.4;
+            opacity: 0.5;
         }
 
         /* Flores de esquina: imágenes reales (PNG transparente), no formas CSS.
@@ -86,15 +87,15 @@
         .floral-tl { top: 0; left: 0; }
         .floral-bl { bottom: 0; left: 0; }
 
-        /* SOBRE 3D COMPACTO EN VERDE SALVIA: papel completamente liso, sin texto gofrado */
+        /* SOBRE 3D EN VERDE BOSQUE OSCURO: papel liso, sin texto gofrado */
         .envelope-perspective {
             perspective: 1200px;
         }
 
         .envelope-card {
-            background: #7A8570;
+            background: var(--forest);
             border-radius: 1.25rem;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.25), 0 8px 16px -6px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.35), 0 8px 16px -6px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: visible;
         }
@@ -109,10 +110,10 @@
             right: 0;
             height: 100%;
             clip-path: polygon(0 0, 100% 0, 50% 52%);
-            background: #7A8570;
+            background: var(--forest-deep);
             border-radius: 1.25rem 1.25rem 0 0;
             transform-origin: top;
-            filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.22));
+            filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.3));
             backface-visibility: hidden;
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 5;
@@ -122,23 +123,23 @@
             transform: rotateX(180deg);
         }
 
-        /* SELLO DE LACRE DORADO (base #C99A41): centrado absoluto estricto, anclado al
-           vértice exacto de la "V" (65%). No hay transform en :hover/:active — el único
-           cambio de transform ocurre en .seal-zoom-forward, que respeta el translate de centrado. */
+        /* SELLO DE LACRE DORADO: centrado absoluto estricto, anclado al vértice exacto de
+           la "V" (52%). No hay transform en :hover/:active — el único cambio de transform
+           ocurre en .seal-zoom-forward, que respeta el translate de centrado. */
         .wax-seal-btn {
             position: absolute;
             top: 52%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: radial-gradient(circle at 35% 35%, #E8E6DE 0%, #B0AEA3 50%, #6E6C62 100%);
+            background: radial-gradient(circle at 35% 35%, #F3E1AE 0%, var(--gold-deep) 55%, #8A6A20 100%);
             box-shadow:
-                0 8px 16px -3px rgba(40, 40, 36, 0.45),
-                0 3px 6px -1px rgba(30, 30, 26, 0.3),
-                inset -2px -2px 4px rgba(255, 255, 250, 0.6),
-                inset 2px 3px 5px rgba(50, 50, 44, 0.45),
-                inset 0 0 0 1.5px rgba(230, 230, 222, 0.4),
-                0 0 0 0 rgba(176, 174, 163, 0.5);
-            border: 1.5px solid rgba(235, 235, 228, 0.55);
+                0 8px 16px -3px rgba(60, 44, 10, 0.5),
+                0 3px 6px -1px rgba(50, 36, 6, 0.35),
+                inset -2px -2px 4px rgba(255, 248, 225, 0.6),
+                inset 2px 3px 5px rgba(70, 50, 10, 0.45),
+                inset 0 0 0 1.5px rgba(255, 236, 180, 0.4),
+                0 0 0 0 rgba(212, 175, 55, 0.5);
+            border: 1.5px solid rgba(255, 240, 200, 0.5);
             z-index: 20;
             transform-style: preserve-3d;
             transition: box-shadow 0.3s ease, opacity 0.8s ease-out;
@@ -154,7 +155,7 @@
             position: absolute;
             inset: -5px;
             border-radius: 50%;
-            border: 2px dotted rgba(176, 174, 163, 0.45);
+            border: 2px dotted rgba(212, 175, 55, 0.5);
             pointer-events: none;
         }
 
@@ -164,7 +165,7 @@
             position: absolute;
             inset: 0;
             border-radius: 50%;
-            border: 1.5px solid rgba(176, 174, 163, 0.6);
+            border: 1.5px solid rgba(212, 175, 55, 0.65);
             animation: pulse-ring 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
             pointer-events: none;
         }
@@ -177,21 +178,21 @@
         @keyframes seal-pulse {
             0%, 100% {
                 box-shadow:
-                    0 8px 16px -3px rgba(80, 56, 10, 0.5),
-                    0 3px 6px -1px rgba(60, 40, 5, 0.35),
-                    inset -2px -2px 4px rgba(255, 245, 210, 0.55),
-                    inset 2px 3px 5px rgba(70, 48, 10, 0.5),
-                    inset 0 0 0 1.5px rgba(255, 230, 160, 0.35),
-                    0 0 0 0 rgba(176, 174, 163, 0.4);
+                    0 8px 16px -3px rgba(60, 44, 10, 0.5),
+                    0 3px 6px -1px rgba(50, 36, 6, 0.35),
+                    inset -2px -2px 4px rgba(255, 248, 225, 0.6),
+                    inset 2px 3px 5px rgba(70, 50, 10, 0.45),
+                    inset 0 0 0 1.5px rgba(255, 236, 180, 0.4),
+                    0 0 0 0 rgba(212, 175, 55, 0.4);
             }
             50% {
                 box-shadow:
-                    0 8px 18px -3px rgba(40, 40, 36, 0.5),
-                    0 3px 6px -1px rgba(30, 30, 26, 0.3),
-                    inset -2px -2px 4px rgba(255, 255, 250, 0.7),
-                    inset 2px 3px 5px rgba(50, 50, 44, 0.5),
-                    inset 0 0 0 1.5px rgba(230, 230, 222, 0.4),
-                    0 0 0 6px rgba(176, 174, 163, 0);
+                    0 8px 18px -3px rgba(60, 44, 10, 0.55),
+                    0 3px 6px -1px rgba(50, 36, 6, 0.4),
+                    inset -2px -2px 4px rgba(255, 250, 230, 0.7),
+                    inset 2px 3px 5px rgba(70, 50, 10, 0.5),
+                    inset 0 0 0 1.5px rgba(255, 236, 180, 0.45),
+                    0 0 0 6px rgba(212, 175, 55, 0);
             }
         }
 
@@ -221,40 +222,97 @@
             transition: opacity 0.6s ease;
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-        }
-
         /* ===== LINE ART VESTIMENTA ===== */
-        .attire-icon { color: var(--ink-soft); }
+        .attire-icon { color: #F7F6F2; }
 
-        /* ===== ACORDEÓN REGALOS ===== */
-        .accordion-panel {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .accordion-panel.open {
-            max-height: 320px;
-        }
-        .accordion-chevron {
-            transition: transform 0.4s ease;
-        }
-        .accordion-chevron.rotated {
-            transform: rotate(180deg);
+        /* ===== TARJETAS VERDE SALVIA ===== */
+        .sage-card {
+            background: var(--sage);
         }
 
-        /* Polaroid collage */
+        /* ===== MODAL DE REGALOS ===== */
+        .modal-overlay {
+            background: rgba(20, 28, 24, 0.55);
+            backdrop-filter: blur(4px);
+        }
+
         .polaroid {
             background: #fff;
             padding: 10px 10px 22px 10px;
-            box-shadow: 0 10px 20px -6px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 20px -6px rgba(0,0,0,0.2);
             border: 1px solid rgba(0,0,0,0.04);
         }
+
+        /* ===== CARRUSEL DE FOTOS ===== */
+        .gallery-track {
+            display: flex;
+            gap: 0.9rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 0.5rem;
+        }
+        .gallery-track::-webkit-scrollbar { height: 5px; }
+        .gallery-track::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+        .gallery-item {
+            flex: 0 0 72%;
+            scroll-snap-align: center;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 24px -8px rgba(0,0,0,0.25);
+        }
+
+        /* ===== TIMELINE CURVO (Itinerario) ===== */
+        .timeline-track {
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 0.5rem 0 0.75rem;
+        }
+        .timeline-wave {
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 100%;
+            height: 55px;
+            z-index: 0;
+        }
+        .timeline-stop {
+            position: relative;
+            z-index: 1;
+            flex: 1 1 0;
+            text-align: center;
+        }
+        .timeline-stop.is-up { margin-top: 0; }
+        .timeline-stop.is-down { margin-top: 26px; }
+
+        /* ===== CAJAS CUENTA REGRESIVA (sobre fondo verde bosque) ===== */
+        .countdown-box {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+        }
+
+        /* ===== INPUTS SOBRE FONDO OSCURO (RSVP) ===== */
+        .dark-input {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #F7F6F2;
+        }
+        .dark-input::placeholder { color: rgba(247, 246, 242, 0.45); }
+        .dark-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.3);
+        }
+        .dark-input option { color: #1E4338; }
+
+        /* ===== ACORDEÓN (compatibilidad, no usado por el modal) ===== */
+        .accordion-chevron { transition: transform 0.4s ease; }
+        .accordion-chevron.rotated { transform: rotate(180deg); }
     </style>
 </head>
-<body class="text-stone-800 font-sans-custom antialiased selection:bg-[#DCE1D3] min-h-screen">
+<body class="text-[#2B352E] font-sans-custom antialiased selection:bg-[#C5A059]/30 min-h-screen">
 
 <!-- Sprite SVG oculto: sprig botánico reutilizable (separadores de sección) -->
 <svg style="display:none" aria-hidden="true">
@@ -267,9 +325,9 @@
 </svg>
 
 <!-- PANTALLA SOBRE INICIAL -->
-<div id="envelope-screen" class="fixed inset-0 min-h-[100dvh] z-50 bg-[#F9F9F8] flex flex-col items-center justify-center overflow-hidden p-6 text-center select-none">
+<div id="envelope-screen" class="fixed inset-0 min-h-[100dvh] z-50 bg-[#F7F6F2] flex flex-col items-center justify-center overflow-hidden p-6 text-center select-none">
 
-    <!-- Flores de esquina: fotos reales en PNG transparente (ramas/hojas botánicas).
+    <!-- Flores de esquina: fotos reales en PNG transparente (ramas/hojas botánicas en acuarela).
          Coloca los archivos en la raíz del proyecto, junto a portada.jpg, con estos nombres exactos:
          flor-superior-izquierda.png y flor-inferior-izquierda.png
          Mientras no existan, el onerror las oculta en vez de mostrar el ícono de imagen rota. -->
@@ -278,13 +336,13 @@
 
     <div class="relative w-full max-w-[360px] flex flex-col items-center space-y-6" style="z-index: 10;">
 
-        <!-- Encabezado: versalitas pequeñas arriba, calígrafa negra grande debajo -->
+        <!-- Encabezado: versalitas pequeñas arriba, calígrafa dorada grande debajo -->
         <div id="header-text" class="space-y-1 transition-opacity duration-300">
-            <p class="font-serif-custom text-xs uppercase tracking-[0.2em] text-[#2b2b2b] font-semibold">¡Nos Casamos!</p>
-            <h1 class="font-script-custom text-5xl sm:text-6xl text-black leading-tight">Nathaly &amp; Pedro</h1>
+            <p class="font-serif-custom text-xs uppercase tracking-[0.2em] text-[#2B352E] font-semibold">¡Nos Casamos!</p>
+            <h1 class="font-script-custom text-5xl sm:text-6xl leading-tight" style="color: var(--gold-deep);">Nathaly &amp; Pedro</h1>
         </div>
 
-        <!-- Sobre 3D: formato horizontal clásico, bajo y ancho -->
+        <!-- Sobre 3D: formato horizontal clásico, bajo y ancho, verde bosque oscuro -->
         <div class="envelope-perspective w-full">
             <div id="envelope-body" class="relative w-full max-w-[340px] mx-auto h-[220px] envelope-card">
 
@@ -292,25 +350,25 @@
 
                 <!-- Sello de Lacre: el centrado (left/top/translate) vive SOLO en la clase .wax-seal-btn (CSS),
                      para que no pueda desviarse en :hover/:active ni durante el zoom de apertura -->
-                <button id="seal-btn" onclick="openEnvelope()" class="w-16 h-16 wax-seal-btn rounded-full flex items-center justify-center cursor-pointer">
-                    <span class="font-serif-custom text-[#3a3a36] text-base font-bold tracking-wide" style="text-shadow: 0 1px 1px rgba(255,255,255,0.4), 0 -1px 0 rgba(0,0,0,0.2);">N&amp;P</span>
+                <button id="seal-btn" onclick="openEnvelope()" aria-label="Abrir invitación" class="w-16 h-16 wax-seal-btn rounded-full flex items-center justify-center cursor-pointer">
+                    <span class="font-serif-custom text-[#3a2c0d] text-base font-bold tracking-wide" style="text-shadow: 0 1px 1px rgba(255,255,255,0.35), 0 -1px 0 rgba(0,0,0,0.15);">N&amp;P</span>
                 </button>
 
                 <!-- "Haz clic aquí", integrado justo debajo de la cera -->
-                <p class="absolute left-1/2 top-[68%] -translate-x-1/2 w-full text-center text-[9px] text-stone-500 tracking-wide" style="z-index: 2;">Haz clic aquí</p>
+                <p class="absolute left-1/2 top-[68%] -translate-x-1/2 w-full text-center text-[9px] tracking-wide" style="z-index: 2; color: rgba(247,246,242,0.65);">Haz clic aquí</p>
             </div>
         </div>
 
         <!-- Pie: invitado, frase, divisor y fecha -->
         <div id="footer-text" class="space-y-2 transition-opacity duration-300">
-            <p id="guest-name" class="font-sans-custom text-sm text-stone-700">Familia &amp; Amigos</p>
-            <p class="font-sans-custom text-xs text-stone-500">El comienzo de nuestro para siempre.</p>
-            <div class="flex items-center justify-center gap-2 text-[#7A8570] opacity-70 py-1">
-                <span class="h-px w-6 bg-current"></span>
+            <p id="guest-name" class="font-sans-custom text-sm text-[#2B352E]">Familia &amp; Amigos</p>
+            <p class="font-sans-custom text-xs text-[#2B352E]/70">El comienzo de nuestro para siempre.</p>
+            <div class="flex items-center justify-center gap-2 py-1" style="color: var(--gold);">
+                <span class="h-px w-6 bg-current opacity-60"></span>
                 <svg class="w-3.5 h-3.5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-                <span class="h-px w-6 bg-current"></span>
+                <span class="h-px w-6 bg-current opacity-60"></span>
             </div>
-            <p class="font-serif-custom text-xs uppercase tracking-[0.2em] text-stone-700">06 de Febrero de 2027</p>
+            <p class="font-serif-custom text-xs uppercase tracking-[0.2em] text-[#2B352E]">06 de Febrero de 2027</p>
         </div>
 
     </div>
@@ -318,11 +376,11 @@
 
 <!-- Control de Música Flotante con "Sarà perché ti amo" -->
 <div class="fixed top-4 right-4 z-40 flex items-center gap-2">
-    <div class="bg-stone-900/90 text-white text-[10px] px-3 py-1.5 rounded-full backdrop-blur shadow-md font-medium tracking-wide">
+    <div class="bg-[#1E4338]/90 text-[#F7F6F2] text-[10px] px-3 py-1.5 rounded-full backdrop-blur shadow-md font-medium tracking-wide">
         🎵 Sarà perché ti amo
     </div>
-    <button id="music-btn" onclick="toggleMusic()" class="bg-white/90 backdrop-blur border border-stone-200/80 p-3 rounded-full shadow-lg text-stone-700 hover:text-stone-900 transition flex items-center justify-center">
-        <i id="music-icon" data-lucide="music" class="w-5 h-5 text-[#5c6650]"></i>
+    <button id="music-btn" onclick="toggleMusic()" class="bg-white/90 backdrop-blur border border-[#C5A059]/50 p-3 rounded-full shadow-lg text-[#1E4338] hover:text-[#C5A059] transition flex items-center justify-center">
+        <i id="music-icon" data-lucide="music" class="w-5 h-5" style="color: var(--gold-deep);"></i>
     </button>
     <audio id="bg-music" loop>
         <source src="sara-perche-ti-amo.mp3" type="audio/mpeg">
@@ -331,125 +389,167 @@
 </div>
 
 <!-- CONTENIDO PRINCIPAL DE LA INVITACIÓN -->
-<main class="max-w-md mx-auto bg-[#F6F1E7] min-h-screen shadow-2xl flex flex-col items-center pb-16 relative overflow-hidden">
+<main class="max-w-md mx-auto bg-[#F7F6F2] min-h-screen shadow-2xl flex flex-col items-center relative overflow-hidden">
 
-    <!-- INICIO CON FOTO DE FONDO (ESTILO REFERENCIA) -->
+    <!-- PORTADA BOTÁNICA: nombres sobre la foto + fecha + ubicación -->
     <header class="w-full relative min-h-screen flex flex-col items-center justify-between text-center p-6 bg-cover bg-center" style="background-image: url('portada.jpg');">
 
         <!-- Capa clara semitransparente que suaviza la imagen de fondo -->
-        <div class="absolute inset-0 bg-[#F6F1E7]/75 backdrop-blur-[2px]"></div>
+        <div class="absolute inset-0 bg-[#F7F6F2]/75 backdrop-blur-[2px]"></div>
 
-        <!-- Detalles botánicos de esquina del hero -->
+        <!-- Detalles botánicos de esquina del hero, en tono dorado -->
         <svg class="leaf-corner w-24 h-24 top-4 left-2 z-[5]" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
         <svg class="leaf-corner w-24 h-24 bottom-4 right-2 z-[5]" viewBox="0 0 100 100" style="transform: rotate(180deg);"><use href="#leaf-sprig"/></svg>
 
         <div class="relative z-10 w-full pt-10 space-y-2">
-            <p class="text-[11px] uppercase tracking-[0.3em] text-stone-500 font-semibold px-4">Acompáñanos a celebrar nuestra boda</p>
-            <div class="w-8 h-[1px] bg-stone-400 mx-auto opacity-50"></div>
+            <p class="text-[11px] uppercase tracking-[0.3em] font-semibold px-4" style="color: var(--ink);">Acompáñanos a celebrar nuestra boda</p>
+            <div class="w-8 h-[1px] mx-auto opacity-50" style="background: var(--gold);"></div>
         </div>
 
         <!-- Nombres Centrales Grandes -->
         <div class="relative z-10 w-full space-y-1 my-auto py-6">
-            <h1 class="text-6xl font-script-custom text-stone-900 tracking-wide">Nathaly</h1>
-            <p class="text-xl font-serif-custom italic text-stone-400 font-light">&amp;</p>
-            <h1 class="text-6xl font-script-custom text-stone-900 tracking-wide">Pedro</h1>
+            <h1 class="text-6xl font-script-custom tracking-wide" style="color: var(--gold-deep);">Nathaly</h1>
+            <p class="text-xl font-serif-custom italic font-light" style="color: var(--gold);">&amp;</p>
+            <h1 class="text-6xl font-script-custom tracking-wide" style="color: var(--gold-deep);">Pedro</h1>
         </div>
 
         <!-- Detalles Inferiores -->
         <div class="relative z-10 w-full space-y-3 pb-8">
-            <div class="w-8 h-[1px] bg-stone-400 mx-auto opacity-50"></div>
-            <p class="text-[11px] uppercase tracking-[0.25em] text-stone-500 font-semibold">SAVE THE DATE</p>
-            <p class="text-sm font-serif-custom font-medium text-stone-800">Sábado, 06 de Febrero de 2027</p>
-            <p class="text-xs text-stone-600 font-medium tracking-wider">18:30 hrs</p>
-            <p class="text-[11px] text-stone-400 tracking-widest pt-1">CHILLÁN, CHILE</p>
+            <div class="w-8 h-[1px] mx-auto opacity-50" style="background: var(--gold);"></div>
+            <p class="text-[11px] uppercase tracking-[0.25em] font-semibold" style="color: var(--ink); opacity: 0.8;">Save the Date</p>
+            <p class="text-sm font-serif-custom font-medium" style="color: var(--ink);">Sábado, 06 de Febrero de 2027</p>
+            <p class="text-xs font-medium tracking-wider" style="color: var(--ink); opacity: 0.75;">18:30 hrs</p>
+            <p class="text-[11px] tracking-widest" style="color: var(--ink); opacity: 0.6;">CHILLÁN, CHILE</p>
+
+            <a href="https://maps.app.goo.gl/tSTQGXgVq4JnNagX6?g_st=iw" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex items-center justify-center gap-2 py-3 px-6 font-semibold rounded-full text-[11px] uppercase tracking-wider shadow-lg transition hover:brightness-110" style="background: var(--gold-deep); color: #1E4338;">
+                <i data-lucide="map-pin" class="w-4 h-4"></i>
+                Ver Ubicación en Google Maps
+            </a>
         </div>
     </header>
 
-    <!-- Mensaje Especial / Historia de Amor -->
+    <!-- BLOQUE VERDE BOSQUE OSCURO: Cuenta Regresiva -->
+    <section class="w-full" style="background: var(--forest);">
+        <div class="px-6 py-10 text-center">
+            <h2 class="text-xs uppercase tracking-[0.3em] mb-5 font-semibold" style="color: var(--gold-deep);">La Cuenta Regresiva Comienza</h2>
+            <div id="countdown" class="grid grid-cols-4 gap-2 text-center">
+                <div class="countdown-box p-3 rounded-2xl">
+                    <span id="days" class="block text-2xl font-serif-custom font-bold" style="color: var(--gold-deep);">00</span>
+                    <span class="text-[9px] uppercase tracking-wider text-white/70">Días</span>
+                </div>
+                <div class="countdown-box p-3 rounded-2xl">
+                    <span id="hours" class="block text-2xl font-serif-custom font-bold" style="color: var(--gold-deep);">00</span>
+                    <span class="text-[9px] uppercase tracking-wider text-white/70">Horas</span>
+                </div>
+                <div class="countdown-box p-3 rounded-2xl">
+                    <span id="minutes" class="block text-2xl font-serif-custom font-bold" style="color: var(--gold-deep);">00</span>
+                    <span class="text-[9px] uppercase tracking-wider text-white/70">Min</span>
+                </div>
+                <div class="countdown-box p-3 rounded-2xl">
+                    <span id="seconds" class="block text-2xl font-serif-custom font-bold" style="color: var(--gold-deep);">00</span>
+                    <span class="text-[9px] uppercase tracking-wider text-white/70">Seg</span>
+                </div>
+            </div>
+
+            <div class="w-full flex justify-center mt-6">
+                <add-to-calendar-button
+                        name="Matrimonio Nathaly y Pedro"
+                        description="¡Acompáñanos a celebrar nuestro matrimonio!"
+                        startDate="2027-02-06"
+                        startTime="18:30"
+                        endDate="2027-02-07"
+                        endTime="03:30"
+                        timeZone="America/Santiago"
+                        location="Chillán, Chile"
+                        options="'Google','Apple','iCal'"
+                        buttonStyle="round"
+                        language="es"
+                        styleLight="--btn-background: #C5A059; --btn-text: #1E4338; --btn-shadow: none; --btn-border-radius: 0.75rem;">
+                </add-to-calendar-button>
+            </div>
+        </div>
+    </section>
+
+    <div class="leaf-divider w-full py-6">
+        <span class="line"></span>
+        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <span class="line"></span>
+    </div>
+
+    <!-- Carrusel / Galería de Fotos -->
+    <section class="w-full pl-6 pb-2 text-center">
+        <i data-lucide="images" class="w-7 h-7 mx-auto mb-2" style="color: var(--gold-deep);"></i>
+        <h3 class="text-2xl font-serif-custom font-bold mb-1" style="color: var(--gold-deep);">Momentos Nuestros</h3>
+        <p class="text-xs font-serif-custom italic mb-5" style="color: var(--ink); opacity: 0.8;">"Un camino que comenzó siendo dos y hoy celebramos como uno solo."</p>
+
+        <div class="gallery-track pr-6">
+            <div class="gallery-item"><img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-56 object-cover"></div>
+            <div class="gallery-item"><img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-56 object-cover"></div>
+            <div class="gallery-item"><img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-56 object-cover"></div>
+        </div>
+        <!-- Reemplaza los src por foto1.jpg, foto2.jpg, foto3.jpg... para variar las imágenes del carrusel -->
+    </section>
+
+    <div class="leaf-divider w-full py-6">
+        <span class="line"></span>
+        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <span class="line"></span>
+    </div>
+
+    <!-- BLOQUE VERDE BOSQUE OSCURO: Confirma tu Asistencia -->
+    <section class="w-full" style="background: var(--forest);">
+        <!-- Confirma tu Asistencia (vía WhatsApp) -->
+        <div class="w-full px-6 py-10 text-center">
+            <h3 class="font-script-custom text-4xl sm:text-5xl text-white">Confirma tu Asistencia</h3>
+            <p class="text-xs text-white/70 mt-3 max-w-xs mx-auto leading-relaxed">
+                Prepárate para disfrutar y celebrar con nosotros&hellip; ¡no dejes en casa los zapatos de baile!
+            </p>
+            <!-- Pases: cupos reservados, personalizado por invitado vía ?cupos= en la URL -->
+            <div id="pases-section" class="hidden mt-6">
+                <p class="text-[11px] uppercase tracking-[0.2em] font-semibold" style="color: var(--gold-deep);">Hemos reservado</p>
+                <div id="pases-dots" class="flex flex-wrap items-start justify-center gap-4 mt-4"></div>
+                <p id="pases-label" class="text-[11px] uppercase tracking-[0.2em] font-semibold mt-4" style="color: var(--gold-deep);">Lugar en su honor</p>
+            </div>
+
+            <a id="rsvp-whatsapp-btn" href="https://wa.me/56997319172" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center justify-center gap-2 py-3.5 px-8 font-semibold rounded-full text-xs uppercase tracking-wider shadow-lg transition hover:brightness-110" style="background: var(--gold-deep); color: #1E4338;">
+                Confirma Aquí
+                <i data-lucide="users" class="w-4 h-4"></i>
+            </a>
+        </div>
+    </section>
+
+    <div class="leaf-divider w-full py-6">
+        <span class="line"></span>
+        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <span class="line"></span>
+    </div>
+
+    <!-- Las Fotitos -->
     <section class="w-full px-8 pt-10 text-center space-y-3">
-        <p class="text-sm font-serif-custom italic text-stone-700 leading-relaxed">
-            "Con muchísima alegría queremos invitarte a ser parte de uno de los días más importantes de nuestras vidas."
+        <h3 class="text-2xl font-serif-custom font-bold" style="color: var(--gold-deep);">Las Fotitos</h3>
+        <p class="text-sm font-serif-custom italic leading-relaxed" style="color: var(--ink);">
+            "Un camino que comenzó siendo dos y hoy celebramos como uno solo."
         </p>
-        <p class="text-xs text-stone-500 leading-relaxed font-light">
-            Después de 7 años juntos y 5 compartiendo nuestro hogar, decidimos dar este gran paso para celebrar nuestro amor rodeados de quienes más queremos.
-        </p>
-    </section>
 
-    <div class="leaf-divider w-full py-6">
-        <span class="line"></span>
-        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-        <span class="line"></span>
-    </div>
+        <!-- Collage Polaroid con decoración botánica -->
+        <div class="relative h-[300px] max-w-[280px] mx-auto pt-8">
+            <svg class="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-20 opacity-60 pointer-events-none" style="color: var(--sage);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+            <svg class="absolute -bottom-3 left-2 w-16 h-16 opacity-50 pointer-events-none" style="color: var(--gold); transform: rotate(160deg);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
 
-    <!-- Reloj de Cuenta Regresiva -->
-    <section class="w-full px-6 pb-6 text-center">
-        <h2 class="text-[10px] uppercase tracking-[0.25em] text-stone-400 mb-4 font-semibold">LA CUENTA REGRESIVA COMIENZA</h2>
-        <div id="countdown" class="grid grid-cols-4 gap-2 text-center">
-            <div class="bg-white/70 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
-                <span id="days" class="block text-2xl font-serif-custom font-bold text-[#3f4536]">00</span>
-                <span class="text-[9px] uppercase tracking-wider text-stone-400">Días</span>
-            </div>
-            <div class="bg-white/70 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
-                <span id="hours" class="block text-2xl font-serif-custom font-bold text-[#3f4536]">00</span>
-                <span class="text-[9px] uppercase tracking-wider text-stone-400">Horas</span>
-            </div>
-            <div class="bg-white/70 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
-                <span id="minutes" class="block text-2xl font-serif-custom font-bold text-[#3f4536]">00</span>
-                <span class="text-[9px] uppercase tracking-wider text-stone-400">Min</span>
-            </div>
-            <div class="bg-white/70 p-3 rounded-2xl border border-stone-200/60 shadow-sm">
-                <span id="seconds" class="block text-2xl font-serif-custom font-bold text-[#3f4536]">00</span>
-                <span class="text-[9px] uppercase tracking-wider text-stone-400">Seg</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Botón de Agendar Fecha -->
-    <section class="w-full px-6 pb-2 space-y-3">
-        <div class="w-full flex justify-center">
-            <add-to-calendar-button
-                    name="Matrimonio Nathaly y Pedro"
-                    description="¡Acompáñanos a celebrar nuestro matrimonio!"
-                    startDate="2027-02-06"
-                    startTime="18:30"
-                    endDate="2027-02-07"
-                    endTime="03:30"
-                    timeZone="America/Santiago"
-                    location="Chillán, Chile"
-                    options="'Google','Apple','iCal'"
-                    buttonStyle="round"
-                    language="es"
-                    styleLight="--btn-background: #292524; --btn-text: #ffffff; --btn-shadow: none; --btn-border-radius: 0.75rem;">
-            </add-to-calendar-button>
-        </div>
-    </section>
-
-    <div class="leaf-divider w-full py-6">
-        <span class="line"></span>
-        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-        <span class="line"></span>
-    </div>
-
-    <!-- Las Fotitos: Collage estilo Polaroid -->
-    <section class="w-full px-6 pb-4 text-center">
-        <h3 class="text-2xl font-serif-custom font-bold text-stone-800 mb-1">Las Fotitos</h3>
-        <p class="text-xs font-serif-custom italic text-stone-500 mb-6">"Un camino que comenzó siendo dos y hoy celebramos como uno solo."</p>
-
-        <div class="relative h-[300px] max-w-[280px] mx-auto">
-            <div class="polaroid absolute left-0 top-2 w-[150px] transform -rotate-6 z-10">
+            <div class="polaroid absolute left-0 top-10 w-[150px] transform -rotate-6 z-10">
                 <img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-[150px] object-cover">
-                <p class="text-center text-[#7A8570] text-xs mt-2">❤️</p>
+                <p class="text-center text-xs mt-2" style="color: var(--sage);">❤️</p>
             </div>
-            <div class="polaroid absolute right-0 top-0 w-[150px] transform rotate-3 z-20">
+            <div class="polaroid absolute right-0 top-2 w-[150px] transform rotate-3 z-20">
                 <img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-[150px] object-cover">
-                <p class="text-center text-[#7A8570] text-xs mt-2">✨</p>
+                <p class="text-center text-xs mt-2" style="color: var(--sage);">✨</p>
             </div>
             <div class="polaroid absolute left-1/2 -translate-x-1/2 bottom-0 w-[160px] transform rotate-1 z-30">
                 <img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-[155px] object-cover">
-                <p class="text-center text-[#7A8570] text-xs mt-2">💍</p>
+                <p class="text-center text-xs mt-2" style="color: var(--sage);">💍</p>
             </div>
         </div>
-        <!-- Reemplaza los src de las imágenes anteriores por foto2.jpg / foto3.jpg cuando tengas más fotos -->
+        <!-- Reemplaza los src de las imágenes anteriores por foto1.jpg / foto2.jpg / foto3.jpg cuando tengas más fotos -->
     </section>
 
     <div class="leaf-divider w-full py-6">
@@ -458,20 +558,38 @@
         <span class="line"></span>
     </div>
 
-    <!-- Álbum de Fotos Compartido -->
-    <section class="w-full px-6 pb-2 text-center">
-        <i data-lucide="camera" class="w-7 h-7 mx-auto text-[#7A8570] mb-2"></i>
-        <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Comparte tus Fotos</h3>
-        <p class="text-xs text-stone-500 mt-2 max-w-xs mx-auto leading-relaxed">
-            Captura los mejores momentos del día y súbelos a nuestro álbum compartido escaneando este código QR.
-        </p>
-        <div class="bg-white p-4 rounded-2xl border border-stone-200/60 shadow-sm mt-4 inline-block">
-            <img src="qr-fotos.png" alt="Código QR del álbum de fotos" class="w-36 h-36 mx-auto">
+    <!-- Tarjetas Verde Salvia: Dress Code & Regalo -->
+    <section class="w-full px-6 space-y-4">
+
+        <!-- Dress Code -->
+        <div class="sage-card rounded-2xl p-6 text-center shadow-lg">
+            <!-- Iconos pequeños de vestimenta -->
+            <div class="flex items-center justify-center gap-6 mb-3">
+                <svg class="w-8 h-10" viewBox="0 0 80 150" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" style="color: var(--gold-deep);">
+                    <path d="M40 6 C34 6 30 10 30 10 L22 26 C20 34 22 46 28 52 L18 100 C16 115 16 128 20 138 C33 144 47 144 60 138 C64 128 64 115 62 100 L52 52 C58 46 60 34 58 26 L50 10 C50 10 46 6 40 6 Z"/>
+                    <path d="M30 10 L40 24 L50 10"/>
+                </svg>
+                <i data-lucide="shirt" class="w-8 h-8" style="color: var(--gold-deep);"></i>
+            </div>
+            <h3 class="text-3xl font-script-custom text-white">Dress Code</h3>
+            <p class="text-xs font-semibold uppercase tracking-wider mt-1" style="color: var(--gold-deep);">Formal Elegante</p>
+            <p class="text-[11px] text-white/85 mt-2 max-w-xs mx-auto leading-relaxed">
+                Te invitamos a asistir con vestuario formal para compartir esta noche especial. El blanco está reservado para la novia.
+            </p>
         </div>
-        <a href="https://photos.app.goo.gl/SWeqjgCmPxRYdSsLA" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center justify-center gap-2 py-3 px-6 bg-white/90 hover:bg-white border border-stone-200/80 text-stone-700 font-medium rounded-xl text-xs transition shadow-sm">
-            <i data-lucide="image" class="w-4 h-4 text-[#7A8570]"></i>
-            Abrir Álbum de Fotos
-        </a>
+
+        <!-- Nuestro Regalo -->
+        <div class="sage-card rounded-2xl p-6 text-center shadow-lg">
+            <i data-lucide="gift" class="w-7 h-7 mx-auto mb-2" style="color: var(--gold-deep);"></i>
+            <h3 class="text-xl font-serif-custom font-bold text-white">Nuestro Regalo</h3>
+            <p class="text-[11px] text-white/85 mt-2 max-w-xs mx-auto leading-relaxed">
+                El mejor regalo es tu presencia. Si deseas obsequiarnos algo para nuestra luna de miel, puedes hacerlo a nuestra cuenta bancaria.
+            </p>
+            <button onclick="toggleGiftModal(true)" class="mt-4 inline-flex items-center justify-center gap-2 py-3 px-6 font-semibold rounded-full text-[11px] uppercase tracking-wider shadow-md transition hover:brightness-110" style="background: var(--gold-deep); color: #1E4338;">
+                <i data-lucide="credit-card" class="w-4 h-4"></i>
+                Ver Datos Bancarios
+            </button>
+        </div>
     </section>
 
     <div class="leaf-divider w-full py-6">
@@ -480,20 +598,62 @@
         <span class="line"></span>
     </div>
 
-    <!-- Ubicación y Mapas -->
-    <section class="w-full px-6 pb-2 text-center">
-        <i data-lucide="church" class="w-7 h-7 mx-auto text-[#7A8570] mb-2"></i>
-        <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Ceremonia &amp; Fiesta</h3>
-        <p class="text-xs text-stone-600 mt-1">Pasaje Los Olivos, Km 14 camino a Huape, Chillán, Chile</p>
+    <!-- Itinerario: Timeline Curvo -->
+    <section class="w-full px-6">
+        <div class="text-center mb-6">
+            <i data-lucide="clock" class="w-7 h-7 mx-auto mb-2" style="color: var(--gold-deep);"></i>
+            <h3 class="text-2xl font-serif-custom font-bold" style="color: var(--gold-deep);">Itinerario</h3>
+            <p class="text-[10px] tracking-widest uppercase mt-1" style="color: var(--ink); opacity: 0.7;">Sábado 06 de Febrero de 2027</p>
+        </div>
 
-        <div class="bg-white/70 border border-stone-200/60 rounded-2xl p-4 mt-4 shadow-sm">
-            <div class="grid grid-cols-2 gap-3">
-                <a href="https://maps.app.goo.gl/tSTQGXgVq4JnNagX6?g_st=iw" target="_blank" rel="noopener noreferrer" class="py-3 px-3 bg-white hover:bg-stone-50 text-stone-700 border border-stone-200 font-medium rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-sm">
-                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-[#7A8570]"></i>
+        <div class="timeline-track">
+            <svg class="timeline-wave" viewBox="0 0 400 85" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M50,30 C83.3,30 116.6,55 150,55 C183.3,55 216.6,30 250,30 C283.3,30 316.6,55 350,55" fill="none" stroke="var(--gold)" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round"/>
+            </svg>
+
+            <div class="timeline-stop is-up">
+                <div class="w-10 h-10 mx-auto rounded-full flex items-center justify-center shadow-sm" style="background: var(--forest);">
+                    <i data-lucide="gem" class="w-4 h-4" style="color: var(--gold-deep);"></i>
+                </div>
+                <p class="text-[10px] font-semibold mt-2" style="color: var(--sage-deep);">18:30 hrs</p>
+                <h4 class="text-xs font-serif-custom font-bold" style="color: var(--ink);">Ceremonia</h4>
+            </div>
+
+            <div class="timeline-stop is-down">
+                <div class="w-10 h-10 mx-auto rounded-full flex items-center justify-center shadow-sm" style="background: var(--forest);">
+                    <i data-lucide="martini" class="w-4 h-4" style="color: var(--gold-deep);"></i>
+                </div>
+                <p class="text-[10px] font-semibold mt-2" style="color: var(--sage-deep);">19:30 hrs</p>
+                <h4 class="text-xs font-serif-custom font-bold" style="color: var(--ink);">Cóctel</h4>
+            </div>
+
+            <div class="timeline-stop is-up">
+                <div class="w-10 h-10 mx-auto rounded-full flex items-center justify-center shadow-sm" style="background: var(--forest);">
+                    <i data-lucide="utensils-crossed" class="w-4 h-4" style="color: var(--gold-deep);"></i>
+                </div>
+                <p class="text-[10px] font-semibold mt-2" style="color: var(--sage-deep);">21:00 hrs</p>
+                <h4 class="text-xs font-serif-custom font-bold" style="color: var(--ink);">Cena</h4>
+            </div>
+
+            <div class="timeline-stop is-down">
+                <div class="w-10 h-10 mx-auto rounded-full flex items-center justify-center shadow-sm" style="background: var(--forest);">
+                    <i data-lucide="music" class="w-4 h-4" style="color: var(--gold-deep);"></i>
+                </div>
+                <p class="text-[10px] font-semibold mt-2" style="color: var(--sage-deep);">23:00 hrs</p>
+                <h4 class="text-xs font-serif-custom font-bold" style="color: var(--ink);">Fiesta</h4>
+            </div>
+        </div>
+
+        <!-- Dirección y accesos directos al lugar -->
+        <div class="bg-white/70 border border-[#C5A059]/30 rounded-2xl p-4 mt-6 shadow-sm text-center">
+            <p class="text-xs" style="color: var(--ink);">Pasaje Los Olivos, Km 14 camino a Huape, Chillán, Chile</p>
+            <div class="grid grid-cols-2 gap-3 mt-3">
+                <a href="https://maps.app.goo.gl/tSTQGXgVq4JnNagX6?g_st=iw" target="_blank" rel="noopener noreferrer" class="py-2.5 px-3 border font-medium rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-sm hover:brightness-105" style="border-color: var(--gold); color: var(--gold-deep);">
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
                     Ver Mapa
                 </a>
-                <a href="https://waze.com/ul/h63kxersdm" target="_blank" rel="noopener noreferrer" class="py-3 px-3 bg-white hover:bg-stone-50 text-stone-700 border border-stone-200 font-medium rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-sm">
-                    <i data-lucide="navigation" class="w-3.5 h-3.5 text-[#7A8570]"></i>
+                <a href="https://waze.com/ul/h63kxersdm" target="_blank" rel="noopener noreferrer" class="py-2.5 px-3 border font-medium rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-sm hover:brightness-105" style="border-color: var(--sage); color: var(--sage-deep);">
+                    <i data-lucide="navigation" class="w-3.5 h-3.5"></i>
                     Abrir Waze
                 </a>
             </div>
@@ -506,218 +666,82 @@
         <span class="line"></span>
     </div>
 
-    <!-- Cronograma del Evento -->
-    <section class="w-full px-6 pb-2">
-        <div class="text-center mb-8">
-            <i data-lucide="clock" class="w-7 h-7 mx-auto text-[#7A8570] mb-2"></i>
-            <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Itinerario</h3>
-            <p class="text-[10px] text-stone-400 tracking-widest uppercase mt-1">Sábado 06 de Febrero de 2027</p>
-        </div>
-
-        <div class="relative border-l border-[#7A8570]/30 ml-4 pl-6 space-y-7 text-left">
-            <div class="relative">
-                <div class="absolute -left-[39px] top-0 w-7 h-7 bg-white border border-[#7A8570]/40 rounded-full flex items-center justify-center shadow-sm">
-                    <i data-lucide="gem" class="w-3.5 h-3.5 text-[#7A8570]"></i>
-                </div>
-                <p class="text-xs font-semibold text-[#5c6650]">18:30 hrs</p>
-                <h4 class="text-base font-serif-custom font-bold text-stone-800">Ceremonia</h4>
-                <p class="text-xs text-stone-500">Bienvenida e inicio de nuestro matrimonio.</p>
-            </div>
-
-            <div class="relative">
-                <div class="absolute -left-[39px] top-0 w-7 h-7 bg-white border border-[#7A8570]/40 rounded-full flex items-center justify-center shadow-sm">
-                    <i data-lucide="martini" class="w-3.5 h-3.5 text-[#7A8570]"></i>
-                </div>
-                <p class="text-xs font-semibold text-[#5c6650]">19:30 hrs</p>
-                <h4 class="text-base font-serif-custom font-bold text-stone-800">Cóctel de Bienvenida</h4>
-                <p class="text-xs text-stone-500">Tragos, aperitivos y fotos.</p>
-            </div>
-
-            <div class="relative">
-                <div class="absolute -left-[39px] top-0 w-7 h-7 bg-white border border-[#7A8570]/40 rounded-full flex items-center justify-center shadow-sm">
-                    <i data-lucide="utensils-crossed" class="w-3.5 h-3.5 text-[#7A8570]"></i>
-                </div>
-                <p class="text-xs font-semibold text-[#5c6650]">21:00 hrs</p>
-                <h4 class="text-base font-serif-custom font-bold text-stone-800">Cena &amp; Brindis</h4>
-                <p class="text-xs text-stone-500">Banquete principal y momentos inolvidables.</p>
-            </div>
-
-            <div class="relative">
-                <div class="absolute -left-[39px] top-0 w-7 h-7 bg-white border border-[#7A8570]/40 rounded-full flex items-center justify-center shadow-sm">
-                    <i data-lucide="music" class="w-3.5 h-3.5 text-[#7A8570]"></i>
-                </div>
-                <p class="text-xs font-semibold text-[#5c6650]">23:00 hrs</p>
-                <h4 class="text-base font-serif-custom font-bold text-stone-800">Fiesta &amp; Baile</h4>
-                <p class="text-xs text-stone-500">Apertura de la pista y bar abierto.</p>
-            </div>
-        </div>
-    </section>
-
-    <div class="leaf-divider w-full py-6">
-        <span class="line"></span>
-        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-        <span class="line"></span>
-    </div>
-
-    <!-- Código de Vestimenta -->
-    <section class="w-full px-6 py-8 text-center bg-white/60 my-2 rounded-2xl shadow-sm">
-        <i data-lucide="sparkles" class="w-7 h-7 mx-auto text-[#7A8570] mb-2"></i>
-        <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Código de Vestimenta</h3>
-        <p class="text-xs font-semibold uppercase tracking-wider text-[#5c6650] mt-1">Formal / Elegante</p>
-        <p class="text-[11px] text-stone-500 mt-2 max-w-xs mx-auto leading-relaxed">
-            Te invitamos a asistir con vestuario formal para compartir esta noche especial.
-        </p>
-
-        <!-- Ilustraciones Line-Art -->
-        <div class="flex items-center justify-center gap-10 mt-6">
-            <div class="flex flex-col items-center gap-1">
-                <svg class="attire-icon w-14 h-24" viewBox="0 0 80 150" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-                    <path d="M40 6 C34 6 30 10 30 10 L22 26 C20 34 22 46 28 52 L18 100 C16 115 16 128 20 138 C33 144 47 144 60 138 C64 128 64 115 62 100 L52 52 C58 46 60 34 58 26 L50 10 C50 10 46 6 40 6 Z"/>
-                    <path d="M30 10 L40 24 L50 10"/>
-                </svg>
-                <span class="text-[10px] uppercase tracking-wider text-stone-400">Ella</span>
-            </div>
-            <div class="flex flex-col items-center gap-1">
-                <svg class="attire-icon w-14 h-24" viewBox="0 0 80 150" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-                    <path d="M40 8 L28 20 L16 30 L12 60 L20 56 L22 140 L40 146 L58 140 L60 56 L68 60 L64 30 L52 20 Z"/>
-                    <path d="M34 20 L40 40 L30 60"/>
-                    <path d="M46 20 L40 40 L50 60"/>
-                    <line x1="40" y1="60" x2="40" y2="140"/>
-                </svg>
-                <span class="text-[10px] uppercase tracking-wider text-stone-400">Él</span>
-            </div>
-        </div>
-    </section>
-
-    <div class="leaf-divider w-full py-6">
-        <span class="line"></span>
-        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-        <span class="line"></span>
-    </div>
-
-    <!-- Mesa de Regalos / Sugerencias de Regalo -->
-    <section class="w-full px-6 pb-2 text-center">
-        <i data-lucide="mail" class="w-7 h-7 mx-auto text-[#7A8570] mb-2"></i>
-        <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Sugerencias de Regalo</h3>
-        <p class="text-xs text-stone-500 mt-2 max-w-xs mx-auto leading-relaxed">
-            El mejor regalo es tu presencia. Si deseas realizarnos un obsequio para nuestra luna de miel, puedes hacerlo a nuestra cuenta bancaria.
-        </p>
-
-        <button onclick="toggleGiftDetails()" id="gift-toggle-btn" class="mt-4 w-full max-w-xs mx-auto py-3 px-6 bg-white/90 hover:bg-white border border-stone-200/80 text-stone-700 font-medium rounded-xl text-xs transition shadow-sm flex items-center justify-center gap-2">
-            <i data-lucide="credit-card" class="w-4 h-4 text-[#7A8570]"></i>
-            Ver Datos de Transferencia
-            <i data-lucide="chevron-down" id="gift-chevron" class="w-4 h-4 text-stone-400 accordion-chevron"></i>
-        </button>
-
-        <div id="gift-panel" class="accordion-panel max-w-xs mx-auto">
-            <div class="bg-white p-4 rounded-xl border border-stone-200/60 text-left text-xs space-y-1.5 text-stone-700 font-mono mt-3 shadow-sm">
-                <p><strong>Banco:</strong> Banco Falabella / Santander</p>
-                <p><strong>Tipo:</strong> Cuenta Corriente / Vista</p>
-                <p><strong>Rut:</strong> XX.XXX.XXX-X</p>
-                <p><strong>Email:</strong> ejemplo@email.com</p>
-            </div>
-        </div>
-    </section>
-
     <!-- Módulo Spotify: Pide tu Canción para la Fiesta -->
-    <section class="w-full px-6 py-8">
-        <div class="rounded-2xl p-6 text-center shadow-xl border border-[#8A9681]/30" style="background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);">
-            <i data-lucide="disc-3" class="w-8 h-8 mx-auto text-emerald-400 mb-3"></i>
+    <section class="w-full px-6 pb-10">
+        <div class="sage-card rounded-2xl p-6 text-center shadow-lg">
+            <i data-lucide="disc-3" class="w-8 h-8 mx-auto mb-3" style="color: var(--gold-deep);"></i>
             <h3 class="text-xl font-serif-custom font-bold text-white">¡Pide tu Canción para la Fiesta!</h3>
-            <p class="text-[11px] text-stone-300 mt-2 max-w-xs mx-auto leading-relaxed">
+            <p class="text-[11px] text-white/85 mt-2 max-w-xs mx-auto leading-relaxed">
                 Ayúdanos a armar la playlist perfecta para la pista de baile. Suma tus temas favoritos a nuestra lista colaborativa de Spotify.
             </p>
-            <a href="https://open.spotify.com/playlist/0mukA8rCuPHQRwVbwV5e8e?si=XYHzc7ezQTSpjTNy8pfA0Q&amp;utm_source=copy-link&amp;pi=WPCDd4vZSbmFs" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex items-center justify-center gap-2 py-3 px-6 rounded-full font-semibold text-xs uppercase tracking-wider transition shadow-lg hover:brightness-110" style="background: #1DB954; color: #121212;">
+            <a href="https://open.spotify.com/playlist/0mukA8rCuPHQRwVbwV5e8e?si=XYHzc7ezQTSpjTNy8pfA0Q&amp;utm_source=copy-link&amp;pi=WPCDd4vZSbmFs" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex items-center justify-center gap-2 py-3 px-6 font-semibold rounded-full text-[11px] uppercase tracking-wider shadow-md transition hover:brightness-110" style="background: var(--gold-deep); color: #1E4338;">
                 <i data-lucide="music-2" class="w-4 h-4"></i>
                 Agregar canción en Spotify
             </a>
-            <p class="text-[10px] text-[#A8B398]/80 mt-3 tracking-wide">🎶 ¡Que no falte tu tema favorito en la pista de baile!</p>
+            <p class="text-[10px] mt-3 tracking-wide" style="color: var(--gold-deep);">🎶 ¡Que no falte tu tema favorito en la pista de baile!</p>
         </div>
     </section>
 
-    <!-- Formulario RSVP -->
-    <section class="w-full px-6 py-8 bg-white/90 rounded-2xl shadow-sm my-4 mx-2">
-        <div class="text-center mb-6">
-            <i data-lucide="mail-check" class="w-7 h-7 mx-auto text-[#7A8570] mb-2"></i>
-            <h3 class="text-2xl font-serif-custom font-bold text-stone-800">Confirmar Asistencia</h3>
-            <p class="text-xs text-stone-500 mt-1">¿Nos acompañas en este gran día?</p>
-            <p id="cupos-notice" class="hidden text-xs font-semibold text-[#5c6650] bg-[#EFE8D9] inline-block px-4 py-2 rounded-full mt-3"></p>
-        </div>
-
-        <form id="rsvp-form" onsubmit="handleRSVP(event)" class="space-y-4">
-            <div>
-                <label class="block text-xs font-semibold text-stone-600 mb-1">Nombre Completo *</label>
-                <input type="text" id="rsvp-name" required placeholder="Ej: Juan Pérez" class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#7A8570] bg-[#F6F1E7]">
-            </div>
-
-            <div>
-                <label class="block text-xs font-semibold text-stone-600 mb-1">¿Asistirás al matrimonio? *</label>
-                <select id="rsvp-status" required class="w-full p-3 border border-stone-200 rounded-xl text-xs bg-[#F6F1E7] focus:outline-none focus:ring-2 focus:ring-[#7A8570]">
-                    <option value="">Selecciona una opción</option>
-                    <option value="Si">¡Sí, ahí estaré celebrando!</option>
-                    <option value="No">Lamentablemente no podré ir</option>
-                </select>
-            </div>
-
-            <div id="guests-select-wrapper">
-                <label class="block text-xs font-semibold text-stone-600 mb-1">Cantidad de Asistentes *</label>
-                <select id="rsvp-guests" required onchange="handleGuestsChange(this.value)" class="w-full p-3 border border-stone-200 rounded-xl text-xs bg-[#F6F1E7] focus:outline-none focus:ring-2 focus:ring-[#7A8570]">
-                    <option value="">Selecciona una cantidad</option>
-                    <option value="1">1 persona</option>
-                    <option value="2">2 personas</option>
-                    <option value="3">3 personas</option>
-                    <option value="4">4 personas</option>
-                    <option value="5+">5 o más personas</option>
-                </select>
-            </div>
-
-            <div id="companion-fields" class="space-y-3"></div>
-
-            <div>
-                <label class="block text-xs font-semibold text-stone-600 mb-1">Restricciones Alimentarias / Alergias</label>
-                <input type="text" id="rsvp-diet" placeholder="Ej: Vegetariano, celíaco, ninguno..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#7A8570] bg-[#F6F1E7]">
-            </div>
-
-            <div>
-                <label class="block text-xs font-semibold text-stone-600 mb-1">¿Qué canción no puede faltar en la fiesta?</label>
-                <input type="text" id="rsvp-song" placeholder="Ej: Bad Bunny - Titi Me Pregunto" class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#7A8570] bg-[#F6F1E7]">
-            </div>
-
-            <div>
-                <label class="block text-xs font-semibold text-stone-600 mb-1">Mensaje para los Novios</label>
-                <textarea id="rsvp-message" rows="2" placeholder="Déjanos unas palabras..." class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#7A8570] bg-[#F6F1E7]"></textarea>
-            </div>
-
-            <button type="submit" id="rsvp-submit-btn" class="w-full py-3.5 bg-stone-900 hover:bg-stone-800 text-white font-medium rounded-xl shadow transition text-xs uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
-                <i id="rsvp-submit-spinner" data-lucide="loader-2" class="w-4 h-4 animate-spin hidden"></i>
-                <span id="rsvp-submit-text">Confirmar Asistencia</span>
-            </button>
-        </form>
-        <p id="rsvp-feedback" class="text-xs text-center mt-3 hidden font-semibold"></p>
-
-        <div class="mt-6 pt-4 border-t border-stone-100 text-center">
-            <p class="text-[11px] text-stone-400 mb-2">¿Prefieres confirmar directamente por chat?</p>
-            <a href="https://wa.me/56997319172?text=Hola%20Nathaly%20y%20Pedro!%20Quiero%20confirmar%20mi%20asistencia%20para%20su%20matrimonio" target="_blank" class="inline-flex items-center justify-center gap-2 text-xs text-emerald-700 font-semibold hover:underline">
-                <i data-lucide="message-circle" class="w-4 h-4"></i>
-                Confirmar por WhatsApp
-            </a>
-        </div>
-    </section>
-
-    <div class="leaf-divider w-full pt-2 pb-4">
-        <svg class="w-6 h-6" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+    <div class="leaf-divider w-full py-6">
+        <span class="line"></span>
+        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <span class="line"></span>
     </div>
 
+    <!-- Comparte tus Fotos -->
+    <section class="w-full px-6 pb-2 text-center">
+        <i data-lucide="camera" class="w-7 h-7 mx-auto mb-2" style="color: var(--gold-deep);"></i>
+        <h3 class="text-2xl font-serif-custom font-bold" style="color: var(--gold-deep);">Comparte tus Fotos</h3>
+        <p class="text-xs mt-2 max-w-xs mx-auto leading-relaxed" style="color: var(--ink); opacity: 0.85;">
+            Captura los mejores momentos del día y súbelos a nuestro álbum compartido escaneando este código QR.
+        </p>
+        <div class="bg-white p-4 rounded-2xl border border-[#C5A059]/30 shadow-sm mt-4 inline-block">
+            <img src="qr-fotos.png" alt="Código QR del álbum de fotos" class="w-36 h-36 mx-auto">
+        </div>
+        <a href="https://photos.app.goo.gl/SWeqjgCmPxRYdSsLA" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center justify-center gap-2 py-3 px-6 font-semibold rounded-full text-[11px] uppercase tracking-wider shadow-md transition hover:brightness-110" style="background: var(--gold-deep); color: #1E4338;">
+            <i data-lucide="upload" class="w-4 h-4"></i>
+            Subir Fotos al Álbum
+        </a>
+    </section>
+
+    <!-- Cierre Final -->
+    <section class="w-full px-6 pb-14 text-center space-y-3">
+        <div class="leaf-divider w-full pb-2">
+            <svg class="w-6 h-6" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        </div>
+        <p class="text-xs uppercase tracking-[0.25em] font-semibold" style="color: var(--ink); opacity: 0.7;">Con todo nuestro amor</p>
+        <h2 class="font-script-custom text-5xl" style="color: var(--gold-deep);">¡Te Esperamos! N&amp;P</h2>
+    </section>
+
 </main>
+
+<!-- MODAL: Datos Bancarios para el Regalo -->
+<div id="gift-modal" class="hidden fixed inset-0 z-[60] modal-overlay items-center justify-center p-6" onclick="if(event.target === this) toggleGiftModal(false)">
+    <div class="bg-[#F7F6F2] w-full max-w-sm rounded-2xl shadow-2xl p-6 relative border border-[#C5A059]/30">
+        <button onclick="toggleGiftModal(false)" aria-label="Cerrar" class="absolute top-3 right-3 text-[#2B352E]/60 hover:text-[#2B352E] transition">
+            <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+        <div class="text-center mb-4">
+            <i data-lucide="gift" class="w-8 h-8 mx-auto mb-2" style="color: var(--gold-deep);"></i>
+            <h3 class="text-xl font-serif-custom font-bold" style="color: var(--forest);">Nuestro Regalo</h3>
+            <p class="text-[11px] mt-1" style="color: var(--ink); opacity: 0.8;">Gracias por hacer de nuestra luna de miel un recuerdo inolvidable.</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-[#C5A059]/30 text-left text-xs space-y-1.5 font-mono shadow-sm" style="color: var(--ink);">
+            <p><strong>Banco:</strong> BCI</p>
+            <p><strong>Titular:</strong> Nathaly Souto</p>
+            <p><strong>Tipo:</strong> Cuenta Corriente</p>
+            <p><strong>N&deg;:</strong> 53633482</p>
+            <p><strong>Correo:</strong> nathalysoutoguti@gmail.com</p>
+        </div>
+    </div>
+</div>
 
 <!-- Scripts -->
 <script>
     lucide.createIcons();
 
-    /* ===== URL del Web App de Google Apps Script =====
-       Reemplaza este valor por la URL de implementación de tu Apps Script
-       (Implementar > Nueva implementación > Aplicación web > Acceso: Cualquier usuario). */
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyimvgU7DeVcMJBFcBAPcdilyt4Lk8__83RbWWBF_0m_6KZw9XVEgGD-0tApL2O5_EG/exec";
+    /* ===== Número de WhatsApp para la confirmación de asistencia ===== */
+    const WHATSAPP_NUMBER = "56997319172";
 
     /* ===== Personalización por Parámetros de URL (?nombre=...&cupos=...) ===== */
     const urlParams = new URLSearchParams(window.location.search);
@@ -729,59 +753,33 @@
         // textContent (no innerHTML) evita que el parámetro de la URL inyecte HTML/JS
         document.getElementById('guest-name').textContent = guestParam ? `¡Hola, ${guestParam}!` : '¡Bienvenido(a)!';
 
-        if (guestParam) {
-            document.getElementById('rsvp-name').value = guestParam;
-        }
-
         if (hasCupos) {
-            const cuposNotice = document.getElementById('cupos-notice');
-            cuposNotice.textContent = cuposParam > 1
-                ? `Hemos reservado ${cuposParam} cupos para ti y ${cuposParam > 2 ? 'tus acompañantes' : 'tu acompañante'}`
-                : 'Hemos reservado 1 cupo para ti';
-            cuposNotice.classList.remove('hidden');
-
-            // El cupo ya viene definido por la URL: se oculta el selector manual y se fija su valor
-            document.getElementById('guests-select-wrapper').classList.add('hidden');
-            const guestsSelect = document.getElementById('rsvp-guests');
-            guestsSelect.required = false;
-            guestsSelect.value = cuposParam <= 4 ? String(cuposParam) : '5+';
-
-            renderCompanionFields(cuposParam);
+            renderPases(cuposParam);
+            document.getElementById('pases-section').classList.remove('hidden');
         }
+
+        // El mensaje precargado de WhatsApp incluye el nombre del invitado cuando viene en la URL
+        const mensaje = guestParam
+            ? `Hola Nathaly y Pedro! Soy ${guestParam}. ¡Quiero confirmar mi asistencia a su matrimonio! 🎉`
+            : 'Hola Nathaly y Pedro! Quiero confirmar mi asistencia a su matrimonio 🎉';
+        document.getElementById('rsvp-whatsapp-btn').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
     }
 
-    /* ===== Campos dinámicos de acompañantes ===== */
-    function renderCompanionFields(count) {
-        const container = document.getElementById('companion-fields');
-        container.innerHTML = '';
-        if (!count || count <= 1) return;
-
-        if (count > 5) {
-            // Para grupos grandes, un campo de texto libre es más práctico que N inputs
-            const wrapper = document.createElement('div');
-            wrapper.innerHTML = `
-                <label class="block text-xs font-semibold text-stone-600 mb-1">Nombres de tus acompañantes</label>
-                <textarea id="rsvp-companions" rows="2" placeholder="Nombre y apellido de cada acompañante (opcional)" class="w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#7A8570] bg-[#F6F1E7]"></textarea>
+    /* ===== Pases: un punto dorado por cada cupo reservado para el invitado ===== */
+    function renderPases(cupos) {
+        const dotsContainer = document.getElementById('pases-dots');
+        dotsContainer.innerHTML = '';
+        for (let i = 1; i <= cupos; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'flex flex-col items-center gap-2';
+            dot.innerHTML = `
+                <span class="w-9 h-9 rounded-full shadow-sm" style="background: var(--gold-deep);"></span>
+                <span class="text-xs font-semibold text-white">${i}</span>
             `;
-            container.appendChild(wrapper);
-            return;
+            dotsContainer.appendChild(dot);
         }
 
-        for (let i = 1; i < count; i++) {
-            const wrapper = document.createElement('div');
-            wrapper.innerHTML = `
-                <label class="block text-xs font-semibold text-stone-600 mb-1">Nombre del acompañante ${i}</label>
-                <input type="text" class="rsvp-companion-input w-full p-3 border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#7A8570] bg-[#F6F1E7]" placeholder="Nombre completo (opcional)">
-            `;
-            container.appendChild(wrapper);
-        }
-    }
-
-    // Solo aplica cuando no hay cupos fijados por URL: el invitado elige manualmente
-    function handleGuestsChange(value) {
-        if (hasCupos) return;
-        const count = value === '5+' ? 6 : parseInt(value, 10);
-        renderCompanionFields(count || 0);
+        document.getElementById('pases-label').textContent = cupos > 1 ? 'Lugares en su honor' : 'Lugar en su honor';
     }
 
     applyGuestPersonalization();
@@ -824,7 +822,7 @@
         const distance = eventDate - now;
 
         if (distance < 0) {
-            document.getElementById("countdown").innerHTML = "<p class='col-span-4 text-center font-bold text-stone-700'>¡Hoy es nuestro gran día!</p>";
+            document.getElementById("countdown").innerHTML = "<p class='col-span-4 text-center font-bold text-white'>¡Hoy es nuestro gran día!</p>";
             return;
         }
 
@@ -842,12 +840,16 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    /* ===== Acordeón Mesa de Regalos ===== */
-    function toggleGiftDetails() {
-        const panel = document.getElementById('gift-panel');
-        const chevron = document.getElementById('gift-chevron');
-        panel.classList.toggle('open');
-        chevron.classList.toggle('rotated');
+    /* ===== Modal Datos Bancarios (Regalo) ===== */
+    function toggleGiftModal(show) {
+        const modal = document.getElementById('gift-modal');
+        if (show) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        } else {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
     }
 
     /* ===== Reproductor de Música de Fondo ===== */
@@ -867,66 +869,6 @@
         lucide.createIcons();
     }
 
-    /* ===== Envío del Formulario RSVP a Google Apps Script ===== */
-    function handleRSVP(event) {
-        event.preventDefault();
-
-        const submitBtn = document.getElementById('rsvp-submit-btn');
-        const submitText = document.getElementById('rsvp-submit-text');
-        const submitSpinner = document.getElementById('rsvp-submit-spinner');
-        const feedback = document.getElementById('rsvp-feedback');
-
-        const name = document.getElementById('rsvp-name').value;
-        const status = document.getElementById('rsvp-status').value;
-        const guests = document.getElementById('rsvp-guests').value || String(hasCupos ? cuposParam : 1);
-        const diet = document.getElementById('rsvp-diet').value;
-        const song = document.getElementById('rsvp-song').value;
-        const message = document.getElementById('rsvp-message').value;
-
-        const companionInputs = document.querySelectorAll('.rsvp-companion-input');
-        const companionsTextarea = document.getElementById('rsvp-companions');
-        const companions = companionInputs.length > 0
-            ? Array.from(companionInputs).map(input => input.value).filter(Boolean).join(', ')
-            : (companionsTextarea ? companionsTextarea.value : '');
-
-        // Deshabilita el botón y muestra el spinner para evitar envíos duplicados por doble clic
-        submitBtn.disabled = true;
-        submitText.textContent = 'Enviando...';
-        submitSpinner.classList.remove('hidden');
-        feedback.classList.add('hidden');
-
-        const payload = new FormData();
-        payload.append('nombre', name);
-        payload.append('asistencia', status);
-        payload.append('cupos', guests);
-        payload.append('acompanantes', companions);
-        payload.append('restricciones', diet);
-        payload.append('cancion', song);
-        payload.append('mensaje', message);
-
-        // mode: 'no-cors' es obligatorio porque los Web Apps de Apps Script no
-        // devuelven cabeceras CORS; a cambio la respuesta llega "opaca" (no se
-        // puede leer su contenido), así que solo nos sirve para detectar fallos de red reales.
-        fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: payload })
-            .then(() => {
-                feedback.classList.remove('hidden');
-                feedback.className = "text-xs text-center mt-3 font-semibold text-emerald-700";
-                feedback.innerText = `¡Muchas gracias ${name}! Tu respuesta ha sido registrada exitosamente.`;
-                document.getElementById('rsvp-form').reset();
-                document.getElementById('companion-fields').innerHTML = '';
-                submitText.textContent = '¡Respuesta Enviada!';
-            })
-            .catch(() => {
-                feedback.classList.remove('hidden');
-                feedback.className = "text-xs text-center mt-3 font-semibold text-red-600";
-                feedback.innerText = 'No pudimos enviar tu respuesta. Revisa tu conexión e inténtalo nuevamente.';
-                submitBtn.disabled = false;
-                submitText.textContent = 'Confirmar Asistencia';
-            })
-            .finally(() => {
-                submitSpinner.classList.add('hidden');
-            });
-    }
 </script>
 </body>
 </html>
