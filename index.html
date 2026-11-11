@@ -72,20 +72,38 @@
             background: currentColor;
             opacity: 0.5;
         }
-
-        /* Flores de esquina: imágenes reales (PNG transparente), no formas CSS.
-           Si el archivo aún no existe, se ocultan solas (onerror en el <img>) en vez de
-           mostrar el ícono de "imagen rota". */
-        .floral-corner {
-            position: absolute;
-            width: 38vw;
-            max-width: 170px;
-            height: auto;
-            pointer-events: none;
-            z-index: 1;
+        /* Trazo tipo "borde rasgado" para los separadores, en vez de una línea recta */
+        .leaf-divider .torn-line {
+            height: 10px;
+            width: 2.75rem;
+            opacity: 0.6;
+            flex-shrink: 0;
         }
-        .floral-tl { top: 0; left: 0; }
-        .floral-bl { bottom: 0; left: 0; }
+        .leaf-divider .sprig-accent {
+            margin-left: -0.5rem;
+            opacity: 0.6;
+            flex-shrink: 0;
+        }
+
+        /* ===== BORDE RASGADO entre bloques verde bosque y los bloques claros ===== */
+        .torn-edge {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 18px;
+        }
+        .torn-edge svg { display: block; width: 100%; height: 100%; }
+        .torn-edge-top { margin-top: -17px; }
+        .torn-edge-bottom { margin-bottom: -17px; }
+        .torn-edge .torn-flower {
+            position: absolute;
+            bottom: -6px;
+            right: 14%;
+            width: 2.25rem;
+            height: 2.25rem;
+            color: var(--gold);
+            opacity: 0.85;
+        }
 
         /* SOBRE 3D EN VERDE BOSQUE OSCURO: papel liso, sin texto gofrado */
         .envelope-perspective {
@@ -236,13 +254,6 @@
             backdrop-filter: blur(4px);
         }
 
-        .polaroid {
-            background: #fff;
-            padding: 10px 10px 22px 10px;
-            box-shadow: 0 10px 20px -6px rgba(0,0,0,0.2);
-            border: 1px solid rgba(0,0,0,0.04);
-        }
-
         /* ===== CARRUSEL DE FOTOS ===== */
         .gallery-track {
             display: flex;
@@ -307,6 +318,14 @@
         }
         .dark-input option { color: #1E4338; }
 
+        /* ===== TARJETA RSVP MULTI-PASO ===== */
+        .rsvp-toggle-btn.is-selected,
+        .rsvp-acomp-menu-btn.is-selected {
+            background: var(--gold-deep);
+            border-color: var(--gold-deep) !important;
+            color: var(--forest) !important;
+        }
+
         /* ===== ACORDEÓN (compatibilidad, no usado por el modal) ===== */
         .accordion-chevron { transition: transform 0.4s ease; }
         .accordion-chevron.rotated { transform: rotate(180deg); }
@@ -327,12 +346,9 @@
 <!-- PANTALLA SOBRE INICIAL -->
 <div id="envelope-screen" class="fixed inset-0 min-h-[100dvh] z-50 bg-[#F7F6F2] flex flex-col items-center justify-center overflow-hidden p-6 text-center select-none">
 
-    <!-- Flores de esquina: fotos reales en PNG transparente (ramas/hojas botánicas en acuarela).
-         Coloca los archivos en la raíz del proyecto, junto a portada.jpg, con estos nombres exactos:
-         flor-superior-izquierda.png y flor-inferior-izquierda.png
-         Mientras no existan, el onerror las oculta en vez de mostrar el ícono de imagen rota. -->
-    <img src="flor-superior-izquierda.png" alt="" class="floral-corner floral-tl" onerror="this.style.display='none'">
-    <img src="flor-inferior-izquierda.png" alt="" class="floral-corner floral-bl" onerror="this.style.display='none'">
+    <!-- Flores de esquina: mismo motivo SVG leaf-sprig que el resto del sitio (sin imágenes externas que puedan fallar). -->
+    <svg class="absolute top-6 left-4 w-20 h-20 opacity-40 pointer-events-none" style="color: var(--gold);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+    <svg class="absolute bottom-6 left-4 w-20 h-20 opacity-40 pointer-events-none" style="color: var(--gold); transform: scaleY(-1);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
 
     <div class="relative w-full max-w-[360px] flex flex-col items-center space-y-6" style="z-index: 10;">
 
@@ -391,15 +407,20 @@
 <!-- CONTENIDO PRINCIPAL DE LA INVITACIÓN -->
 <main class="max-w-md mx-auto bg-[#F7F6F2] min-h-screen shadow-2xl flex flex-col items-center relative overflow-hidden">
 
-    <!-- PORTADA BOTÁNICA: nombres sobre la foto + fecha + ubicación -->
-    <header class="w-full relative min-h-screen flex flex-col items-center justify-between text-center p-6 bg-cover bg-center" style="background-image: url('portada.jpg');">
+    <!-- PORTADA BOTÁNICA: nombres sobre el video + fecha + ubicación -->
+    <header class="w-full relative min-h-screen flex flex-col items-center justify-between text-center p-6 overflow-hidden">
 
-        <!-- Capa clara semitransparente que suaviza la imagen de fondo -->
-        <div class="absolute inset-0 bg-[#F7F6F2]/75 backdrop-blur-[2px]"></div>
+        <!-- Video de fondo en loop (silencioso y con playsinline para autoplay en móviles) -->
+        <video class="absolute inset-0 w-full h-full object-cover" autoplay loop muted playsinline poster="portada.jpg">
+            <source src="video-inicial.mp4" type="video/mp4">
+        </video>
+
+        <!-- Capa clara semitransparente que suaviza el video de fondo (opacidad baja para que el video se note) -->
+        <div class="absolute inset-0 bg-[#F7F6F2]/35"></div>
 
         <!-- Detalles botánicos de esquina del hero, en tono dorado -->
-        <svg class="leaf-corner w-24 h-24 top-4 left-2 z-[5]" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-        <svg class="leaf-corner w-24 h-24 bottom-4 right-2 z-[5]" viewBox="0 0 100 100" style="transform: rotate(180deg);"><use href="#leaf-sprig"/></svg>
+        <svg class="leaf-corner w-14 h-14 top-4 left-2 z-[5]" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <svg class="leaf-corner w-14 h-14 bottom-4 right-2 z-[5]" viewBox="0 0 100 100" style="transform: rotate(180deg);"><use href="#leaf-sprig"/></svg>
 
         <div class="relative z-10 w-full pt-10 space-y-2">
             <p class="text-[11px] uppercase tracking-[0.3em] font-semibold px-4" style="color: var(--ink);">Acompáñanos a celebrar nuestra boda</p>
@@ -428,8 +449,30 @@
         </div>
     </header>
 
+    <!-- Borde rasgado entre el video de portada y el bloque "Acompáñanos": corte irregular en vez de una línea recta -->
+    <div class="torn-edge torn-edge-top w-full relative z-10" style="color: var(--cream);">
+        <svg viewBox="0 0 400 20" preserveAspectRatio="none"><polygon points="0,10 20,3 40,14 60,4 80,16 100,2 120,15 140,5 160,17 180,3 200,13 220,6 240,16 260,2 280,14 300,4 320,17 340,3 360,15 380,5 400,12 400,20 0,20" fill="currentColor"/></svg>
+    </div>
+
+    <!-- Bloque tipográfico "Acompáñanos a celebrar nuestra boda", decorado con ramitas botánicas -->
+    <section class="w-full px-8 py-12 text-center relative overflow-hidden">
+        <svg class="absolute -top-3 left-2 w-20 h-20 opacity-50 pointer-events-none" style="color: var(--sage);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <svg class="absolute -bottom-3 right-2 w-20 h-20 opacity-50 pointer-events-none" style="color: var(--gold); transform: rotate(180deg);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <svg class="absolute top-4 right-6 w-10 h-10 opacity-35 pointer-events-none" style="color: var(--gold); transform: rotate(50deg);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        <svg class="absolute bottom-4 left-6 w-10 h-10 opacity-35 pointer-events-none" style="color: var(--sage); transform: rotate(230deg);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+
+        <div class="relative z-10">
+            <p class="font-serif-custom text-3xl font-bold uppercase tracking-wide leading-tight" style="color: var(--gold-deep);">Acompáñanos</p>
+            <p class="font-serif-custom text-lg italic font-light my-1" style="color: var(--ink);">a celebrar</p>
+            <p class="font-serif-custom text-3xl font-bold uppercase tracking-wide leading-tight" style="color: var(--gold-deep);">Nuestra Boda</p>
+        </div>
+    </section>
+
     <!-- BLOQUE VERDE BOSQUE OSCURO: Cuenta Regresiva -->
     <section class="w-full" style="background: var(--forest);">
+        <div class="torn-edge torn-edge-top" style="color: var(--forest);">
+            <svg viewBox="0 0 400 20" preserveAspectRatio="none"><polygon points="0,10 20,3 40,14 60,4 80,16 100,2 120,15 140,5 160,17 180,3 200,13 220,6 240,16 260,2 280,14 300,4 320,17 340,3 360,15 380,5 400,12 400,20 0,20" fill="currentColor"/></svg>
+        </div>
         <div class="px-6 py-10 text-center">
             <h2 class="text-xs uppercase tracking-[0.3em] mb-5 font-semibold" style="color: var(--gold-deep);">La Cuenta Regresiva Comienza</h2>
             <div id="countdown" class="grid grid-cols-4 gap-2 text-center">
@@ -468,13 +511,11 @@
                 </add-to-calendar-button>
             </div>
         </div>
+        <div class="torn-edge torn-edge-bottom" style="color: var(--forest);">
+            <svg viewBox="0 0 400 20" preserveAspectRatio="none"><polygon points="0,0 400,0 400,8 380,15 360,3 340,16 320,5 300,17 280,3 260,14 240,5 220,17 200,6 180,16 160,3 140,15 120,4 100,17 80,3 60,14 40,5 20,16 0,8" fill="currentColor"/></svg>
+            <svg class="torn-flower" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+        </div>
     </section>
-
-    <div class="leaf-divider w-full py-6">
-        <span class="line"></span>
-        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-        <span class="line"></span>
-    </div>
 
     <!-- Carrusel / Galería de Fotos -->
     <section class="w-full pl-6 pb-2 text-center">
@@ -490,20 +531,17 @@
         <!-- Reemplaza los src por foto1.jpg, foto2.jpg, foto3.jpg... para variar las imágenes del carrusel -->
     </section>
 
-    <div class="leaf-divider w-full py-6">
-        <span class="line"></span>
-        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-        <span class="line"></span>
-    </div>
-
-    <!-- BLOQUE VERDE BOSQUE OSCURO: Confirma tu Asistencia -->
+    <!-- BLOQUE VERDE BOSQUE OSCURO: Confirma tu Asistencia (RSVP conversacional multi-paso) -->
     <section class="w-full" style="background: var(--forest);">
-        <!-- Confirma tu Asistencia (vía WhatsApp) -->
+        <div class="torn-edge torn-edge-top" style="color: var(--forest);">
+            <svg viewBox="0 0 400 20" preserveAspectRatio="none"><polygon points="0,10 20,3 40,14 60,4 80,16 100,2 120,15 140,5 160,17 180,3 200,13 220,6 240,16 260,2 280,14 300,4 320,17 340,3 360,15 380,5 400,12 400,20 0,20" fill="currentColor"/></svg>
+        </div>
         <div class="w-full px-6 py-10 text-center">
             <h3 class="font-script-custom text-4xl sm:text-5xl text-white">Confirma tu Asistencia</h3>
             <p class="text-xs text-white/70 mt-3 max-w-xs mx-auto leading-relaxed">
                 Prepárate para disfrutar y celebrar con nosotros&hellip; ¡no dejes en casa los zapatos de baile!
             </p>
+
             <!-- Pases: cupos reservados, personalizado por invitado vía ?cupos= en la URL -->
             <div id="pases-section" class="hidden mt-6">
                 <p class="text-[11px] uppercase tracking-[0.2em] font-semibold" style="color: var(--gold-deep);">Hemos reservado</p>
@@ -511,52 +549,74 @@
                 <p id="pases-label" class="text-[11px] uppercase tracking-[0.2em] font-semibold mt-4" style="color: var(--gold-deep);">Lugar en su honor</p>
             </div>
 
-            <a id="rsvp-whatsapp-btn" href="https://wa.me/56997319172" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center justify-center gap-2 py-3.5 px-8 font-semibold rounded-full text-xs uppercase tracking-wider shadow-lg transition hover:brightness-110" style="background: var(--gold-deep); color: #1E4338;">
-                Confirma Aquí
-                <i data-lucide="users" class="w-4 h-4"></i>
-            </a>
+            <!-- Tarjeta RSVP: cada "paso" es un div .rsvp-step que se muestra/oculta con rsvpGoToStep() -->
+            <div id="rsvp-card" class="mt-8 max-w-[320px] mx-auto rounded-2xl p-5 text-left" style="background: var(--forest-deep); border: 1px solid rgba(197,160,89,0.25);">
+
+                <!-- Paso 1: asistencia -->
+                <div id="rsvp-step-1" class="rsvp-step space-y-3">
+                    <p class="text-center text-sm font-semibold text-white mb-1">¿Nos acompañas a celebrar?</p>
+                    <button type="button" onclick="rsvpSetAsistencia(true)" class="w-full py-3.5 px-4 rounded-xl text-sm font-bold transition hover:brightness-110" style="background: var(--gold-deep); color: var(--forest);">
+                        ¡Sí, ahí estaré! 🎉
+                    </button>
+                    <button type="button" onclick="rsvpSetAsistencia(false)" class="w-full py-3.5 px-4 rounded-xl text-sm font-semibold border transition hover:bg-white/5" style="border-color: rgba(247,246,242,0.3); color: #F7F6F2;">
+                        Lo siento, no puedo 🥺
+                    </button>
+                </div>
+
+                <!-- Paso 2: menú propio + acompañantes, cada uno con su propio menú -->
+                <div id="rsvp-step-2" class="rsvp-step hidden space-y-5">
+                    <div>
+                        <p id="rsvp-menu-principal-label" class="text-[11px] font-semibold uppercase tracking-wider mb-2" style="color: var(--gold-deep);">Tu menú</p>
+                        <div class="space-y-2">
+                            <button type="button" onclick="rsvpSetMenuPrincipal('Menú Normal', this)" class="rsvp-toggle-btn w-full py-2.5 rounded-xl text-xs font-semibold border transition text-center" style="border-color: rgba(247,246,242,0.3); color:#F7F6F2;">Menú Normal</button>
+                            <button type="button" onclick="rsvpSetMenuPrincipal('Vegetariano/Vegano', this)" class="rsvp-toggle-btn w-full py-2.5 rounded-xl text-xs font-semibold border transition text-center" style="border-color: rgba(247,246,242,0.3); color:#F7F6F2;">Vegetariano/Vegano</button>
+                            <button type="button" onclick="rsvpSetMenuPrincipal('Sin Gluten / Alergia', this)" class="rsvp-toggle-btn w-full py-2.5 rounded-xl text-xs font-semibold border transition text-center" style="border-color: rgba(247,246,242,0.3); color:#F7F6F2;">Sin Gluten / Alergia</button>
+                        </div>
+                    </div>
+
+                    <div id="rsvp-acompanante-wrap">
+                        <p class="text-[11px] font-semibold uppercase tracking-wider mb-2" style="color: var(--gold-deep);">¿Vienes acompañado?</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button type="button" onclick="rsvpSetAcompanante(false)" id="rsvp-btn-solo" class="rsvp-toggle-btn py-2.5 rounded-xl text-xs font-semibold border transition" style="border-color: rgba(247,246,242,0.3); color:#F7F6F2;">Vengo solo/a</button>
+                            <button type="button" onclick="rsvpSetAcompanante(true)" id="rsvp-btn-acomp" class="rsvp-toggle-btn py-2.5 rounded-xl text-xs font-semibold border transition" style="border-color: rgba(247,246,242,0.3); color:#F7F6F2;">Con acompañante</button>
+                        </div>
+
+                        <!-- Si hay más de 1 cupo disponible para acompañantes, se pide elegir cuántos vienen -->
+                        <div id="rsvp-cantidad-wrap" class="hidden mt-3">
+                            <p class="text-[11px] text-white/70 mb-2">¿Cuántos acompañantes?</p>
+                            <div id="rsvp-cantidad-opciones" class="flex flex-wrap gap-2"></div>
+                        </div>
+
+                        <!-- Una tarjeta (nombre + menú propio) por cada acompañante, según la cantidad elegida -->
+                        <div id="rsvp-acompanantes-inputs" class="hidden mt-3 space-y-3"></div>
+                    </div>
+
+                    <button type="button" onclick="rsvpGoToStep(3)" id="rsvp-btn-continuar" disabled class="w-full py-3 rounded-xl text-sm font-semibold transition opacity-40 cursor-not-allowed" style="background: var(--gold-deep); color: var(--forest);">
+                        Continuar
+                    </button>
+                </div>
+
+                <!-- Paso 3: resumen + confirmar y enviar -->
+                <div id="rsvp-step-3" class="rsvp-step hidden space-y-4 text-center">
+                    <p id="rsvp-resumen" class="text-xs text-white/85 leading-relaxed" style="white-space: pre-line;"></p>
+                    <button type="button" onclick="rsvpEnviar()" id="rsvp-btn-enviar" class="w-full py-3.5 rounded-xl text-sm font-bold uppercase tracking-wide transition hover:brightness-110" style="background: var(--gold-deep); color: var(--forest);">
+                        Confirmar y Enviar
+                    </button>
+                </div>
+
+                <!-- Paso 4: agradecimiento -->
+                <div id="rsvp-step-4" class="rsvp-step hidden text-center space-y-2 py-2">
+                    <i data-lucide="check-circle-2" class="w-8 h-8 mx-auto" style="color: var(--gold-deep);"></i>
+                    <p class="text-sm font-semibold text-white">¡Gracias por confirmar!</p>
+                    <p class="text-xs text-white/70">Se abrió WhatsApp para que nos mandes el resumen. Te esperamos con muchas ganas.</p>
+                </div>
+            </div>
+        </div>
+        <div class="torn-edge torn-edge-bottom" style="color: var(--forest);">
+            <svg viewBox="0 0 400 20" preserveAspectRatio="none"><polygon points="0,0 400,0 400,8 380,15 360,3 340,16 320,5 300,17 280,3 260,14 240,5 220,17 200,6 180,16 160,3 140,15 120,4 100,17 80,3 60,14 40,5 20,16 0,8" fill="currentColor"/></svg>
+            <svg class="torn-flower" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
         </div>
     </section>
-
-    <div class="leaf-divider w-full py-6">
-        <span class="line"></span>
-        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-        <span class="line"></span>
-    </div>
-
-    <!-- Las Fotitos -->
-    <section class="w-full px-8 pt-10 text-center space-y-3">
-        <h3 class="text-2xl font-serif-custom font-bold" style="color: var(--gold-deep);">Las Fotitos</h3>
-        <p class="text-sm font-serif-custom italic leading-relaxed" style="color: var(--ink);">
-            "Un camino que comenzó siendo dos y hoy celebramos como uno solo."
-        </p>
-
-        <!-- Collage Polaroid con decoración botánica -->
-        <div class="relative h-[300px] max-w-[280px] mx-auto pt-8">
-            <svg class="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-20 opacity-60 pointer-events-none" style="color: var(--sage);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-            <svg class="absolute -bottom-3 left-2 w-16 h-16 opacity-50 pointer-events-none" style="color: var(--gold); transform: rotate(160deg);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-
-            <div class="polaroid absolute left-0 top-10 w-[150px] transform -rotate-6 z-10">
-                <img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-[150px] object-cover">
-                <p class="text-center text-xs mt-2" style="color: var(--sage);">❤️</p>
-            </div>
-            <div class="polaroid absolute right-0 top-2 w-[150px] transform rotate-3 z-20">
-                <img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-[150px] object-cover">
-                <p class="text-center text-xs mt-2" style="color: var(--sage);">✨</p>
-            </div>
-            <div class="polaroid absolute left-1/2 -translate-x-1/2 bottom-0 w-[160px] transform rotate-1 z-30">
-                <img src="portada.jpg" alt="Nathaly y Pedro" class="w-full h-[155px] object-cover">
-                <p class="text-center text-xs mt-2" style="color: var(--sage);">💍</p>
-            </div>
-        </div>
-        <!-- Reemplaza los src de las imágenes anteriores por foto1.jpg / foto2.jpg / foto3.jpg cuando tengas más fotos -->
-    </section>
-
-    <div class="leaf-divider w-full py-6">
-        <span class="line"></span>
-        <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-        <span class="line"></span>
-    </div>
 
     <!-- Tarjetas Verde Salvia: Dress Code & Regalo -->
     <section class="w-full px-6 space-y-4">
@@ -593,9 +653,10 @@
     </section>
 
     <div class="leaf-divider w-full py-6">
-        <span class="line"></span>
+        <svg class="torn-line" viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M0,6 L8,2 L16,9 L24,3 L32,8 L40,2 L48,9 L56,3 L64,8 L72,2 L80,9 L88,4 L96,7 L104,3 L112,6 L120,5" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-        <span class="line"></span>
+        <svg class="sprig-accent w-3 h-3" viewBox="0 0 100 100" style="transform: rotate(40deg);"><use href="#leaf-sprig"/></svg>
+        <svg class="torn-line" viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M0,5 L8,8 L16,3 L24,9 L32,2 L40,8 L48,3 L56,9 L64,2 L72,8 L80,3 L88,9 L96,4 L104,7 L112,3 L120,6" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
 
     <!-- Itinerario: Timeline Curvo -->
@@ -607,11 +668,19 @@
         </div>
 
         <div class="timeline-track">
-            <svg class="timeline-wave" viewBox="0 0 400 85" preserveAspectRatio="none" aria-hidden="true">
-                <path d="M50,30 C83.3,30 116.6,55 150,55 C183.3,55 216.6,30 250,30 C283.3,30 316.6,55 350,55" fill="none" stroke="var(--gold)" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round"/>
+            <svg class="timeline-wave" viewBox="0 0 500 85" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M50,30 C83.3,30 116.6,55 150,55 C183.3,55 216.6,30 250,30 C283.3,30 316.6,55 350,55 C383.3,55 416.6,30 450,30" fill="none" stroke="var(--gold)" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round"/>
             </svg>
 
             <div class="timeline-stop is-up">
+                <div class="w-10 h-10 mx-auto rounded-full flex items-center justify-center shadow-sm" style="background: var(--forest);">
+                    <i data-lucide="door-open" class="w-4 h-4" style="color: var(--gold-deep);"></i>
+                </div>
+                <p class="text-[10px] font-semibold mt-2" style="color: var(--sage-deep);">18:00 hrs</p>
+                <h4 class="text-xs font-serif-custom font-bold" style="color: var(--ink);">Llegada invitados</h4>
+            </div>
+
+            <div class="timeline-stop is-down">
                 <div class="w-10 h-10 mx-auto rounded-full flex items-center justify-center shadow-sm" style="background: var(--forest);">
                     <i data-lucide="gem" class="w-4 h-4" style="color: var(--gold-deep);"></i>
                 </div>
@@ -619,7 +688,7 @@
                 <h4 class="text-xs font-serif-custom font-bold" style="color: var(--ink);">Ceremonia</h4>
             </div>
 
-            <div class="timeline-stop is-down">
+            <div class="timeline-stop is-up">
                 <div class="w-10 h-10 mx-auto rounded-full flex items-center justify-center shadow-sm" style="background: var(--forest);">
                     <i data-lucide="martini" class="w-4 h-4" style="color: var(--gold-deep);"></i>
                 </div>
@@ -627,7 +696,7 @@
                 <h4 class="text-xs font-serif-custom font-bold" style="color: var(--ink);">Cóctel</h4>
             </div>
 
-            <div class="timeline-stop is-up">
+            <div class="timeline-stop is-down">
                 <div class="w-10 h-10 mx-auto rounded-full flex items-center justify-center shadow-sm" style="background: var(--forest);">
                     <i data-lucide="utensils-crossed" class="w-4 h-4" style="color: var(--gold-deep);"></i>
                 </div>
@@ -635,7 +704,7 @@
                 <h4 class="text-xs font-serif-custom font-bold" style="color: var(--ink);">Cena</h4>
             </div>
 
-            <div class="timeline-stop is-down">
+            <div class="timeline-stop is-up">
                 <div class="w-10 h-10 mx-auto rounded-full flex items-center justify-center shadow-sm" style="background: var(--forest);">
                     <i data-lucide="music" class="w-4 h-4" style="color: var(--gold-deep);"></i>
                 </div>
@@ -661,9 +730,10 @@
     </section>
 
     <div class="leaf-divider w-full py-6">
-        <span class="line"></span>
+        <svg class="torn-line" viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M0,6 L8,2 L16,9 L24,3 L32,8 L40,2 L48,9 L56,3 L64,8 L72,2 L80,9 L88,4 L96,7 L104,3 L112,6 L120,5" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-        <span class="line"></span>
+        <svg class="sprig-accent w-3 h-3" viewBox="0 0 100 100" style="transform: rotate(40deg);"><use href="#leaf-sprig"/></svg>
+        <svg class="torn-line" viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M0,5 L8,8 L16,3 L24,9 L32,2 L40,8 L48,3 L56,9 L64,2 L72,8 L80,3 L88,9 L96,4 L104,7 L112,3 L120,6" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
 
     <!-- Módulo Spotify: Pide tu Canción para la Fiesta -->
@@ -683,9 +753,10 @@
     </section>
 
     <div class="leaf-divider w-full py-6">
-        <span class="line"></span>
+        <svg class="torn-line" viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M0,6 L8,2 L16,9 L24,3 L32,8 L40,2 L48,9 L56,3 L64,8 L72,2 L80,9 L88,4 L96,7 L104,3 L112,6 L120,5" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <svg class="w-5 h-5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-        <span class="line"></span>
+        <svg class="sprig-accent w-3 h-3" viewBox="0 0 100 100" style="transform: rotate(40deg);"><use href="#leaf-sprig"/></svg>
+        <svg class="torn-line" viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M0,5 L8,8 L16,3 L24,9 L32,2 L40,8 L48,3 L56,9 L64,2 L72,8 L80,3 L88,9 L96,4 L104,7 L112,3 L120,6" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
 
     <!-- Comparte tus Fotos -->
@@ -740,8 +811,10 @@
 <script>
     lucide.createIcons();
 
-    /* ===== Número de WhatsApp para la confirmación de asistencia ===== */
-    const WHATSAPP_NUMBER = "56997319172";
+    /* ===== RSVP: WhatsApp personal de destino y backend de registro (Google Apps Script) ===== */
+    const PEDRO_WHATSAPP_NUMBER = "56997319172";
+    // Pega aquí la URL de tu implementación de Apps Script (Implementar > Administrar implementaciones).
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby82w4kNtRRHEWFX29AkOzhTyh-rViZnQ7oDlDxVdRWes12Vj-mN63UlLzX0-OK28n1/exec";
 
     /* ===== Personalización por Parámetros de URL (?nombre=...&cupos=...) ===== */
     const urlParams = new URLSearchParams(window.location.search);
@@ -757,12 +830,6 @@
             renderPases(cuposParam);
             document.getElementById('pases-section').classList.remove('hidden');
         }
-
-        // El mensaje precargado de WhatsApp incluye el nombre del invitado cuando viene en la URL
-        const mensaje = guestParam
-            ? `Hola Nathaly y Pedro! Soy ${guestParam}. ¡Quiero confirmar mi asistencia a su matrimonio! 🎉`
-            : 'Hola Nathaly y Pedro! Quiero confirmar mi asistencia a su matrimonio 🎉';
-        document.getElementById('rsvp-whatsapp-btn').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
     }
 
     /* ===== Pases: un punto dorado por cada cupo reservado para el invitado ===== */
@@ -783,6 +850,199 @@
     }
 
     applyGuestPersonalization();
+
+    /* ===== RSVP conversacional multi-paso ===== */
+    // Cupos reservados menos el invitado principal = maximo de acompanantes que puede nombrar.
+    // Sin ?cupos= en la URL (link generico) se deja un tope razonable de 4.
+    const RSVP_MAX_ACOMPANANTES = hasCupos ? Math.max(cuposParam - 1, 0) : 4;
+
+    // Cada acompañante es { nombre, menu } — el menú se elige junto a su propio nombre,
+    // nunca se asume que todo el grupo come lo mismo que el invitado principal.
+    const rsvpState = { estado: null, menuPrincipal: null, conAcompanante: false, acompanantesCount: 0, acompanantes: [] };
+
+    const MENUS = ['Menú Normal', 'Vegetariano/Vegano', 'Sin Gluten / Alergia'];
+    // Etiquetas cortas solo para los chips compactos de cada acompañante (el valor
+    // completo de MENUS se sigue usando en el resumen y en lo que se envía al backend).
+    const MENU_CHIP_LABEL = { 'Menú Normal': 'Normal', 'Vegetariano/Vegano': 'Vegetariano', 'Sin Gluten / Alergia': 'Sin Gluten' };
+
+    function rsvpGoToStep(step) {
+        document.querySelectorAll('.rsvp-step').forEach(el => el.classList.add('hidden'));
+        if (step === 3) document.getElementById('rsvp-resumen').textContent = rsvpBuildResumenTexto();
+        document.getElementById(`rsvp-step-${step}`).classList.remove('hidden');
+    }
+
+    function rsvpSetAsistencia(asiste) {
+        rsvpState.estado = asiste ? 'Aceptado' : 'Rechazado';
+        if (asiste) {
+            document.getElementById('rsvp-menu-principal-label').textContent = `Tu menú (${guestParam || 'invitado principal'})`;
+            if (RSVP_MAX_ACOMPANANTES === 0) {
+                // Sin cupos extra reservados, no tiene sentido preguntar por acompañantes.
+                document.getElementById('rsvp-acompanante-wrap').classList.add('hidden');
+            }
+        }
+        rsvpGoToStep(asiste ? 2 : 3);
+    }
+
+    function rsvpSetMenuPrincipal(menu, btnEl) {
+        rsvpState.menuPrincipal = menu;
+        btnEl.parentElement.querySelectorAll('.rsvp-toggle-btn').forEach(b => b.classList.remove('is-selected'));
+        btnEl.classList.add('is-selected');
+        rsvpUpdateContinuar();
+    }
+
+    function rsvpSetAcompanante(conAcompanante) {
+        rsvpState.conAcompanante = conAcompanante;
+        document.getElementById('rsvp-btn-solo').classList.toggle('is-selected', !conAcompanante);
+        document.getElementById('rsvp-btn-acomp').classList.toggle('is-selected', conAcompanante);
+
+        const cantidadWrap = document.getElementById('rsvp-cantidad-wrap');
+        const inputsWrap = document.getElementById('rsvp-acompanantes-inputs');
+
+        if (!conAcompanante) {
+            rsvpState.acompanantesCount = 0;
+            rsvpState.acompanantes = [];
+            cantidadWrap.classList.add('hidden');
+            inputsWrap.classList.add('hidden');
+            inputsWrap.innerHTML = '';
+        } else if (RSVP_MAX_ACOMPANANTES <= 1) {
+            // Solo puede traer 1 acompañante: nos saltamos el selector de cantidad.
+            rsvpState.acompanantesCount = 1;
+            cantidadWrap.classList.add('hidden');
+            rsvpRenderAcompanantesInputs(1);
+        } else {
+            rsvpRenderCantidadOpciones();
+            cantidadWrap.classList.remove('hidden');
+            inputsWrap.classList.add('hidden');
+            inputsWrap.innerHTML = '';
+            rsvpState.acompanantesCount = 0;
+        }
+        rsvpUpdateContinuar();
+    }
+
+    function rsvpRenderCantidadOpciones() {
+        const wrap = document.getElementById('rsvp-cantidad-opciones');
+        wrap.innerHTML = '';
+        for (let n = 1; n <= RSVP_MAX_ACOMPANANTES; n++) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'rsvp-toggle-btn px-4 py-2 rounded-xl text-xs font-semibold border transition';
+            btn.style.borderColor = 'rgba(247,246,242,0.3)';
+            btn.style.color = '#F7F6F2';
+            btn.textContent = String(n);
+            btn.onclick = () => rsvpSetCantidadAcompanantes(n, btn);
+            wrap.appendChild(btn);
+        }
+    }
+
+    function rsvpSetCantidadAcompanantes(n, btnEl) {
+        rsvpState.acompanantesCount = n;
+        document.querySelectorAll('#rsvp-cantidad-opciones .rsvp-toggle-btn').forEach(b => b.classList.remove('is-selected'));
+        btnEl.classList.add('is-selected');
+        rsvpRenderAcompanantesInputs(n);
+        rsvpUpdateContinuar();
+    }
+
+    // Por cada acompañante se arma una tarjeta: nombre + su propio selector de menú
+    // (chips compactos, uno de los 3 valores de MENUS), para no asumir que comen lo mismo.
+    function rsvpRenderAcompanantesInputs(n) {
+        rsvpState.acompanantes = Array.from({ length: n }, () => ({ nombre: '', menu: null }));
+
+        const wrap = document.getElementById('rsvp-acompanantes-inputs');
+        wrap.innerHTML = '';
+        for (let i = 0; i < n; i++) {
+            const card = document.createElement('div');
+            card.className = 'rsvp-acomp-card space-y-2 p-3 rounded-xl';
+            card.style.border = '1px solid rgba(247,246,242,0.18)';
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = n === 1 ? 'Nombre de tu acompañante' : `Nombre acompañante ${i + 1}`;
+            input.className = 'rsvp-acomp-input dark-input w-full py-2.5 px-3 rounded-xl text-sm';
+            input.addEventListener('input', () => {
+                rsvpState.acompanantes[i].nombre = input.value.trim();
+                rsvpUpdateContinuar();
+            });
+            card.appendChild(input);
+
+            const menuRow = document.createElement('div');
+            menuRow.className = 'grid grid-cols-3 gap-1.5';
+            MENUS.forEach(menuOpcion => {
+                const chip = document.createElement('button');
+                chip.type = 'button';
+                chip.className = 'rsvp-acomp-menu-btn flex items-center justify-center text-center whitespace-normal break-words min-h-[2.5rem] py-1.5 px-1 rounded-lg text-[10px] font-semibold border transition leading-tight';
+                chip.style.borderColor = 'rgba(247,246,242,0.3)';
+                chip.style.color = '#F7F6F2';
+                chip.textContent = MENU_CHIP_LABEL[menuOpcion] || menuOpcion;
+                chip.onclick = () => {
+                    rsvpState.acompanantes[i].menu = menuOpcion;
+                    menuRow.querySelectorAll('.rsvp-acomp-menu-btn').forEach(b => b.classList.remove('is-selected'));
+                    chip.classList.add('is-selected');
+                    rsvpUpdateContinuar();
+                };
+                menuRow.appendChild(chip);
+            });
+            card.appendChild(menuRow);
+
+            wrap.appendChild(card);
+        }
+        wrap.classList.remove('hidden');
+    }
+
+    function rsvpUpdateContinuar() {
+        const cantidadElegida = !rsvpState.conAcompanante || rsvpState.acompanantesCount > 0;
+        const acompanantesCompletos = !rsvpState.conAcompanante ||
+            (rsvpState.acompanantes.length === rsvpState.acompanantesCount &&
+                rsvpState.acompanantes.every(a => a.nombre.length > 0 && !!a.menu));
+        const listo = !!rsvpState.menuPrincipal && cantidadElegida && acompanantesCompletos;
+
+        const btn = document.getElementById('rsvp-btn-continuar');
+        btn.disabled = !listo;
+        btn.classList.toggle('opacity-40', !listo);
+        btn.classList.toggle('cursor-not-allowed', !listo);
+    }
+
+    function rsvpBuildResumenTexto() {
+        const nombre = guestParam || 'Invitado';
+        if (rsvpState.estado === 'Rechazado') {
+            return `${nombre}, lamentamos mucho que no puedas acompañarnos. ¡Gracias por avisarnos!`;
+        }
+
+        const lineas = [`${nombre} — Menú: ${rsvpState.menuPrincipal}`];
+        rsvpState.acompanantes.forEach(a => lineas.push(`${a.nombre} — Menú: ${a.menu}`));
+        lineas.push('');
+        lineas.push('¿Confirmamos tu asistencia así?');
+        return lineas.join('\n');
+    }
+
+    function rsvpEnviar() {
+        const nombre = guestParam || 'Invitado';
+        // Se manda cada acompañante como {nombre, menu} (no como texto ya armado) para que
+        // el backend construya las columnas Acompañante y Menú de forma consistente,
+        // siempre con el nombre de cada persona junto a su propio menú.
+        const payload = {
+            nombre: nombre,
+            estado: rsvpState.estado,
+            menuPrincipal: rsvpState.estado === 'Aceptado' ? rsvpState.menuPrincipal : '',
+            acompanantes: rsvpState.conAcompanante ? rsvpState.acompanantes : []
+        };
+
+        // Se manda como form-urlencoded (vía URLSearchParams, que fetch codifica solo) y
+        // no como texto plano con JSON.stringify: Apps Script tiene un bug conocido que
+        // corrompe tildes/ñ al leer el body crudo (e.postData), pero decodifica bien el
+        // UTF-8 cuando llega como parametro de formulario (e.parameter). Sigue siendo un
+        // content-type "simple" para CORS, así que no dispara preflight.
+        fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            body: new URLSearchParams({ payload: JSON.stringify(payload) })
+        }).catch(() => {});
+
+        const mensajeWhatsapp = rsvpState.estado === 'Aceptado'
+            ? `¡Hola Pedro! Soy ${nombre} y acabo de confirmar mi asistencia en la página web para el matrimonio de Nathaly y tú. ¡Ahí estaremos!`
+            : `Hola Pedro, soy ${nombre}. Lamentablemente no podré acompañarlos en su matrimonio. ¡Gracias por la invitación!`;
+        window.open(`https://wa.me/${PEDRO_WHATSAPP_NUMBER}?text=${encodeURIComponent(mensajeWhatsapp)}`, '_blank');
+
+        rsvpGoToStep(4);
+    }
 
     /* ===== Apertura del Sobre ===== */
     function openEnvelope() {
