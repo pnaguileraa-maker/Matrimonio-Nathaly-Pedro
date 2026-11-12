@@ -11,7 +11,7 @@
          llegar si o si a telefonos que ya abrieron el link antes. -->
     <script>
         (function () {
-            var CACHE_BUILD = "2026-11-12-4";
+            var CACHE_BUILD = "2026-11-12-5";
             var params = new URLSearchParams(window.location.search);
             if (params.get('_v') !== CACHE_BUILD) {
                 params.set('_v', CACHE_BUILD);
@@ -19,6 +19,27 @@
                 window.location.replace(newUrl);
             }
         })();
+    </script>
+
+    <!-- Evita que el navegador "recuerde" el scroll o el sobre ya abierto de una
+         visita anterior (bfcache / restauracion de scroll): cada vez que se abre
+         el link, la invitacion debe arrancar desde el sobre cerrado, no desde
+         donde haya quedado la ultima vez. -->
+    <script>
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                // Pagina restaurada desde la cache de atras/adelante del navegador,
+                // con el DOM tal como quedo (sobre ya abierto, scroll a mitad de
+                // pagina, etc.): se recarga entera para que arranque igual que una
+                // visita nueva.
+                window.location.reload();
+            } else {
+                window.scrollTo(0, 0);
+            }
+        });
     </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -914,6 +935,12 @@
         document.querySelectorAll('.rsvp-step').forEach(el => el.classList.add('hidden'));
         if (step === 3) document.getElementById('rsvp-resumen').textContent = rsvpBuildResumenTexto();
         document.getElementById(`rsvp-step-${step}`).classList.remove('hidden');
+
+        // Sin esto, al pasar de un paso largo (ej. varios acompañantes) a uno mas
+        // corto, el scroll se queda donde estaba y el boton del nuevo paso (ej.
+        // "Confirmar y Enviar") puede quedar fuera de la vista sin que el
+        // invitado se de cuenta de que tiene que subir para encontrarlo.
+        document.getElementById('rsvp-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function rsvpSetAsistencia(asiste) {
