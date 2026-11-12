@@ -1068,8 +1068,8 @@
         }).catch(() => {});
 
         const mensajeWhatsapp = rsvpState.estado === 'Aceptado'
-            ? `¡Hola Pedro! Soy ${nombre} y acabo de confirmar mi asistencia en la página web para el matrimonio de Nathaly y tú. ¡Ahí estaremos!`
-            : `Hola Pedro, soy ${nombre}. Lamentablemente no podré acompañarlos en su matrimonio. ¡Gracias por la invitación!`;
+            ? `¡Hola Pedro! 💍✨ Soy ${nombre} y acabo de confirmar mi asistencia a tu boda con Nathaly. ¡Ya quiero que llegue el 06 de febrero para celebrar junto a ustedes! Nos vemos ahí 🎉💛`
+            : `Hola Pedro 💛 Soy ${nombre}. Lamentablemente no podré acompañarlos en su boda, pero voy a estar con ustedes en el corazón ese día. ¡Gracias por pensar en mí para un momento tan especial! 🙏`;
         window.open(`https://wa.me/${PEDRO_WHATSAPP_NUMBER}?text=${encodeURIComponent(mensajeWhatsapp)}`, '_blank');
 
         rsvpGoToStep(4);
