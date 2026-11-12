@@ -2,11 +2,29 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+
+    <!-- Auto cache-bust: si el telefono del invitado tiene guardada una copia vieja
+         del sitio (las etiquetas <meta> de cache no son confiables, el navegador
+         decide por sus propias reglas), este script la detecta y lo redirige solo
+         a la version actual, sin que el invitado tenga que hacer nada.
+         IMPORTANTE: subir este numero cada vez que se publique un cambio que deba
+         llegar si o si a telefonos que ya abrieron el link antes. -->
+    <script>
+        (function () {
+            var CACHE_BUILD = "2026-11-12-1";
+            var params = new URLSearchParams(window.location.search);
+            if (params.get('_v') !== CACHE_BUILD) {
+                params.set('_v', CACHE_BUILD);
+                var newUrl = window.location.pathname + '?' + params.toString() + window.location.hash;
+                window.location.replace(newUrl);
+            }
+        })();
+    </script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Nathaly & Pedro | Invitación de Matrimonio</title>
 
-    <!-- Evita que el navegador del invitado se quede con una copia vieja del sitio
-         en cache tras futuras actualizaciones (ver nota al pie sobre limitaciones). -->
+    <!-- Refuerzo adicional (debil por si solo, pero no esta de mas) -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
