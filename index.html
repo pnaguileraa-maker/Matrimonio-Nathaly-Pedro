@@ -586,12 +586,12 @@
 
                 <!-- Paso 1: asistencia -->
                 <div id="rsvp-step-1" class="rsvp-step space-y-3">
-                    <p class="text-center text-sm font-semibold text-white mb-1">¿Nos acompañas a celebrar?</p>
+                    <p id="rsvp-pregunta-asistencia" class="text-center text-sm font-semibold text-white mb-1">¿Nos acompañas a celebrar?</p>
                     <button type="button" onclick="rsvpSetAsistencia(true)" class="w-full py-3.5 px-4 rounded-xl text-sm font-bold transition hover:brightness-110" style="background: var(--gold-deep); color: var(--forest);">
-                        ¡Sí, ahí estaré! 🎉
+                        <span id="rsvp-btn-si-texto">¡Sí, ahí estaré! 🎉</span>
                     </button>
                     <button type="button" onclick="rsvpSetAsistencia(false)" class="w-full py-3.5 px-4 rounded-xl text-sm font-semibold border transition hover:bg-white/5" style="border-color: rgba(247,246,242,0.3); color: #F7F6F2;">
-                        Lo siento, no puedo 🥺
+                        <span id="rsvp-btn-no-texto">Lo siento, no puedo 🥺</span>
                     </button>
                 </div>
 
@@ -853,9 +853,23 @@
     const cuposParam = parseInt(urlParams.get('cupos'), 10);
     const hasCupos = !isNaN(cuposParam) && cuposParam > 0;
 
+    // Invitaciones como "Silvia y Hector" o "Franco y familia" representan a mas de
+    // una persona: todo el texto que se dirige al invitado (tu/soy/estare, etc.) debe
+    // hablarle en plural (su/somos/estaremos) en vez de en singular, o se lee raro.
+    function esNombrePlural(nombre) {
+        if (!nombre) return false;
+        const n = nombre.toLowerCase();
+        return / y /.test(n) || n.includes('familia');
+    }
+    const esPlural = esNombrePlural(guestParam);
+
     function applyGuestPersonalization() {
         // textContent (no innerHTML) evita que el parámetro de la URL inyecte HTML/JS
         document.getElementById('guest-name').textContent = guestParam ? `¡Hola, ${guestParam}!` : '¡Bienvenido(a)!';
+
+        document.getElementById('rsvp-pregunta-asistencia').textContent = esPlural ? '¿Nos acompañan a celebrar?' : '¿Nos acompañas a celebrar?';
+        document.getElementById('rsvp-btn-si-texto').textContent = esPlural ? '¡Sí, ahí estaremos! 🎉' : '¡Sí, ahí estaré! 🎉';
+        document.getElementById('rsvp-btn-no-texto').textContent = esPlural ? 'Lo sentimos, no podemos 🥺' : 'Lo siento, no puedo 🥺';
 
         if (hasCupos) {
             renderPases(cuposParam);
@@ -905,7 +919,9 @@
     function rsvpSetAsistencia(asiste) {
         rsvpState.estado = asiste ? 'Aceptado' : 'Rechazado';
         if (asiste) {
-            document.getElementById('rsvp-menu-principal-label').textContent = `Tu menú (${guestParam || 'invitado principal'})`;
+            document.getElementById('rsvp-menu-principal-label').textContent = esPlural
+                ? `Menú principal (${guestParam})`
+                : `Tu menú (${guestParam || 'invitado principal'})`;
             if (RSVP_MAX_ACOMPANANTES === 0) {
                 // Sin cupos extra reservados, no tiene sentido preguntar por acompañantes.
                 document.getElementById('rsvp-acompanante-wrap').classList.add('hidden');
@@ -1035,13 +1051,15 @@
     function rsvpBuildResumenTexto() {
         const nombre = guestParam || 'Invitado';
         if (rsvpState.estado === 'Rechazado') {
-            return `${nombre}, lamentamos mucho que no puedas acompañarnos. ¡Gracias por avisarnos!`;
+            return esPlural
+                ? `${nombre}, lamentamos mucho que no puedan acompañarnos. ¡Gracias por avisarnos!`
+                : `${nombre}, lamentamos mucho que no puedas acompañarnos. ¡Gracias por avisarnos!`;
         }
 
         const lineas = [`${nombre} — Menú: ${rsvpState.menuPrincipal}`];
         rsvpState.acompanantes.forEach(a => lineas.push(`${a.nombre} — Menú: ${a.menu}`));
         lineas.push('');
-        lineas.push('¿Confirmamos tu asistencia así?');
+        lineas.push(esPlural ? '¿Confirmamos su asistencia así?' : '¿Confirmamos tu asistencia así?');
         return lineas.join('\n');
     }
 
@@ -1068,8 +1086,12 @@
         }).catch(() => {});
 
         const mensajeWhatsapp = rsvpState.estado === 'Aceptado'
-            ? `¡Hola Pedro! 💍✨ Soy ${nombre} y acabo de confirmar mi asistencia a tu boda con Nathaly. ¡Ya quiero que llegue el 06 de febrero para celebrar junto a ustedes! Nos vemos ahí 🎉💛`
-            : `Hola Pedro 💛 Soy ${nombre}. Lamentablemente no podré acompañarlos en su boda, pero voy a estar con ustedes en el corazón ese día. ¡Gracias por pensar en mí para un momento tan especial! 🙏`;
+            ? (esPlural
+                ? `¡Hola Pedro! 💍✨ Somos ${nombre} y acabamos de confirmar nuestra asistencia a tu boda con Nathaly. ¡Ya queremos que llegue el 06 de febrero para celebrar junto a ustedes! Nos vemos ahí 🎉💛`
+                : `¡Hola Pedro! 💍✨ Soy ${nombre} y acabo de confirmar mi asistencia a tu boda con Nathaly. ¡Ya quiero que llegue el 06 de febrero para celebrar junto a ustedes! Nos vemos ahí 🎉💛`)
+            : (esPlural
+                ? `Hola Pedro 💛 Somos ${nombre}. Lamentablemente no podremos acompañarlos en su boda, pero vamos a estar con ustedes en el corazón ese día. ¡Gracias por pensar en nosotros para un momento tan especial! 🙏`
+                : `Hola Pedro 💛 Soy ${nombre}. Lamentablemente no podré acompañarlos en su boda, pero voy a estar con ustedes en el corazón ese día. ¡Gracias por pensar en mí para un momento tan especial! 🙏`);
         window.open(`https://wa.me/${PEDRO_WHATSAPP_NUMBER}?text=${encodeURIComponent(mensajeWhatsapp)}`, '_blank');
 
         rsvpGoToStep(4);
