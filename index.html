@@ -1092,9 +1092,13 @@
             : (esPlural
                 ? `Hola Pedro 💛 Somos ${nombre}. Lamentablemente no podremos acompañarlos en su boda, pero vamos a estar con ustedes en el corazón ese día. ¡Gracias por pensar en nosotros para un momento tan especial! 🙏`
                 : `Hola Pedro 💛 Soy ${nombre}. Lamentablemente no podré acompañarlos en su boda, pero voy a estar con ustedes en el corazón ese día. ¡Gracias por pensar en mí para un momento tan especial! 🙏`);
-        window.open(`https://wa.me/${PEDRO_WHATSAPP_NUMBER}?text=${encodeURIComponent(mensajeWhatsapp)}`, '_blank');
-
+        // Primero se muestra el paso de agradecimiento (asi queda confirmado a la vista
+        // de inmediato) y recien despues se abre WhatsApp; si se hace al reves, el salto
+        // a WhatsApp puede ganarle al repintado de la pantalla y el invitado vuelve a la
+        // pestaña del navegador sin haber alcanzado a ver que la confirmacion se registro.
         rsvpGoToStep(4);
+
+        window.open(`https://wa.me/${PEDRO_WHATSAPP_NUMBER}?text=${encodeURIComponent(mensajeWhatsapp)}`, '_blank');
     }
 
     /* ===== Apertura del Sobre ===== */
