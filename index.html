@@ -319,37 +319,26 @@
         }
         .gallery-item img { display: block; }
 
-        /* ===== TIMELINE VERTICAL (Itinerario) ===== */
+        /* ===== CAMINO EN ZIGZAG (Itinerario) ===== */
         .itin-track { padding: 0.5rem 0 0.25rem; }
-        .itin-item { display: flex; gap: 1rem; }
-        .itin-col { display: flex; flex-direction: column; align-items: center; width: 44px; flex-shrink: 0; }
+        .itin-row { display: flex; align-items: center; gap: 1rem; }
+        .itin-row.itin-reverse { flex-direction: row-reverse; }
+        .itin-row.itin-reverse .itin-content { text-align: right; }
         .itin-node {
-            width: 44px;
-            height: 44px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
             background: var(--forest);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px -2px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 1;
+            box-shadow: 0 5px 14px -3px rgba(0,0,0,0.35);
+            flex-shrink: 0;
             border: 2px solid var(--gold);
         }
-        .itin-connector { flex: 1; width: 2px; min-height: 34px; margin: 4px 0; position: relative; background: linear-gradient(to bottom, var(--gold) 0%, var(--gold) 45%, transparent 45%, transparent 55%, var(--gold) 55%, var(--gold) 100%); }
-        .itin-connector::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 9px;
-            height: 9px;
-            background: var(--gold-deep);
-            transform: translate(-50%, -50%) rotate(45deg);
-            box-shadow: 0 0 0 3px var(--cream);
-        }
-        .itin-content { padding-top: 7px; padding-bottom: 1.6rem; text-align: left; }
-        .itin-item:last-child .itin-content { padding-bottom: 0; }
+        .itin-content { flex: 1; }
+        .itin-connector { width: 100%; height: 44px; margin: -4px 0; }
+        .itin-connector svg { width: 100%; height: 100%; display: block; }
 
         /* ===== CAJAS CUENTA REGRESIVA (sobre fondo verde bosque) ===== */
         .countdown-box {
@@ -738,54 +727,60 @@
         </div>
 
         <div class="itin-track">
-            <div class="itin-item">
-                <div class="itin-col">
-                    <div class="itin-node"><i data-lucide="door-open" class="w-4 h-4" style="color: var(--gold-deep);"></i></div>
-                    <div class="itin-connector"></div>
-                </div>
+            <div class="itin-row">
+                <div class="itin-node"><i data-lucide="door-open" class="w-4 h-4" style="color: var(--gold-deep);"></i></div>
                 <div class="itin-content">
                     <p class="text-[10px] font-semibold tracking-wide" style="color: var(--sage-deep);">18:00 hrs</p>
                     <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Llegada invitados</h4>
                 </div>
             </div>
+            <div class="itin-connector">
+                <svg viewBox="0 0 100 44" preserveAspectRatio="none" aria-hidden="true">
+                    <path d="M26,0 C26,22 74,22 74,44" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-dasharray="1 8" stroke-linecap="round"/>
+                </svg>
+            </div>
 
-            <div class="itin-item">
-                <div class="itin-col">
-                    <div class="itin-node"><i data-lucide="gem" class="w-4 h-4" style="color: var(--gold-deep);"></i></div>
-                    <div class="itin-connector"></div>
-                </div>
+            <div class="itin-row itin-reverse">
+                <div class="itin-node"><i data-lucide="gem" class="w-4 h-4" style="color: var(--gold-deep);"></i></div>
                 <div class="itin-content">
                     <p class="text-[10px] font-semibold tracking-wide" style="color: var(--sage-deep);">18:30 hrs</p>
                     <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Ceremonia</h4>
                 </div>
             </div>
+            <div class="itin-connector">
+                <svg viewBox="0 0 100 44" preserveAspectRatio="none" aria-hidden="true">
+                    <path d="M74,0 C74,22 26,22 26,44" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-dasharray="1 8" stroke-linecap="round"/>
+                </svg>
+            </div>
 
-            <div class="itin-item">
-                <div class="itin-col">
-                    <div class="itin-node"><i data-lucide="martini" class="w-4 h-4" style="color: var(--gold-deep);"></i></div>
-                    <div class="itin-connector"></div>
-                </div>
+            <div class="itin-row">
+                <div class="itin-node"><i data-lucide="martini" class="w-4 h-4" style="color: var(--gold-deep);"></i></div>
                 <div class="itin-content">
                     <p class="text-[10px] font-semibold tracking-wide" style="color: var(--sage-deep);">19:30 hrs</p>
                     <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Cóctel</h4>
                 </div>
             </div>
+            <div class="itin-connector">
+                <svg viewBox="0 0 100 44" preserveAspectRatio="none" aria-hidden="true">
+                    <path d="M26,0 C26,22 74,22 74,44" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-dasharray="1 8" stroke-linecap="round"/>
+                </svg>
+            </div>
 
-            <div class="itin-item">
-                <div class="itin-col">
-                    <div class="itin-node"><i data-lucide="utensils-crossed" class="w-4 h-4" style="color: var(--gold-deep);"></i></div>
-                    <div class="itin-connector"></div>
-                </div>
+            <div class="itin-row itin-reverse">
+                <div class="itin-node"><i data-lucide="utensils-crossed" class="w-4 h-4" style="color: var(--gold-deep);"></i></div>
                 <div class="itin-content">
                     <p class="text-[10px] font-semibold tracking-wide" style="color: var(--sage-deep);">21:00 hrs</p>
                     <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Cena</h4>
                 </div>
             </div>
+            <div class="itin-connector">
+                <svg viewBox="0 0 100 44" preserveAspectRatio="none" aria-hidden="true">
+                    <path d="M74,0 C74,22 26,22 26,44" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-dasharray="1 8" stroke-linecap="round"/>
+                </svg>
+            </div>
 
-            <div class="itin-item">
-                <div class="itin-col">
-                    <div class="itin-node"><i data-lucide="music" class="w-4 h-4" style="color: var(--gold-deep);"></i></div>
-                </div>
+            <div class="itin-row">
+                <div class="itin-node"><i data-lucide="music" class="w-4 h-4" style="color: var(--gold-deep);"></i></div>
                 <div class="itin-content">
                     <p class="text-[10px] font-semibold tracking-wide" style="color: var(--sage-deep);">22:30 hrs</p>
                     <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Fiesta</h4>
