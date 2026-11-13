@@ -319,38 +319,26 @@
         }
         .gallery-item img { display: block; }
 
-        /* ===== CAMINO EN ZIGZAG (Itinerario) ===== */
-        .itin-track { padding: 0.5rem 0 0.25rem; }
-        .itin-row { display: flex; align-items: center; gap: 1rem; }
-        .itin-row.itin-reverse { flex-direction: row-reverse; }
-        .itin-row.itin-reverse .itin-content { text-align: right; }
-        .itin-node {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--gold-deep);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 6px 14px -4px rgba(43,53,46,0.4);
-            border: 2px solid var(--forest);
-            flex-shrink: 0;
-            position: relative;
-        }
-        .itin-node .leaf-sprig {
+        /* ===== LINEA CENTRAL CON CORAZONES (Itinerario) ===== */
+        .itin-track { position: relative; padding: 0.5rem 0 0.25rem; }
+        .itin-track::before {
+            content: '';
             position: absolute;
-            bottom: -2px;
-            width: 15px;
-            height: 15px;
-            opacity: 0.85;
-            color: var(--forest);
+            top: 6px;
+            bottom: 6px;
+            left: 50%;
+            width: 2px;
+            background: var(--sage);
+            opacity: 0.55;
+            transform: translateX(-50%);
         }
-        .itin-node .leaf-sprig.leaf-l { left: 1px; transform: rotate(-35deg) scaleX(-1); }
-        .itin-node .leaf-sprig.leaf-r { right: 1px; transform: rotate(35deg); }
-        .itin-content { flex: 1; }
+        .itin-row { position: relative; z-index: 1; }
+        .itin-pair { display: flex; align-items: center; gap: 0.6rem; width: 46%; }
+        .itin-row.itin-right .itin-pair { margin-left: auto; }
+        .itin-row.itin-left .itin-pair { margin-right: auto; flex-direction: row-reverse; text-align: right; }
+        .itin-node { flex-shrink: 0; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; }
         .itin-content .itin-time { color: var(--gold-deep); }
-        .itin-connector { width: 100%; height: 44px; margin: -4px 0; }
-        .itin-connector svg { width: 100%; height: 100%; display: block; }
+        .itin-heart { position: relative; z-index: 1; display: flex; justify-content: center; padding: 12px 0; }
 
         /* ===== CAJAS CUENTA REGRESIVA (sobre fondo verde bosque) ===== */
         .countdown-box {
@@ -739,83 +727,57 @@
         </div>
 
         <div class="itin-track">
-            <div class="itin-row">
-                <div class="itin-node">
-                    <i data-lucide="door-open" class="w-5 h-5" style="color: var(--forest-deep); stroke-width: 1.75;"></i>
-                    <svg class="leaf-sprig leaf-l" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-                    <svg class="leaf-sprig leaf-r" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-                </div>
-                <div class="itin-content">
-                    <p class="itin-time text-xs font-bold tracking-wide">18:00 hrs</p>
-                    <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Llegada invitados</h4>
+            <div class="itin-row itin-right">
+                <div class="itin-pair">
+                    <div class="itin-node"><i data-lucide="door-open" class="w-6 h-6" style="color: var(--gold-deep); stroke-width: 1.75;"></i></div>
+                    <div class="itin-content">
+                        <p class="itin-time text-xs font-bold tracking-wide">18:00 hrs</p>
+                        <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Llegada invitados</h4>
+                    </div>
                 </div>
             </div>
-            <div class="itin-connector">
-                <svg viewBox="0 0 100 44" preserveAspectRatio="none" aria-hidden="true">
-                    <path d="M26,0 C26,22 74,22 74,44" fill="none" stroke="var(--gold-deep)" stroke-width="3" stroke-dasharray="1 9" stroke-linecap="round"/>
-                </svg>
-            </div>
+            <div class="itin-heart"><i data-lucide="heart" class="w-4 h-4" style="color: var(--gold-deep); fill: var(--gold-deep);"></i></div>
 
-            <div class="itin-row itin-reverse">
-                <div class="itin-node">
-                    <i data-lucide="church" class="w-5 h-5" style="color: var(--forest-deep); stroke-width: 1.75;"></i>
-                    <svg class="leaf-sprig leaf-l" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-                    <svg class="leaf-sprig leaf-r" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-                </div>
-                <div class="itin-content">
-                    <p class="itin-time text-xs font-bold tracking-wide">18:30 hrs</p>
-                    <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Ceremonia</h4>
+            <div class="itin-row itin-left">
+                <div class="itin-pair">
+                    <div class="itin-node"><i data-lucide="church" class="w-6 h-6" style="color: var(--gold-deep); stroke-width: 1.75;"></i></div>
+                    <div class="itin-content">
+                        <p class="itin-time text-xs font-bold tracking-wide">18:30 hrs</p>
+                        <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Ceremonia</h4>
+                    </div>
                 </div>
             </div>
-            <div class="itin-connector">
-                <svg viewBox="0 0 100 44" preserveAspectRatio="none" aria-hidden="true">
-                    <path d="M74,0 C74,22 26,22 26,44" fill="none" stroke="var(--gold-deep)" stroke-width="3" stroke-dasharray="1 9" stroke-linecap="round"/>
-                </svg>
-            </div>
+            <div class="itin-heart"><i data-lucide="heart" class="w-4 h-4" style="color: var(--gold-deep); fill: var(--gold-deep);"></i></div>
 
-            <div class="itin-row">
-                <div class="itin-node">
-                    <i data-lucide="martini" class="w-5 h-5" style="color: var(--forest-deep); stroke-width: 1.75;"></i>
-                    <svg class="leaf-sprig leaf-l" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-                    <svg class="leaf-sprig leaf-r" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-                </div>
-                <div class="itin-content">
-                    <p class="itin-time text-xs font-bold tracking-wide">19:30 hrs</p>
-                    <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Cóctel</h4>
+            <div class="itin-row itin-right">
+                <div class="itin-pair">
+                    <div class="itin-node"><i data-lucide="martini" class="w-6 h-6" style="color: var(--gold-deep); stroke-width: 1.75;"></i></div>
+                    <div class="itin-content">
+                        <p class="itin-time text-xs font-bold tracking-wide">19:30 hrs</p>
+                        <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Cóctel</h4>
+                    </div>
                 </div>
             </div>
-            <div class="itin-connector">
-                <svg viewBox="0 0 100 44" preserveAspectRatio="none" aria-hidden="true">
-                    <path d="M26,0 C26,22 74,22 74,44" fill="none" stroke="var(--gold-deep)" stroke-width="3" stroke-dasharray="1 9" stroke-linecap="round"/>
-                </svg>
-            </div>
+            <div class="itin-heart"><i data-lucide="heart" class="w-4 h-4" style="color: var(--gold-deep); fill: var(--gold-deep);"></i></div>
 
-            <div class="itin-row itin-reverse">
-                <div class="itin-node">
-                    <i data-lucide="utensils-crossed" class="w-5 h-5" style="color: var(--forest-deep); stroke-width: 1.75;"></i>
-                    <svg class="leaf-sprig leaf-l" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-                    <svg class="leaf-sprig leaf-r" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-                </div>
-                <div class="itin-content">
-                    <p class="itin-time text-xs font-bold tracking-wide">21:00 hrs</p>
-                    <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Cena</h4>
+            <div class="itin-row itin-left">
+                <div class="itin-pair">
+                    <div class="itin-node"><i data-lucide="utensils-crossed" class="w-6 h-6" style="color: var(--gold-deep); stroke-width: 1.75;"></i></div>
+                    <div class="itin-content">
+                        <p class="itin-time text-xs font-bold tracking-wide">21:00 hrs</p>
+                        <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Cena</h4>
+                    </div>
                 </div>
             </div>
-            <div class="itin-connector">
-                <svg viewBox="0 0 100 44" preserveAspectRatio="none" aria-hidden="true">
-                    <path d="M74,0 C74,22 26,22 26,44" fill="none" stroke="var(--gold-deep)" stroke-width="3" stroke-dasharray="1 9" stroke-linecap="round"/>
-                </svg>
-            </div>
+            <div class="itin-heart"><i data-lucide="heart" class="w-4 h-4" style="color: var(--gold-deep); fill: var(--gold-deep);"></i></div>
 
-            <div class="itin-row">
-                <div class="itin-node">
-                    <i data-lucide="music" class="w-5 h-5" style="color: var(--forest-deep); stroke-width: 1.75;"></i>
-                    <svg class="leaf-sprig leaf-l" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-                    <svg class="leaf-sprig leaf-r" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
-                </div>
-                <div class="itin-content">
-                    <p class="itin-time text-xs font-bold tracking-wide">22:30 hrs</p>
-                    <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Fiesta</h4>
+            <div class="itin-row itin-right">
+                <div class="itin-pair">
+                    <div class="itin-node"><i data-lucide="music" class="w-6 h-6" style="color: var(--gold-deep); stroke-width: 1.75;"></i></div>
+                    <div class="itin-content">
+                        <p class="itin-time text-xs font-bold tracking-wide">22:30 hrs</p>
+                        <h4 class="text-sm font-serif-custom font-bold" style="color: var(--ink);">Fiesta</h4>
+                    </div>
                 </div>
             </div>
         </div>
