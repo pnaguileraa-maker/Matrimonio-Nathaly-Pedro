@@ -11,7 +11,7 @@
          llegar si o si a telefonos que ya abrieron el link antes. -->
     <script>
         (function () {
-            var CACHE_BUILD = "2026-11-12-5";
+            var CACHE_BUILD = "2026-11-13-1";
             var params = new URLSearchParams(window.location.search);
             if (params.get('_v') !== CACHE_BUILD) {
                 params.set('_v', CACHE_BUILD);
@@ -356,23 +356,8 @@
             border: 1px solid rgba(255, 255, 255, 0.55);
         }
 
-        /* ===== INPUTS SOBRE FONDO OSCURO (RSVP) ===== */
-        .dark-input {
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: #F7F6F2;
-        }
-        .dark-input::placeholder { color: rgba(247, 246, 242, 0.45); }
-        .dark-input:focus {
-            outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.3);
-        }
-        .dark-input option { color: #1E4338; }
-
         /* ===== TARJETA RSVP MULTI-PASO ===== */
-        .rsvp-toggle-btn.is-selected,
-        .rsvp-acomp-menu-btn.is-selected {
+        .rsvp-toggle-btn.is-selected {
             background: var(--gold-deep);
             border-color: var(--gold-deep) !important;
             color: var(--forest) !important;
@@ -624,44 +609,23 @@
 
                 <!-- Paso 1: asistencia -->
                 <div id="rsvp-step-1" class="rsvp-step space-y-3">
-                    <p id="rsvp-pregunta-asistencia" class="text-center text-sm font-semibold text-white mb-1">¿Nos acompañas a celebrar?</p>
+                    <p id="rsvp-pregunta-asistencia" class="text-center text-sm font-semibold text-white mb-1">¿Confirmas tu asistencia?</p>
                     <button type="button" onclick="rsvpSetAsistencia(true)" class="w-full py-3.5 px-4 rounded-xl text-sm font-bold transition hover:brightness-110" style="background: var(--gold-deep); color: var(--forest);">
-                        <span id="rsvp-btn-si-texto">¡Sí, ahí estaré! 🎉</span>
+                        ¡Sí, ahí estaré! 🎉
                     </button>
                     <button type="button" onclick="rsvpSetAsistencia(false)" class="w-full py-3.5 px-4 rounded-xl text-sm font-semibold border transition hover:bg-white/5" style="border-color: rgba(247,246,242,0.3); color: #F7F6F2;">
-                        <span id="rsvp-btn-no-texto">Lo siento, no puedo 🥺</span>
+                        Lo siento, no puedo 🥺
                     </button>
                 </div>
 
-                <!-- Paso 2: menú propio + acompañantes, cada uno con su propio menú -->
+                <!-- Paso 2: elegir, de la lista de acompañantes esperados para esta invitación, quiénes asisten -->
                 <div id="rsvp-step-2" class="rsvp-step hidden space-y-5">
                     <div>
-                        <p id="rsvp-menu-principal-label" class="text-[11px] font-semibold uppercase tracking-wider mb-2" style="color: var(--gold-deep);">Tu menú</p>
-                        <div class="space-y-2">
-                            <button type="button" onclick="rsvpSetMenuPrincipal('Menú Normal', this)" class="rsvp-toggle-btn w-full py-2.5 rounded-xl text-xs font-semibold border transition text-center" style="border-color: rgba(247,246,242,0.3); color:#F7F6F2;">Menú Normal</button>
-                            <button type="button" onclick="rsvpSetMenuPrincipal('Vegetariano/Vegano', this)" class="rsvp-toggle-btn w-full py-2.5 rounded-xl text-xs font-semibold border transition text-center" style="border-color: rgba(247,246,242,0.3); color:#F7F6F2;">Vegetariano/Vegano</button>
-                            <button type="button" onclick="rsvpSetMenuPrincipal('Sin Gluten / Alergia', this)" class="rsvp-toggle-btn w-full py-2.5 rounded-xl text-xs font-semibold border transition text-center" style="border-color: rgba(247,246,242,0.3); color:#F7F6F2;">Sin Gluten / Alergia</button>
-                        </div>
+                        <p class="text-[11px] font-semibold uppercase tracking-wider mb-2" style="color: var(--gold-deep);">Confírmanos tus acompañantes</p>
+                        <div id="rsvp-acompanantes-opciones" class="space-y-2"></div>
                     </div>
 
-                    <div id="rsvp-acompanante-wrap">
-                        <p class="text-[11px] font-semibold uppercase tracking-wider mb-2" style="color: var(--gold-deep);">¿Vienes acompañado?</p>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button type="button" onclick="rsvpSetAcompanante(false)" id="rsvp-btn-solo" class="rsvp-toggle-btn py-2.5 rounded-xl text-xs font-semibold border transition" style="border-color: rgba(247,246,242,0.3); color:#F7F6F2;">Vengo solo/a</button>
-                            <button type="button" onclick="rsvpSetAcompanante(true)" id="rsvp-btn-acomp" class="rsvp-toggle-btn py-2.5 rounded-xl text-xs font-semibold border transition" style="border-color: rgba(247,246,242,0.3); color:#F7F6F2;">Con acompañante</button>
-                        </div>
-
-                        <!-- Si hay más de 1 cupo disponible para acompañantes, se pide elegir cuántos vienen -->
-                        <div id="rsvp-cantidad-wrap" class="hidden mt-3">
-                            <p class="text-[11px] text-white/70 mb-2">¿Cuántos acompañantes?</p>
-                            <div id="rsvp-cantidad-opciones" class="flex flex-wrap gap-2"></div>
-                        </div>
-
-                        <!-- Una tarjeta (nombre + menú propio) por cada acompañante, según la cantidad elegida -->
-                        <div id="rsvp-acompanantes-inputs" class="hidden mt-3 space-y-3"></div>
-                    </div>
-
-                    <button type="button" onclick="rsvpGoToStep(3)" id="rsvp-btn-continuar" disabled class="w-full py-3 rounded-xl text-sm font-semibold transition opacity-40 cursor-not-allowed" style="background: var(--gold-deep); color: var(--forest);">
+                    <button type="button" onclick="rsvpGoToStep(3)" class="w-full py-3 rounded-xl text-sm font-semibold transition hover:brightness-110" style="background: var(--gold-deep); color: var(--forest);">
                         Continuar
                     </button>
                 </div>
@@ -941,29 +905,29 @@
     // Pega aquí la URL de tu implementación de Apps Script (Implementar > Administrar implementaciones).
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby82w4kNtRRHEWFX29AkOzhTyh-rViZnQ7oDlDxVdRWes12Vj-mN63UlLzX0-OK28n1/exec";
 
-    /* ===== Personalización por Parámetros de URL (?nombre=...&cupos=...) ===== */
+    /* ===== Personalización por Parámetros de URL (?nombre=...&principal=...&cupos=...&acompanantes=...) =====
+       - nombre: saludo mostrado en la portada, puede ser grupal (ej. "Franco y Familia").
+       - principal: nombre de pila de quien responde el RSVP (ej. "Franco"); si no viene, se usa "nombre".
+       - cupos: total de lugares reservados para esta invitación (incluye al principal).
+       - acompanantes: nombres de los acompañantes esperados, separados por "|" (ej. "Miguel|Maria|Carlos").
+         Son los únicos que el principal puede marcar como asistentes: no hay forma de escribir un nombre
+         que no esté en esta lista, así nos aseguramos de que solo confirme la gente que invitamos. */
     const urlParams = new URLSearchParams(window.location.search);
     const guestParam = urlParams.get('nombre');
+    const principalParam = urlParams.get('principal') || guestParam;
     const cuposParam = parseInt(urlParams.get('cupos'), 10);
     const hasCupos = !isNaN(cuposParam) && cuposParam > 0;
-
-    // Invitaciones como "Silvia y Hector" o "Franco y familia" representan a mas de
-    // una persona: todo el texto que se dirige al invitado (tu/soy/estare, etc.) debe
-    // hablarle en plural (su/somos/estaremos) en vez de en singular, o se lee raro.
-    function esNombrePlural(nombre) {
-        if (!nombre) return false;
-        const n = nombre.toLowerCase();
-        return / y /.test(n) || n.includes('familia');
-    }
-    const esPlural = esNombrePlural(guestParam);
+    const acompanantesEsperados = (urlParams.get('acompanantes') || '')
+        .split('|')
+        .map(n => n.trim())
+        .filter(Boolean);
 
     function applyGuestPersonalization() {
         // textContent (no innerHTML) evita que el parámetro de la URL inyecte HTML/JS
         document.getElementById('guest-name').textContent = guestParam ? `¡Hola, ${guestParam}!` : '¡Bienvenido(a)!';
-
-        document.getElementById('rsvp-pregunta-asistencia').textContent = esPlural ? '¿Nos acompañan a celebrar?' : '¿Nos acompañas a celebrar?';
-        document.getElementById('rsvp-btn-si-texto').textContent = esPlural ? '¡Sí, ahí estaremos! 🎉' : '¡Sí, ahí estaré! 🎉';
-        document.getElementById('rsvp-btn-no-texto').textContent = esPlural ? 'Lo sentimos, no podemos 🥺' : 'Lo siento, no puedo 🥺';
+        document.getElementById('rsvp-pregunta-asistencia').textContent = principalParam
+            ? `${principalParam}, ¿confirmas tu asistencia?`
+            : '¿Confirmas tu asistencia?';
 
         if (hasCupos) {
             renderPases(cuposParam);
@@ -991,18 +955,11 @@
     applyGuestPersonalization();
 
     /* ===== RSVP conversacional multi-paso ===== */
-    // Cupos reservados menos el invitado principal = maximo de acompanantes que puede nombrar.
-    // Sin ?cupos= en la URL (link generico) se deja un tope razonable de 4.
-    const RSVP_MAX_ACOMPANANTES = hasCupos ? Math.max(cuposParam - 1, 0) : 4;
-
-    // Cada acompañante es { nombre, menu } — el menú se elige junto a su propio nombre,
-    // nunca se asume que todo el grupo come lo mismo que el invitado principal.
-    const rsvpState = { estado: null, menuPrincipal: null, conAcompanante: false, acompanantesCount: 0, acompanantes: [] };
-
-    const MENUS = ['Menú Normal', 'Vegetariano/Vegano', 'Sin Gluten / Alergia'];
-    // Etiquetas cortas solo para los chips compactos de cada acompañante (el valor
-    // completo de MENUS se sigue usando en el resumen y en lo que se envía al backend).
-    const MENU_CHIP_LABEL = { 'Menú Normal': 'Normal', 'Vegetariano/Vegano': 'Vegetariano', 'Sin Gluten / Alergia': 'Sin Gluten' };
+    // Un único menú para todos: ya no se pregunta por preferencias alimentarias, solo
+    // interesa saber quién asiste. acompanantesSeleccionados es el subconjunto de
+    // acompanantesEsperados que el principal marcó como asistentes (no puede escribir
+    // nombres fuera de esa lista).
+    const rsvpState = { estado: null, acompanantesSeleccionados: [] };
 
     function rsvpGoToStep(step) {
         document.querySelectorAll('.rsvp-step').forEach(el => el.classList.add('hidden'));
@@ -1018,161 +975,62 @@
 
     function rsvpSetAsistencia(asiste) {
         rsvpState.estado = asiste ? 'Aceptado' : 'Rechazado';
-        if (asiste) {
-            document.getElementById('rsvp-menu-principal-label').textContent = esPlural
-                ? `Menú principal (${guestParam})`
-                : `Tu menú (${guestParam || 'invitado principal'})`;
-            if (RSVP_MAX_ACOMPANANTES === 0) {
-                // Sin cupos extra reservados, no tiene sentido preguntar por acompañantes.
-                document.getElementById('rsvp-acompanante-wrap').classList.add('hidden');
-            }
-        }
-        rsvpGoToStep(asiste ? 2 : 3);
-    }
-
-    function rsvpSetMenuPrincipal(menu, btnEl) {
-        rsvpState.menuPrincipal = menu;
-        btnEl.parentElement.querySelectorAll('.rsvp-toggle-btn').forEach(b => b.classList.remove('is-selected'));
-        btnEl.classList.add('is-selected');
-        rsvpUpdateContinuar();
-    }
-
-    function rsvpSetAcompanante(conAcompanante) {
-        rsvpState.conAcompanante = conAcompanante;
-        document.getElementById('rsvp-btn-solo').classList.toggle('is-selected', !conAcompanante);
-        document.getElementById('rsvp-btn-acomp').classList.toggle('is-selected', conAcompanante);
-
-        const cantidadWrap = document.getElementById('rsvp-cantidad-wrap');
-        const inputsWrap = document.getElementById('rsvp-acompanantes-inputs');
-
-        if (!conAcompanante) {
-            rsvpState.acompanantesCount = 0;
-            rsvpState.acompanantes = [];
-            cantidadWrap.classList.add('hidden');
-            inputsWrap.classList.add('hidden');
-            inputsWrap.innerHTML = '';
-        } else if (RSVP_MAX_ACOMPANANTES <= 1) {
-            // Solo puede traer 1 acompañante: nos saltamos el selector de cantidad.
-            rsvpState.acompanantesCount = 1;
-            cantidadWrap.classList.add('hidden');
-            rsvpRenderAcompanantesInputs(1);
+        if (asiste && acompanantesEsperados.length > 0) {
+            rsvpRenderAcompanantesOpciones();
+            rsvpGoToStep(2);
         } else {
-            rsvpRenderCantidadOpciones();
-            cantidadWrap.classList.remove('hidden');
-            inputsWrap.classList.add('hidden');
-            inputsWrap.innerHTML = '';
-            rsvpState.acompanantesCount = 0;
+            rsvpGoToStep(3);
         }
-        rsvpUpdateContinuar();
     }
 
-    function rsvpRenderCantidadOpciones() {
-        const wrap = document.getElementById('rsvp-cantidad-opciones');
+    // Botones de selección múltiple, uno por cada nombre esperado para esta invitación
+    // (acompanantesEsperados, que viene de la URL): el principal solo puede tildar o
+    // destildar a esas personas, nunca agregar a alguien que no esté en la lista.
+    function rsvpRenderAcompanantesOpciones() {
+        rsvpState.acompanantesSeleccionados = [];
+        const wrap = document.getElementById('rsvp-acompanantes-opciones');
         wrap.innerHTML = '';
-        for (let n = 1; n <= RSVP_MAX_ACOMPANANTES; n++) {
+        acompanantesEsperados.forEach(nombreAcomp => {
             const btn = document.createElement('button');
             btn.type = 'button';
-            btn.className = 'rsvp-toggle-btn px-4 py-2 rounded-xl text-xs font-semibold border transition';
+            btn.className = 'rsvp-toggle-btn w-full py-2.5 rounded-xl text-xs font-semibold border transition text-center';
             btn.style.borderColor = 'rgba(247,246,242,0.3)';
             btn.style.color = '#F7F6F2';
-            btn.textContent = String(n);
-            btn.onclick = () => rsvpSetCantidadAcompanantes(n, btn);
+            btn.textContent = nombreAcomp;
+            btn.onclick = () => {
+                const idx = rsvpState.acompanantesSeleccionados.indexOf(nombreAcomp);
+                if (idx === -1) {
+                    rsvpState.acompanantesSeleccionados.push(nombreAcomp);
+                    btn.classList.add('is-selected');
+                } else {
+                    rsvpState.acompanantesSeleccionados.splice(idx, 1);
+                    btn.classList.remove('is-selected');
+                }
+            };
             wrap.appendChild(btn);
-        }
-    }
-
-    function rsvpSetCantidadAcompanantes(n, btnEl) {
-        rsvpState.acompanantesCount = n;
-        document.querySelectorAll('#rsvp-cantidad-opciones .rsvp-toggle-btn').forEach(b => b.classList.remove('is-selected'));
-        btnEl.classList.add('is-selected');
-        rsvpRenderAcompanantesInputs(n);
-        rsvpUpdateContinuar();
-    }
-
-    // Por cada acompañante se arma una tarjeta: nombre + su propio selector de menú
-    // (chips compactos, uno de los 3 valores de MENUS), para no asumir que comen lo mismo.
-    function rsvpRenderAcompanantesInputs(n) {
-        rsvpState.acompanantes = Array.from({ length: n }, () => ({ nombre: '', menu: null }));
-
-        const wrap = document.getElementById('rsvp-acompanantes-inputs');
-        wrap.innerHTML = '';
-        for (let i = 0; i < n; i++) {
-            const card = document.createElement('div');
-            card.className = 'rsvp-acomp-card space-y-2 p-3 rounded-xl';
-            card.style.border = '1px solid rgba(247,246,242,0.18)';
-
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.placeholder = n === 1 ? 'Nombre de tu acompañante' : `Nombre acompañante ${i + 1}`;
-            input.className = 'rsvp-acomp-input dark-input w-full py-2.5 px-3 rounded-xl text-sm';
-            input.addEventListener('input', () => {
-                rsvpState.acompanantes[i].nombre = input.value.trim();
-                rsvpUpdateContinuar();
-            });
-            card.appendChild(input);
-
-            const menuRow = document.createElement('div');
-            menuRow.className = 'grid grid-cols-3 gap-1.5';
-            MENUS.forEach(menuOpcion => {
-                const chip = document.createElement('button');
-                chip.type = 'button';
-                chip.className = 'rsvp-acomp-menu-btn flex items-center justify-center text-center whitespace-normal break-words min-h-[2.5rem] py-1.5 px-1 rounded-lg text-[10px] font-semibold border transition leading-tight';
-                chip.style.borderColor = 'rgba(247,246,242,0.3)';
-                chip.style.color = '#F7F6F2';
-                chip.textContent = MENU_CHIP_LABEL[menuOpcion] || menuOpcion;
-                chip.onclick = () => {
-                    rsvpState.acompanantes[i].menu = menuOpcion;
-                    menuRow.querySelectorAll('.rsvp-acomp-menu-btn').forEach(b => b.classList.remove('is-selected'));
-                    chip.classList.add('is-selected');
-                    rsvpUpdateContinuar();
-                };
-                menuRow.appendChild(chip);
-            });
-            card.appendChild(menuRow);
-
-            wrap.appendChild(card);
-        }
-        wrap.classList.remove('hidden');
-    }
-
-    function rsvpUpdateContinuar() {
-        const cantidadElegida = !rsvpState.conAcompanante || rsvpState.acompanantesCount > 0;
-        const acompanantesCompletos = !rsvpState.conAcompanante ||
-            (rsvpState.acompanantes.length === rsvpState.acompanantesCount &&
-                rsvpState.acompanantes.every(a => a.nombre.length > 0 && !!a.menu));
-        const listo = !!rsvpState.menuPrincipal && cantidadElegida && acompanantesCompletos;
-
-        const btn = document.getElementById('rsvp-btn-continuar');
-        btn.disabled = !listo;
-        btn.classList.toggle('opacity-40', !listo);
-        btn.classList.toggle('cursor-not-allowed', !listo);
+        });
     }
 
     function rsvpBuildResumenTexto() {
-        const nombre = guestParam || 'Invitado';
+        const nombre = principalParam || 'Invitado';
         if (rsvpState.estado === 'Rechazado') {
-            return esPlural
-                ? `${nombre}, lamentamos mucho que no puedan acompañarnos. ¡Gracias por avisarnos!`
-                : `${nombre}, lamentamos mucho que no puedas acompañarnos. ¡Gracias por avisarnos!`;
+            return `${nombre}, lamentamos mucho que no puedas acompañarnos. ¡Gracias por avisarnos!`;
         }
 
-        const lineas = [`${nombre} — Menú: ${rsvpState.menuPrincipal}`];
-        rsvpState.acompanantes.forEach(a => lineas.push(`${a.nombre} — Menú: ${a.menu}`));
+        const lineas = [`${nombre} confirma su asistencia.`];
+        rsvpState.acompanantesSeleccionados.forEach(a => lineas.push(`+ ${a}`));
         lineas.push('');
-        lineas.push(esPlural ? '¿Confirmamos su asistencia así?' : '¿Confirmamos tu asistencia así?');
+        lineas.push('¿Confirmamos tu asistencia así?');
         return lineas.join('\n');
     }
 
     function rsvpEnviar() {
-        const nombre = guestParam || 'Invitado';
-        // Se manda cada acompañante como {nombre, menu} (no como texto ya armado) para que
-        // el backend construya las columnas Acompañante y Menú de forma consistente,
-        // siempre con el nombre de cada persona junto a su propio menú.
+        const nombre = principalParam || 'Invitado';
+        const acompanantesConfirmados = rsvpState.estado === 'Aceptado' ? rsvpState.acompanantesSeleccionados : [];
         const payload = {
             nombre: nombre,
             estado: rsvpState.estado,
-            menuPrincipal: rsvpState.estado === 'Aceptado' ? rsvpState.menuPrincipal : '',
-            acompanantes: rsvpState.conAcompanante ? rsvpState.acompanantes : []
+            acompanantes: acompanantesConfirmados
         };
 
         // Se manda como form-urlencoded (vía URLSearchParams, que fetch codifica solo) y
@@ -1185,13 +1043,10 @@
             body: new URLSearchParams({ payload: JSON.stringify(payload) })
         }).catch(() => {});
 
+        const acompanantesTexto = acompanantesConfirmados.length ? ` junto a ${acompanantesConfirmados.join(', ')}` : '';
         const mensajeWhatsapp = rsvpState.estado === 'Aceptado'
-            ? (esPlural
-                ? `¡Hola Pedro! 💍✨ Somos ${nombre} y acabamos de confirmar nuestra asistencia a tu boda con Nathaly. ¡Ya queremos que llegue el 06 de febrero para celebrar junto a ustedes! Nos vemos ahí 🎉💛`
-                : `¡Hola Pedro! 💍✨ Soy ${nombre} y acabo de confirmar mi asistencia a tu boda con Nathaly. ¡Ya quiero que llegue el 06 de febrero para celebrar junto a ustedes! Nos vemos ahí 🎉💛`)
-            : (esPlural
-                ? `Hola Pedro 💛 Somos ${nombre}. Lamentablemente no podremos acompañarlos en su boda, pero vamos a estar con ustedes en el corazón ese día. ¡Gracias por pensar en nosotros para un momento tan especial! 🙏`
-                : `Hola Pedro 💛 Soy ${nombre}. Lamentablemente no podré acompañarlos en su boda, pero voy a estar con ustedes en el corazón ese día. ¡Gracias por pensar en mí para un momento tan especial! 🙏`);
+            ? `¡Hola Pedro! 💍✨ Soy ${nombre} y acabo de confirmar mi asistencia a tu boda con Nathaly${acompanantesTexto}. ¡Ya quiero que llegue el 06 de febrero para celebrar junto a ustedes! Nos vemos ahí 🎉💛`
+            : `Hola Pedro 💛 Soy ${nombre}. Lamentablemente no podré acompañarlos en su boda, pero voy a estar con ustedes en el corazón ese día. ¡Gracias por pensar en mí para un momento tan especial! 🙏`;
         // Primero se muestra el paso de agradecimiento (asi queda confirmado a la vista
         // de inmediato) y recien despues se abre WhatsApp; si se hace al reves, el salto
         // a WhatsApp puede ganarle al repintado de la pantalla y el invitado vuelve a la
