@@ -966,11 +966,11 @@
         if (step === 3) document.getElementById('rsvp-resumen').textContent = rsvpBuildResumenTexto();
         document.getElementById(`rsvp-step-${step}`).classList.remove('hidden');
 
-        // Sin esto, al pasar de un paso largo (ej. varios acompañantes) a uno mas
-        // corto, el scroll se queda donde estaba y el boton del nuevo paso (ej.
-        // "Confirmar y Enviar") puede quedar fuera de la vista sin que el
-        // invitado se de cuenta de que tiene que subir para encontrarlo.
-        document.getElementById('rsvp-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // "nearest" (no "start") es a propósito: solo mueve el scroll lo mínimo
+        // necesario para que la tarjeta quede visible, sin saltar al tope de la
+        // sección cada vez que se cambia de paso. Con "start" el invitado sentía
+        // que la pantalla "se corría" apenas tocaba un botón.
+        document.getElementById('rsvp-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
     function rsvpSetAsistencia(asiste) {
