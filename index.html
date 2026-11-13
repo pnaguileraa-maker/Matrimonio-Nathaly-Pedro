@@ -311,12 +311,13 @@
         .gallery-track::-webkit-scrollbar { height: 5px; }
         .gallery-track::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
         .gallery-item {
-            flex: 0 0 72%;
+            flex: 0 0 auto;
             scroll-snap-align: center;
             border-radius: 1rem;
             overflow: hidden;
             box-shadow: 0 10px 24px -8px rgba(0,0,0,0.25);
         }
+        .gallery-item img { display: block; }
 
         /* ===== TIMELINE VERTICAL (Itinerario) ===== */
         .itin-track { padding: 0.5rem 0 0.25rem; }
@@ -588,10 +589,15 @@
         <p class="text-xs font-serif-custom italic mb-5" style="color: var(--ink); opacity: 0.8;">"Un camino que comenzó siendo dos y hoy celebramos como uno solo."</p>
 
         <div class="gallery-track pr-6">
-            <div class="gallery-item"><img src="foto1.jpg" alt="Nathaly y Pedro" class="w-full h-56 object-cover"></div>
-            <div class="gallery-item"><img src="foto2.jpg" alt="Nathaly y Pedro" class="w-full h-56 object-cover"></div>
-            <div class="gallery-item"><img src="foto3.jpg" alt="Nathaly y Pedro" class="w-full h-56 object-cover"></div>
-            <div class="gallery-item"><img src="foto4.jpg" alt="Nathaly y Pedro" class="w-full h-56 object-cover"></div>
+            <div class="gallery-item"><img src="fotoA.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
+            <div class="gallery-item"><img src="foto2.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
+            <div class="gallery-item"><img src="foto3.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
+            <div class="gallery-item"><img src="foto4.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
+            <div class="gallery-item"><img src="foto5.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
+            <div class="gallery-item"><img src="foto6.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
+            <div class="gallery-item"><img src="foto7.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
+            <div class="gallery-item"><img src="foto8.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
+            <div class="gallery-item"><img src="foto9.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
         </div>
     </section>
 
@@ -850,12 +856,19 @@
     </section>
 
     <!-- Cierre Final -->
-    <section class="w-full px-6 pb-14 text-center space-y-3">
-        <div class="leaf-divider w-full pb-2">
+    <section class="w-full px-6 pb-14 text-center">
+        <div class="leaf-divider w-full pb-4">
             <svg class="w-6 h-6" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
         </div>
-        <p class="text-xs uppercase tracking-[0.25em] font-semibold" style="color: var(--ink); opacity: 0.7;">Con todo nuestro amor</p>
-        <h2 class="font-script-custom text-5xl" style="color: var(--gold-deep);">¡Te Esperamos! N&amp;P</h2>
+        <div class="relative rounded-[1.75rem] overflow-hidden shadow-xl" style="aspect-ratio: 4/5;">
+            <img src="foto14.jpg" alt="Nathaly y Pedro" class="absolute inset-0 w-full h-full object-cover">
+            <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(30,67,56,0.1) 40%, rgba(30,67,56,0.85) 100%);"></div>
+            <div class="absolute inset-x-0 bottom-0 p-8 space-y-2">
+                <p class="text-xs uppercase tracking-[0.3em] font-semibold text-white/85">Con todo nuestro amor</p>
+                <h2 class="font-script-custom text-5xl text-white leading-tight">¡Te Esperamos!</h2>
+                <p class="font-serif-custom text-sm uppercase tracking-[0.3em] font-semibold" style="color: var(--gold-deep);">Nathaly &amp; Pedro</p>
+            </div>
+        </div>
     </section>
 
 </main>
