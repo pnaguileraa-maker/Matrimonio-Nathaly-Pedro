@@ -965,12 +965,8 @@
         document.querySelectorAll('.rsvp-step').forEach(el => el.classList.add('hidden'));
         if (step === 3) document.getElementById('rsvp-resumen').textContent = rsvpBuildResumenTexto();
         document.getElementById(`rsvp-step-${step}`).classList.remove('hidden');
-
-        // "nearest" (no "start") es a propósito: solo mueve el scroll lo mínimo
-        // necesario para que la tarjeta quede visible, sin saltar al tope de la
-        // sección cada vez que se cambia de paso. Con "start" el invitado sentía
-        // que la pantalla "se corría" apenas tocaba un botón.
-        document.getElementById('rsvp-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // Sin scroll automático a propósito: el invitado queda exactamente donde
+        // estaba parado al tocar el botón, sin que la pantalla se mueva sola.
     }
 
     function rsvpSetAsistencia(asiste) {
