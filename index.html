@@ -455,7 +455,7 @@
         <div id="header-text" class="space-y-1 transition-opacity duration-300">
             <p class="font-serif-custom text-xs uppercase tracking-[0.2em] text-[#2B352E] font-semibold">Nuestra Boda</p>
             <h1 class="font-script-custom text-5xl sm:text-6xl leading-tight" style="color: var(--gold-deep);">Nathaly &amp; Pedro</h1>
-            <p class="font-serif-custom text-xs uppercase tracking-[0.25em]" style="color: var(--ink); opacity: 0.6;">06 &middot; Febrero &middot; 2027</p>
+            <p class="font-serif-custom text-sm font-bold uppercase tracking-[0.25em]" style="color: var(--gold-deep);">06 &middot; Febrero &middot; 2027</p>
         </div>
 
         <!-- Sobre 3D: formato horizontal clásico, bajo y ancho, verde bosque oscuro -->
@@ -497,6 +497,15 @@
                 <span class="h-px w-6 bg-current opacity-60"></span>
                 <svg class="w-3.5 h-3.5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
                 <span class="h-px w-6 bg-current opacity-60"></span>
+            </div>
+
+            <!-- Cupos reservados: personalizado por invitado vía ?cupos= en la URL, igual que
+                 "Pases" más abajo en la sección RSVP, pero en formato compacto (un solo
+                 círculo con el número) para esta pantalla inicial. -->
+            <div id="envelope-pases" class="hidden pt-1 space-y-1.5">
+                <p class="font-serif-custom text-[10px] uppercase tracking-[0.2em]" style="color: var(--ink); opacity: 0.6;">Hemos reservado</p>
+                <div class="w-10 h-10 mx-auto rounded-full flex items-center justify-center font-serif-custom text-base font-bold" style="border: 1.5px solid var(--gold-deep); color: var(--gold-deep);" id="envelope-pases-numero">2</div>
+                <p id="envelope-pases-label" class="font-serif-custom text-[10px] uppercase tracking-[0.2em]" style="color: var(--ink); opacity: 0.6;">Lugares en su honor</p>
             </div>
         </div>
 
@@ -1011,6 +1020,10 @@
         if (hasCupos) {
             renderPases(cuposParam);
             document.getElementById('pases-section').classList.remove('hidden');
+
+            document.getElementById('envelope-pases-numero').textContent = String(cuposParam);
+            document.getElementById('envelope-pases-label').textContent = cuposParam > 1 ? 'Lugares en su honor' : 'Lugar en su honor';
+            document.getElementById('envelope-pases').classList.remove('hidden');
         }
     }
 
