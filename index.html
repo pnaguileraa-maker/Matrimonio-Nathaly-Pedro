@@ -166,11 +166,26 @@
         }
 
         .envelope-card {
-            background: var(--forest);
+            background: linear-gradient(165deg, #22503F 0%, var(--forest) 45%, var(--forest-deep) 100%);
             border-radius: 1.25rem;
             box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.35), 0 8px 16px -6px rgba(0, 0, 0, 0.2);
             position: relative;
-            overflow: visible;
+            overflow: hidden;
+        }
+
+        /* Pliegue inferior: dos lineas diagonales muy sutiles que simulan el bolsillo
+           interior de un sobre real (las solapas izquierda/derecha/abajo que se doblan
+           hacia el centro), para que no se vea como un simple rectangulo con una "V" arriba. */
+        .envelope-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to top right, rgba(255,255,255,0.05) 0%, transparent 2%),
+                linear-gradient(135deg, transparent 49.3%, rgba(255,255,255,0.08) 50%, transparent 50.7%) bottom left / 70% 70% no-repeat,
+                linear-gradient(225deg, transparent 49.3%, rgba(255,255,255,0.08) 50%, transparent 50.7%) bottom right / 70% 70% no-repeat;
+            border-radius: inherit;
+            pointer-events: none;
         }
 
         /* Solapa en "V": el separador real es filter:drop-shadow (un box-shadow normal no
@@ -183,7 +198,8 @@
             right: 0;
             height: 100%;
             clip-path: polygon(0 0, 100% 0, 50% 52%);
-            background: var(--forest-deep);
+            background: linear-gradient(165deg, #2A5C48 0%, var(--forest-deep) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.16);
             border-radius: 1.25rem 1.25rem 0 0;
             transform-origin: top;
             filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.3));
@@ -403,9 +419,17 @@
 <!-- PANTALLA SOBRE INICIAL -->
 <div id="envelope-screen" class="fixed inset-0 min-h-[100dvh] z-50 bg-[#F7F6F2] flex flex-col items-center justify-center overflow-hidden p-6 text-center select-none">
 
-    <!-- Flores de esquina: mismo motivo SVG leaf-sprig que el resto del sitio (sin imágenes externas que puedan fallar). -->
+    <!-- Marco botánico de esquinas: mismo motivo SVG leaf-sprig que el resto del sitio, en
+         varias ramitas de distinto tamaño/rotación por esquina (igual al tratamiento ya
+         usado en la sección "Acompáñanos"), en vez de una sola ramita suelta por lado. -->
     <svg class="absolute top-6 left-4 w-20 h-20 opacity-40 pointer-events-none" style="color: var(--gold);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+    <svg class="absolute top-4 left-14 w-9 h-9 opacity-30 pointer-events-none" style="color: var(--sage); transform: rotate(35deg);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+    <svg class="absolute top-6 right-4 w-20 h-20 opacity-40 pointer-events-none" style="color: var(--gold); transform: scaleX(-1);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+    <svg class="absolute top-4 right-14 w-9 h-9 opacity-30 pointer-events-none" style="color: var(--sage); transform: rotate(-35deg) scaleX(-1);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
     <svg class="absolute bottom-6 left-4 w-20 h-20 opacity-40 pointer-events-none" style="color: var(--gold); transform: scaleY(-1);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+    <svg class="absolute bottom-4 left-14 w-9 h-9 opacity-30 pointer-events-none" style="color: var(--sage); transform: rotate(145deg);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+    <svg class="absolute bottom-6 right-4 w-20 h-20 opacity-40 pointer-events-none" style="color: var(--gold); transform: scale(-1,-1);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
+    <svg class="absolute bottom-4 right-14 w-9 h-9 opacity-30 pointer-events-none" style="color: var(--sage); transform: rotate(215deg);" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
 
     <div class="relative w-full max-w-[360px] flex flex-col items-center space-y-6" style="z-index: 10;">
 
