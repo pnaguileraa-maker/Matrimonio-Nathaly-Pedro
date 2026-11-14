@@ -309,25 +309,45 @@
             backdrop-filter: blur(4px);
         }
 
-        /* ===== CARRUSEL DE FOTOS ===== */
+        /* ===== CARRUSEL DE FOTOS: estilo "polaroids" dispersas, no una fila plana ===== */
         .gallery-track {
             display: flex;
-            gap: 0.9rem;
+            align-items: center;
+            gap: 1.1rem;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 0.5rem;
+            padding: 1.75rem 0 2rem;
         }
         .gallery-track::-webkit-scrollbar { height: 5px; }
         .gallery-track::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
         .gallery-item {
+            position: relative;
             flex: 0 0 auto;
             scroll-snap-align: center;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 10px 24px -8px rgba(0,0,0,0.25);
+            background: #FFFFFF;
+            padding: 0.5rem 0.5rem 1.4rem;
+            border-radius: 0.25rem;
+            box-shadow: 0 10px 24px -8px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
         }
-        .gallery-item img { display: block; }
+        .gallery-item img { display: block; border-radius: 0.1rem; }
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: -7px;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--gold-deep);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.35), inset 0 1px 1px rgba(255,255,255,0.5);
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        .gallery-item:nth-child(odd) { transform: rotate(-2.5deg) translateY(8px); }
+        .gallery-item:nth-child(even) { transform: rotate(2.5deg) translateY(-6px); }
+        .gallery-item:nth-child(3n) { transform: rotate(-1.5deg) translateY(-8px); }
 
         /* ===== LINEA CENTRAL CON CORAZONES (Itinerario) ===== */
         .itin-track { position: relative; padding: 0.5rem 0 0.25rem; }
@@ -574,16 +594,18 @@
         <p class="text-xs font-serif-custom italic mb-5" style="color: var(--ink); opacity: 0.8;">"Un camino que comenzó siendo dos y hoy celebramos como uno solo."</p>
 
         <div class="gallery-track pr-6">
-            <div class="gallery-item"><img src="fotoA.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
-            <div class="gallery-item"><img src="foto2.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
-            <div class="gallery-item"><img src="foto3.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
-            <div class="gallery-item"><img src="foto4.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
-            <div class="gallery-item"><img src="foto5.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
-            <div class="gallery-item"><img src="foto6.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
-            <div class="gallery-item"><img src="foto7.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
-            <div class="gallery-item"><img src="foto8.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
-            <div class="gallery-item"><img src="foto9.jpg" alt="Nathaly y Pedro" class="h-64 w-auto"></div>
+            <div class="gallery-item"><img src="fotoA.jpg" alt="Nathaly y Pedro" class="h-60 w-auto"></div>
+            <div class="gallery-item"><img src="fotoA1.jpg" alt="Nathaly y Pedro" class="h-60 w-auto"></div>
+            <div class="gallery-item"><img src="foto2.jpg" alt="Nathaly y Pedro" class="h-60 w-auto"></div>
+            <div class="gallery-item"><img src="foto3.jpg" alt="Nathaly y Pedro" class="h-60 w-auto"></div>
+            <div class="gallery-item"><img src="foto4.jpg" alt="Nathaly y Pedro" class="h-60 w-auto"></div>
+            <div class="gallery-item"><img src="foto5.jpg" alt="Nathaly y Pedro" class="h-60 w-auto"></div>
+            <div class="gallery-item"><img src="foto6.jpg" alt="Nathaly y Pedro" class="h-60 w-auto"></div>
+            <div class="gallery-item"><img src="foto7.jpg" alt="Nathaly y Pedro" class="h-60 w-auto"></div>
+            <div class="gallery-item"><img src="foto8.jpg" alt="Nathaly y Pedro" class="h-60 w-auto"></div>
+            <div class="gallery-item"><img src="foto9.jpg" alt="Nathaly y Pedro" class="h-60 w-auto"></div>
         </div>
+        <p class="text-[11px] italic font-serif-custom pr-6" style="color: var(--ink); opacity: 0.55;">Desliza para ver más &rarr;</p>
     </section>
 
     <!-- BLOQUE VERDE BOSQUE OSCURO: Confirma tu Asistencia (RSVP conversacional multi-paso) -->
@@ -594,7 +616,7 @@
         <div class="w-full px-6 pt-10 pb-10 text-center">
             <h3 class="font-script-custom text-4xl sm:text-5xl text-white">Confirma tu Asistencia</h3>
             <p class="text-xs text-white/70 mt-3 max-w-xs mx-auto leading-relaxed">
-                Prepárate para disfrutar y celebrar con nosotros&hellip; ¡no dejes en casa los zapatos de baile!
+                Prepárate para disfrutar y celebrar con nosotros&hellip; ¡la pista de baile te espera toda la noche!
             </p>
 
             <!-- Pases: cupos reservados, personalizado por invitado vía ?cupos= en la URL -->
