@@ -204,12 +204,30 @@
             transform-origin: top;
             filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.3));
             backface-visibility: hidden;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 5;
         }
 
+        /* La solapa se vuelve invisible (backface-visibility: hidden) apenas pasa los 90°,
+           así que lo único que el ojo realmente percibe es el tramo 0°→90°: por eso el
+           "lift" (se despega un poco hacia arriba y el sol-shadow crece) pasa ahí, antes
+           de que termine de girar y desaparezca. */
         .flap-open {
-            transform: rotateX(180deg);
+            animation: flap-lift 0.85s cubic-bezier(0.3, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes flap-lift {
+            0% {
+                transform: translateY(0) rotateX(0deg);
+                filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.3));
+            }
+            38% {
+                transform: translateY(-7px) rotateX(38deg);
+                filter: drop-shadow(0 24px 28px rgba(0, 0, 0, 0.42));
+            }
+            100% {
+                transform: translateY(0) rotateX(180deg);
+                filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.3));
+            }
         }
 
         /* SELLO DE LACRE DORADO: centrado absoluto estricto, anclado al vértice exacto de
@@ -1126,11 +1144,11 @@
             topFlap.classList.add('flap-open');
         }, 300);
 
-        // FASE 3 (0.9s): con la solapa ya abierta, el contenedor completo se desvanece
-        // y libera los eventos de puntero, revelando la invitación.
+        // FASE 3: con la solapa ya abierta (300ms de espera + 850ms de animación), el
+        // contenedor completo se desvanece y libera los eventos de puntero, revelando la invitación.
         setTimeout(() => {
             envelopeScreen.classList.add('envelope-screen-fade');
-        }, 1000);
+        }, 1200);
     }
 
     /* ===== Cuenta Regresiva ===== */
