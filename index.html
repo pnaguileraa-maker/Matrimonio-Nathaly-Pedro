@@ -464,6 +464,14 @@
 
                 <div id="top-flap" class="envelope-fold-top"></div>
 
+                <!-- Hilo dorado envolviendo el sobre, cruzando justo bajo el sello (como un hilo de regalo real) -->
+                <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 8;" viewBox="0 0 340 220" preserveAspectRatio="none">
+                    <line x1="0" y1="220" x2="170" y2="114" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" opacity="0.55" vector-effect="non-scaling-stroke"/>
+                    <line x1="170" y1="114" x2="340" y2="220" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" opacity="0.55" vector-effect="non-scaling-stroke"/>
+                    <line x1="0" y1="190" x2="170" y2="114" stroke="var(--gold)" stroke-width="1" stroke-linecap="round" opacity="0.3" vector-effect="non-scaling-stroke"/>
+                    <line x1="170" y1="114" x2="340" y2="190" stroke="var(--gold)" stroke-width="1" stroke-linecap="round" opacity="0.3" vector-effect="non-scaling-stroke"/>
+                </svg>
+
                 <!-- Sello de Lacre: el centrado (left/top/translate) vive SOLO en la clase .wax-seal-btn (CSS),
                      para que no pueda desviarse en :hover/:active ni durante el zoom de apertura -->
                 <button id="seal-btn" onclick="openEnvelope()" aria-label="Abrir invitación" class="w-16 h-16 wax-seal-btn rounded-full flex items-center justify-center cursor-pointer">
@@ -490,7 +498,6 @@
                 <svg class="w-3.5 h-3.5" viewBox="0 0 100 100"><use href="#leaf-sprig"/></svg>
                 <span class="h-px w-6 bg-current opacity-60"></span>
             </div>
-            <p class="font-serif-custom text-xs uppercase tracking-[0.2em] text-[#2B352E]">06 de Febrero de 2027</p>
         </div>
 
     </div>
