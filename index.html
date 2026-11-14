@@ -422,7 +422,7 @@
         .accordion-chevron.rotated { transform: rotate(180deg); }
     </style>
 </head>
-<body class="text-[#2B352E] font-sans-custom antialiased selection:bg-[#C5A059]/30 min-h-screen">
+<body id="site-body" class="text-[#2B352E] font-sans-custom antialiased selection:bg-[#C5A059]/30 min-h-screen overflow-hidden">
 
 <!-- Sprite SVG oculto: sprig botánico reutilizable (separadores de sección) -->
 <svg style="display:none" aria-hidden="true">
@@ -460,32 +460,34 @@
 
         <!-- Sobre 3D: formato horizontal clásico, bajo y ancho, verde bosque oscuro -->
         <div class="envelope-perspective w-full">
-            <div id="envelope-body" class="relative w-full max-w-[340px] mx-auto h-[220px] envelope-card">
+            <div class="relative w-full max-w-[340px] mx-auto">
+                <div id="envelope-body" class="relative w-full h-[220px] envelope-card">
 
-                <div id="top-flap" class="envelope-fold-top"></div>
+                    <div id="top-flap" class="envelope-fold-top"></div>
 
-                <!-- Hilo dorado envolviendo el sobre, cruzando justo bajo el sello (como un hilo de regalo real) -->
-                <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 8;" viewBox="0 0 340 220" preserveAspectRatio="none">
-                    <line x1="0" y1="220" x2="170" y2="114" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" opacity="0.55" vector-effect="non-scaling-stroke"/>
-                    <line x1="170" y1="114" x2="340" y2="220" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" opacity="0.55" vector-effect="non-scaling-stroke"/>
-                    <line x1="0" y1="190" x2="170" y2="114" stroke="var(--gold)" stroke-width="1" stroke-linecap="round" opacity="0.3" vector-effect="non-scaling-stroke"/>
-                    <line x1="170" y1="114" x2="340" y2="190" stroke="var(--gold)" stroke-width="1" stroke-linecap="round" opacity="0.3" vector-effect="non-scaling-stroke"/>
+                    <!-- Hilo dorado envolviendo el sobre, cruzando justo bajo el sello (como un hilo de regalo real) -->
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 8;" viewBox="0 0 340 220" preserveAspectRatio="none">
+                        <line x1="0" y1="220" x2="170" y2="114" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" opacity="0.55" vector-effect="non-scaling-stroke"/>
+                        <line x1="170" y1="114" x2="340" y2="220" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" opacity="0.55" vector-effect="non-scaling-stroke"/>
+                        <line x1="0" y1="190" x2="170" y2="114" stroke="var(--gold)" stroke-width="1" stroke-linecap="round" opacity="0.3" vector-effect="non-scaling-stroke"/>
+                        <line x1="170" y1="114" x2="340" y2="190" stroke="var(--gold)" stroke-width="1" stroke-linecap="round" opacity="0.3" vector-effect="non-scaling-stroke"/>
+                    </svg>
+
+                    <!-- Sello de Lacre: el centrado (left/top/translate) vive SOLO en la clase .wax-seal-btn (CSS),
+                         para que no pueda desviarse en :hover/:active ni durante el zoom de apertura -->
+                    <button id="seal-btn" onclick="openEnvelope()" aria-label="Abrir invitación" class="w-16 h-16 wax-seal-btn rounded-full flex items-center justify-center cursor-pointer">
+                        <span class="font-serif-custom text-[#3a2c0d] text-base font-bold tracking-wide" style="text-shadow: 0 1px 1px rgba(255,255,255,0.35), 0 -1px 0 rgba(0,0,0,0.15);">N&amp;P</span>
+                    </button>
+                </div>
+
+                <!-- "Click para abrir la invitación", fuera del sobre, debajo de él -->
+                <p class="relative mt-3 text-center text-[10px] font-semibold uppercase tracking-[0.15em] leading-relaxed" style="z-index: 2; color: var(--ink); opacity: 0.7;">Click para abrir<br>la invitación</p>
+
+                <!-- Flecha curva punteada: guía visual desde el texto (ya fuera del sobre) hacia el sello -->
+                <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 10;" viewBox="0 0 340 272" preserveAspectRatio="none">
+                    <path d="M218,252 C242,224 228,155 192,122" fill="none" stroke="var(--gold-deep)" stroke-width="2" stroke-linecap="round" stroke-dasharray="1.5 7" vector-effect="non-scaling-stroke"/>
+                    <path d="M192,122 L202,128 M192,122 L198,111" fill="none" stroke="var(--gold-deep)" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
                 </svg>
-
-                <!-- Sello de Lacre: el centrado (left/top/translate) vive SOLO en la clase .wax-seal-btn (CSS),
-                     para que no pueda desviarse en :hover/:active ni durante el zoom de apertura -->
-                <button id="seal-btn" onclick="openEnvelope()" aria-label="Abrir invitación" class="w-16 h-16 wax-seal-btn rounded-full flex items-center justify-center cursor-pointer">
-                    <span class="font-serif-custom text-[#3a2c0d] text-base font-bold tracking-wide" style="text-shadow: 0 1px 1px rgba(255,255,255,0.35), 0 -1px 0 rgba(0,0,0,0.15);">N&amp;P</span>
-                </button>
-
-                <!-- Flecha curva punteada: guía visual del texto hacia el sello, igual a la referencia -->
-                <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 10;" viewBox="0 0 340 220" preserveAspectRatio="none">
-                    <path d="M215,158 C236,139 224,112 192,120" fill="none" stroke="rgba(247,246,242,0.6)" stroke-width="2" stroke-linecap="round" stroke-dasharray="1.5 7" vector-effect="non-scaling-stroke"/>
-                    <path d="M192,120 L202,126 M192,120 L198,109" fill="none" stroke="rgba(247,246,242,0.6)" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
-                </svg>
-
-                <!-- "Click para abrir la invitación", integrado justo debajo de la cera -->
-                <p class="absolute left-1/2 top-[70%] -translate-x-1/2 w-full text-center text-[10px] font-semibold uppercase tracking-[0.15em] leading-relaxed" style="z-index: 2; color: rgba(247,246,242,0.75);">Click para abrir<br>la invitación</p>
             </div>
         </div>
 
@@ -1175,6 +1177,10 @@
         // contenedor completo se desvanece y libera los eventos de puntero, revelando la invitación.
         setTimeout(() => {
             envelopeScreen.classList.add('envelope-screen-fade');
+            // Mientras se ve el sobre, el body queda con overflow-hidden (ver <body>) para
+            // que ningún gesto de scroll mueva la pagina de atras y "corra" la pantalla
+            // inicial. Recien aca, cuando la invitacion ya quedo revelada, se libera.
+            document.getElementById('site-body').classList.remove('overflow-hidden');
         }, 1200);
     }
 
