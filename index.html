@@ -483,10 +483,12 @@
                 <!-- "Click para abrir la invitación", fuera del sobre, debajo de él -->
                 <p class="relative mt-3 text-center text-[10px] font-semibold uppercase tracking-[0.15em] leading-relaxed" style="z-index: 2; color: var(--ink); opacity: 0.7;">Click para abrir<br>la invitación</p>
 
-                <!-- Flecha curva punteada: guía visual desde el texto (ya fuera del sobre) hacia el sello -->
+                <!-- Flecha curva punteada con espiral, igual a la referencia: guía visual desde el
+                     texto (ya fuera del sobre) hacia el sello, con una pequeña vuelta de "rulo" en el camino -->
                 <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 10;" viewBox="0 0 340 272" preserveAspectRatio="none">
-                    <path d="M218,252 C242,224 228,155 192,122" fill="none" stroke="var(--gold-deep)" stroke-width="2" stroke-linecap="round" stroke-dasharray="1.5 7" vector-effect="non-scaling-stroke"/>
-                    <path d="M192,122 L202,128 M192,122 L198,111" fill="none" stroke="var(--gold-deep)" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+                    <path d="M220,250 C248,243 252,210 222,200 C198,192 184,216 200,228 C212,237 224,228 218,220 C246,207 228,158 197,143"
+                          fill="none" stroke="var(--gold-deep)" stroke-width="2" stroke-linecap="round" stroke-dasharray="1.5 7" vector-effect="non-scaling-stroke"/>
+                    <path d="M197,143 L208,146 M197,143 L201,131" fill="none" stroke="var(--gold-deep)" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
                 </svg>
             </div>
         </div>
