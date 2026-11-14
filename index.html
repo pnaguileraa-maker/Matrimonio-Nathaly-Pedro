@@ -453,8 +453,9 @@
 
         <!-- Encabezado: versalitas pequeñas arriba, calígrafa dorada grande debajo -->
         <div id="header-text" class="space-y-1 transition-opacity duration-300">
-            <p class="font-serif-custom text-xs uppercase tracking-[0.2em] text-[#2B352E] font-semibold">¡Nos Casamos!</p>
+            <p class="font-serif-custom text-xs uppercase tracking-[0.2em] text-[#2B352E] font-semibold">Nuestra Boda</p>
             <h1 class="font-script-custom text-5xl sm:text-6xl leading-tight" style="color: var(--gold-deep);">Nathaly &amp; Pedro</h1>
+            <p class="font-serif-custom text-xs uppercase tracking-[0.25em]" style="color: var(--ink); opacity: 0.6;">06 &middot; Febrero &middot; 2027</p>
         </div>
 
         <!-- Sobre 3D: formato horizontal clásico, bajo y ancho, verde bosque oscuro -->
@@ -469,8 +470,14 @@
                     <span class="font-serif-custom text-[#3a2c0d] text-base font-bold tracking-wide" style="text-shadow: 0 1px 1px rgba(255,255,255,0.35), 0 -1px 0 rgba(0,0,0,0.15);">N&amp;P</span>
                 </button>
 
-                <!-- "Haz clic aquí", integrado justo debajo de la cera -->
-                <p class="absolute left-1/2 top-[68%] -translate-x-1/2 w-full text-center text-[9px] tracking-wide" style="z-index: 2; color: rgba(247,246,242,0.65);">Haz clic aquí</p>
+                <!-- Flecha curva punteada: guía visual del texto hacia el sello, igual a la referencia -->
+                <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 10;" viewBox="0 0 340 220" preserveAspectRatio="none">
+                    <path d="M215,158 C236,139 224,112 192,120" fill="none" stroke="rgba(247,246,242,0.6)" stroke-width="2" stroke-linecap="round" stroke-dasharray="1.5 7" vector-effect="non-scaling-stroke"/>
+                    <path d="M192,120 L202,126 M192,120 L198,109" fill="none" stroke="rgba(247,246,242,0.6)" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+                </svg>
+
+                <!-- "Click para abrir la invitación", integrado justo debajo de la cera -->
+                <p class="absolute left-1/2 top-[70%] -translate-x-1/2 w-full text-center text-[10px] font-semibold uppercase tracking-[0.15em] leading-relaxed" style="z-index: 2; color: rgba(247,246,242,0.75);">Click para abrir<br>la invitación</p>
             </div>
         </div>
 
