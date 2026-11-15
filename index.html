@@ -994,23 +994,33 @@
 <script>
     lucide.createIcons();
 
-    /* ===== RSVP: WhatsApp personal de destino y backend de registro (Google Apps Script) ===== */
-    const PEDRO_WHATSAPP_NUMBER = "56997319172";
+    /* ===== RSVP: WhatsApp personal de destino y backend de registro (Google Apps Script) =====
+       Hay dos números posibles de destino para la confirmación: el de Pedro (default) y el
+       de Nathaly. Cuál de los dos recibe el mensaje de cada invitado se decide con el
+       parámetro ?destino= de la URL (ver bloque de personalización más abajo). */
+    const WHATSAPP_NUMBERS = {
+        pedro: "56997319172",
+        nathaly: "56931079223"
+    };
     // Pega aquí la URL de tu implementación de Apps Script (Implementar > Administrar implementaciones).
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby82w4kNtRRHEWFX29AkOzhTyh-rViZnQ7oDlDxVdRWes12Vj-mN63UlLzX0-OK28n1/exec";
 
-    /* ===== Personalización por Parámetros de URL (?nombre=...&principal=...&cupos=...&acompanantes=...) =====
+    /* ===== Personalización por Parámetros de URL (?nombre=...&principal=...&cupos=...&acompanantes=...&destino=...) =====
        - nombre: saludo mostrado en la portada, puede ser grupal (ej. "Franco y Familia").
        - principal: nombre de pila de quien responde el RSVP (ej. "Franco"); si no viene, se usa "nombre".
        - cupos: total de lugares reservados para esta invitación (incluye al principal).
        - acompanantes: nombres de los acompañantes esperados, separados por "|" (ej. "Miguel|Maria|Carlos").
          Son los únicos que el principal puede marcar como asistentes: no hay forma de escribir un nombre
-         que no esté en esta lista, así nos aseguramos de que solo confirme la gente que invitamos. */
+         que no esté en esta lista, así nos aseguramos de que solo confirme la gente que invitamos.
+       - destino: "pedro" o "nathaly". A cuál de los dos le llega la confirmación por WhatsApp.
+         Si no viene, se usa "pedro". Se elige según quién le mande el link a ese invitado. */
     const urlParams = new URLSearchParams(window.location.search);
     const guestParam = urlParams.get('nombre');
     const principalParam = urlParams.get('principal') || guestParam;
     const cuposParam = parseInt(urlParams.get('cupos'), 10);
     const hasCupos = !isNaN(cuposParam) && cuposParam > 0;
+    const destinoParam = (urlParams.get('destino') || '').toLowerCase();
+    const whatsappDestino = WHATSAPP_NUMBERS[destinoParam] || WHATSAPP_NUMBERS.pedro;
     const acompanantesEsperados = (urlParams.get('acompanantes') || '')
         .split('|')
         .map(n => n.trim())
@@ -1151,7 +1161,7 @@
         // pestaña del navegador sin haber alcanzado a ver que la confirmacion se registro.
         rsvpGoToStep(4);
 
-        window.open(`https://wa.me/${PEDRO_WHATSAPP_NUMBER}?text=${encodeURIComponent(mensajeWhatsapp)}`, '_blank');
+        window.open(`https://wa.me/${whatsappDestino}?text=${encodeURIComponent(mensajeWhatsapp)}`, '_blank');
     }
 
     /* ===== Apertura del Sobre ===== */

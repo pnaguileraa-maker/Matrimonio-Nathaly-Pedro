@@ -16,7 +16,7 @@
 //    A Nombre invitado | B Nombre principal | C Telefono | D Cupos |
 //    E Acompanantes esperados | F Link invitacion | G Boton enviar |
 //    H Estado de confirmacion de asistencia | I Confirmados | J Titular |
-//    K Acompanantes confirmados | L UltimoContacto
+//    K Acompanantes confirmados | L UltimoContacto | M Quien invita
 //    - A (Nombre invitado) es el saludo que se muestra en la portada, puede ser
 //      grupal, ej. "Franco y Familia".
 //    - B (Nombre principal) es el nombre de pila de quien responde el RSVP, ej.
@@ -25,14 +25,27 @@
 //    - E (Acompanantes esperados) lista los nombres de pila de los acompanantes que
 //      esperamos que traiga, separados por " | ", ej. "Miguel | Maria | Carlos".
 //      Deben ser Cupos - 1 nombres. Esta columna la llenas tu a mano por cada fila.
-//    - F (Link invitacion) arma la URL personalizada a partir de A, B, D y E. Formula
+//    - M (Quien invita) escribe a mano "pedro" o "nathaly": de quien es el contacto,
+//      o sea quien le va a mandar el link a esta persona. Sirve para dos cosas:
+//      1) Filtrar/ordenar la hoja por esta columna antes de mandar, asi cada uno
+//         solo usa el boton "Enviar" (G) de SUS propias filas, logueado en su propio
+//         WhatsApp Web — eso es lo que de verdad define el origen del mensaje (el
+//         link no puede forzar "desde que numero" se manda, eso lo decide que cuenta
+//         de WhatsApp este abierta en el navegador al momento de tocar enviar).
+//      2) Alimentar el &destino= del link (F), para que la confirmacion del invitado
+//         vuelva a ese mismo numero.
+//    - F (Link invitacion) arma la URL personalizada a partir de A, B, D, E y M. Formula
 //      sugerida (ajusta el dominio si corresponde):
 //      =CONCATENAR("https://pnaguileraa-maker.github.io/Matrimonio-Nathaly-Pedro/?nombre=",
-//        ENCODEURL(A2),"&principal=",ENCODEURL(B2),"&cupos=",D2,"&acompanantes=",ENCODEURL(E2))
+//        ENCODEURL(A2),"&principal=",ENCODEURL(B2),"&cupos=",D2,"&acompanantes=",ENCODEURL(E2),
+//        "&destino=",ENCODEURL(M2))
 //    - G (Boton enviar) te arma un link de wa.me para mandarle tu mismo la invitacion
 //      al telefono del invitado (C). Formula sugerida:
 //      =CONCATENAR("https://wa.me/",C2,"?text=",ENCODEURL(CONCATENAR("¡Hola ",B2,
 //        "! 💛 Aquí tienes tu invitación a la boda de Nathaly & Pedro: ",F2)))
+//      OJO: este link solo arma el mensaje. Quien lo manda realmente es quien hace clic,
+//      usando la sesion de WhatsApp Web que tenga abierta en ESE momento — por eso la
+//      columna M es la que ordena quien se sienta a mandar cada fila, no el link en si.
 //    - J (Titular) y K (Acompanantes confirmados) los llena este script cuando el
 //      invitado responde: J lleva "Nombre (Aceptado)" o "Nombre (No asiste)", K lista
 //      los acompanantes que el invitado SI marco como asistentes, separados por " | ".
