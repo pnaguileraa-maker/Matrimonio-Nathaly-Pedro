@@ -709,7 +709,7 @@
 
                 <!-- Paso 1: asistencia -->
                 <div id="rsvp-step-1" class="rsvp-step space-y-3">
-                    <p id="rsvp-pregunta-asistencia" class="text-center text-[15px] font-semibold text-white mb-1">¿Contamos con tu presencia?</p>
+                    <p id="rsvp-pregunta-asistencia" class="text-center text-[15px] font-semibold text-white mb-1">¿Confirmas tu asistencia?</p>
                     <button type="button" onclick="rsvpSetAsistencia(true)" class="w-full py-3.5 px-4 rounded-xl text-sm font-bold transition hover:brightness-110" style="background: var(--gold-deep); color: var(--forest);">
                         ¡Sí, ahí estaré! 🎉
                     </button>
@@ -1030,8 +1030,8 @@
         // textContent (no innerHTML) evita que el parámetro de la URL inyecte HTML/JS
         document.getElementById('guest-name').textContent = guestParam ? `¡Hola, ${guestParam}!` : '¡Bienvenido(a)!';
         document.getElementById('rsvp-pregunta-asistencia').textContent = principalParam
-            ? `${principalParam}, ¿contamos con tu presencia?`
-            : '¿Contamos con tu presencia?';
+            ? `${principalParam}, ¿confirmas tu asistencia?`
+            : '¿Confirmas tu asistencia?';
 
         if (hasCupos) {
             renderPases(cuposParam);
