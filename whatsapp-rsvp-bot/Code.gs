@@ -40,14 +40,18 @@
 //        ENCODEURL(A2),"&principal=",ENCODEURL(B2),"&cupos=",D2,"&acompanantes=",ENCODEURL(E2),
 //        "&destino=",ENCODEURL(M2))
 //    - G (Boton enviar) te arma un link de wa.me para mandarle tu mismo la invitacion
-//      al telefono del invitado (C). Usa el saludo de la columna A (Nombre invitado,
-//      puede ser grupal) y no B (que es solo el apodo de quien responde el RSVP).
-//      Formula sugerida:
-//      =CONCATENAR("https://wa.me/",C2,"?text=",ENCODEURL(CONCATENAR("¡Hola ",A2,
-//        "! 💍 Con mucha alegría queremos invitarte a celebrar nuestra boda junto a ",
-//        "nosotros. Aquí tienes tu invitación: ",F2)))
-//      OJO: este link solo arma el mensaje. Quien lo manda realmente es quien hace clic,
-//      usando la sesion de WhatsApp Web que tenga abierta en ESE momento — por eso la
+//      al telefono del invitado (C). Formula sugerida (solo el link, sin texto propio):
+//      =HIPERVINCULO(F2,"📱 Enviar por WhatsApp")
+//      OJO: a proposito el mensaje es SOLO el link (sin "Hola Fulano..." antes). Si el
+//      link va solo, WhatsApp muestra la tarjeta grande con la foto (portada.jpg) y la
+//      descripcion de og:description en index.html; si se le agrega texto antes, WhatsApp
+//      cambia a una vista previa chica — eso es un comportamiento de WhatsApp, no se puede
+//      evitar. El texto de esa tarjeta es el mismo para todos los invitados (no se puede
+//      poner el nombre de cada uno ahi, el sitio es estatico). Si quieren un saludo CON
+//      nombre, hay que escribirlo a mano como un mensaje aparte, justo antes de tocar este
+//      boton (ej. escribir "¡Hola Fulano! 💍" y mandarlo, y recien ahi tocar "Enviar").
+//      OJO tambien: este link solo arma el mensaje. Quien lo manda realmente es quien hace
+//      clic, usando la sesion de WhatsApp Web que tenga abierta en ESE momento — por eso la
 //      columna M es la que ordena quien se sienta a mandar cada fila, no el link en si.
 //    - J (Titular) y K (Acompanantes confirmados) los llena este script cuando el
 //      invitado responde: J lleva "Nombre (Aceptado)" o "Nombre (No asiste)", K lista
