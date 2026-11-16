@@ -11,7 +11,7 @@
          llegar si o si a telefonos que ya abrieron el link antes. -->
     <script>
         (function () {
-            var CACHE_BUILD = "2026-11-16-3";
+            var CACHE_BUILD = "2026-11-16-4";
             var params = new URLSearchParams(window.location.search);
             if (params.get('_v') !== CACHE_BUILD) {
                 params.set('_v', CACHE_BUILD);
@@ -727,7 +727,7 @@
                 <!-- Paso 2: elegir, de la lista de acompañantes esperados para esta invitación, quiénes asisten -->
                 <div id="rsvp-step-2" class="rsvp-step hidden space-y-5">
                     <div>
-                        <p class="text-[12px] font-semibold uppercase tracking-wider mb-2" style="color: var(--gold-deep);">Confírmanos tus acompañantes</p>
+                        <p id="rsvp-acompanantes-titulo" class="text-[12px] font-semibold uppercase tracking-wider mb-2" style="color: var(--gold-deep);">Confírmanos seleccionando a tu(s) acompañante(s)</p>
                         <div id="rsvp-acompanantes-opciones" class="space-y-2"></div>
                     </div>
 
@@ -1098,6 +1098,9 @@
     // destildar a esas personas, nunca agregar a alguien que no esté en la lista.
     function rsvpRenderAcompanantesOpciones() {
         rsvpState.acompanantesSeleccionados = [];
+        document.getElementById('rsvp-acompanantes-titulo').textContent = acompanantesEsperados.length > 1
+            ? 'Confírmanos seleccionando a tus acompañantes'
+            : 'Confírmanos seleccionando a tu acompañante';
         const wrap = document.getElementById('rsvp-acompanantes-opciones');
         wrap.innerHTML = '';
         acompanantesEsperados.forEach(nombreAcomp => {
