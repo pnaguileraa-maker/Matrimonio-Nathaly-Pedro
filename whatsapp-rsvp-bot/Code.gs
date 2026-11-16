@@ -40,8 +40,10 @@
 //        ENCODEURL(A2),"&principal=",ENCODEURL(B2),"&cupos=",D2,"&acompanantes=",ENCODEURL(E2),
 //        "&destino=",ENCODEURL(M2))
 //    - G (Boton enviar) te arma un link de wa.me para mandarle tu mismo la invitacion
-//      al telefono del invitado (C). Formula sugerida:
-//      =CONCATENAR("https://wa.me/",C2,"?text=",ENCODEURL(CONCATENAR("¡Hola ",B2,
+//      al telefono del invitado (C). Usa el saludo de la columna A (Nombre invitado,
+//      puede ser grupal) y no B (que es solo el apodo de quien responde el RSVP).
+//      Formula sugerida:
+//      =CONCATENAR("https://wa.me/",C2,"?text=",ENCODEURL(CONCATENAR("¡Hola ",A2,
 //        "! 💍 Con mucha alegría queremos invitarte a celebrar nuestra boda junto a ",
 //        "nosotros. Aquí tienes tu invitación: ",F2)))
 //      OJO: este link solo arma el mensaje. Quien lo manda realmente es quien hace clic,
