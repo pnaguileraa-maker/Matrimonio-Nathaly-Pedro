@@ -42,7 +42,8 @@
 //    - G (Boton enviar) te arma un link de wa.me para mandarle tu mismo la invitacion
 //      al telefono del invitado (C). Formula sugerida:
 //      =CONCATENAR("https://wa.me/",C2,"?text=",ENCODEURL(CONCATENAR("¡Hola ",B2,
-//        "! 💛 Aquí tienes tu invitación a la boda de Nathaly & Pedro: ",F2)))
+//        "! 💍 Con mucha alegría queremos invitarte a celebrar nuestra boda junto a ",
+//        "nosotros. Aquí tienes tu invitación: ",F2)))
 //      OJO: este link solo arma el mensaje. Quien lo manda realmente es quien hace clic,
 //      usando la sesion de WhatsApp Web que tenga abierta en ESE momento — por eso la
 //      columna M es la que ordena quien se sienta a mandar cada fila, no el link en si.
