@@ -11,7 +11,7 @@
          llegar si o si a telefonos que ya abrieron el link antes. -->
     <script>
         (function () {
-            var CACHE_BUILD = "2026-11-16-1";
+            var CACHE_BUILD = "2026-11-16-2";
             var params = new URLSearchParams(window.location.search);
             if (params.get('_v') !== CACHE_BUILD) {
                 params.set('_v', CACHE_BUILD);
@@ -53,7 +53,7 @@
     <!-- Open Graph: tarjeta de vista previa al compartir el enlace en WhatsApp / redes -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Matrimonio Nathaly & Pedro 💍">
-    <meta property="og:description" content="¡Nos casamos! 💍 Con mucha alegría te invitamos a celebrar este día tan especial junto a nosotros. Toca aquí para ver tu invitación.">
+    <meta property="og:description" content="¡Nos casamos! ✨ Con mucha alegría te invitamos a celebrar este día tan especial junto a nosotros. Toca aquí para ver tu invitación.">
     <meta property="og:image" content="https://pnaguileraa-maker.github.io/Matrimonio-Nathaly-Pedro/portada.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="1600">
@@ -1159,7 +1159,7 @@
         const acompanantesTexto = hayAcompanantes ? ` junto a ${acompanantesConfirmados.join(', ')}` : '';
         const posesivo = hayAcompanantes ? 'nuestra' : 'mi';
         const mensajeWhatsapp = rsvpState.estado === 'Aceptado'
-            ? `¡Hola Nathaly y Pedro! ✨ Acabo de confirmar ${posesivo} asistencia a su boda${acompanantesTexto}. ¡Ya quiero que llegue el 06 de febrero para celebrar junto a ustedes! Nos vemos ahí 🎉`
+            ? `¡Hola Nathaly y Pedro! 💍 Acabo de confirmar ${posesivo} asistencia a su boda${acompanantesTexto}. ¡Ya quiero que llegue el 06 de febrero para celebrar junto a ustedes! Nos vemos ahí 🎉`
             : `¡Hola Nathaly y Pedro! 💛 Lamentablemente no podré acompañarlos en su boda, pero voy a estar con ustedes en el corazón ese día. ¡Gracias por pensar en mí para un momento tan especial! 🙏`;
         // Primero se muestra el paso de agradecimiento (asi queda confirmado a la vista
         // de inmediato) y recien despues se abre WhatsApp; si se hace al reves, el salto
