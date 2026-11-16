@@ -40,8 +40,10 @@
 //        ENCODEURL(A2),"&principal=",ENCODEURL(B2),"&cupos=",D2,"&acompanantes=",ENCODEURL(E2),
 //        "&destino=",ENCODEURL(M2))
 //    - G (Boton enviar) te arma un link de wa.me para mandarle tu mismo la invitacion
-//      al telefono del invitado (C). Formula sugerida (solo el link, sin texto propio):
-//      =HIPERVINCULO(F2,"📱 Enviar por WhatsApp")
+//      al telefono del invitado (C). Formula sugerida (mensaje = solo el link, sin
+//      texto propio antes):
+//      =HIPERVINCULO(CONCATENAR("https://wa.me/",C2,"?text=",ENCODEURL(F2)),
+//        "📱 Enviar por WhatsApp")
 //      OJO: a proposito el mensaje es SOLO el link (sin "Hola Fulano..." antes). Si el
 //      link va solo, WhatsApp muestra la tarjeta grande con la foto (portada.jpg) y la
 //      descripcion de og:description en index.html; si se le agrega texto antes, WhatsApp
