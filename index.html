@@ -11,7 +11,7 @@
          llegar si o si a telefonos que ya abrieron el link antes. -->
     <script>
         (function () {
-            var CACHE_BUILD = "2026-11-16-4";
+            var CACHE_BUILD = "2026-11-16-5";
             var params = new URLSearchParams(window.location.search);
             if (params.get('_v') !== CACHE_BUILD) {
                 params.set('_v', CACHE_BUILD);
@@ -747,8 +747,7 @@
                 <!-- Paso 4: agradecimiento -->
                 <div id="rsvp-step-4" class="rsvp-step hidden text-center space-y-2 py-2">
                     <i data-lucide="check-circle-2" class="w-8 h-8 mx-auto" style="color: var(--gold-deep);"></i>
-                    <p class="text-[15px] font-semibold text-white">¡Gracias por confirmar!</p>
-                    <p class="text-[13px] text-white/70">Se abrió WhatsApp para que nos mandes el resumen. Te esperamos con muchas ganas.</p>
+                    <p id="rsvp-agradecimiento" class="text-[13px] text-white/85 leading-relaxed" style="white-space: pre-line;"></p>
                 </div>
             </div>
         </div>
@@ -1078,6 +1077,7 @@
     function rsvpGoToStep(step) {
         document.querySelectorAll('.rsvp-step').forEach(el => el.classList.add('hidden'));
         if (step === 3) document.getElementById('rsvp-resumen').textContent = rsvpBuildResumenTexto();
+        if (step === 4) document.getElementById('rsvp-agradecimiento').textContent = rsvpBuildAgradecimientoTexto();
         document.getElementById(`rsvp-step-${step}`).classList.remove('hidden');
         // Sin scroll automático a propósito: el invitado queda exactamente donde
         // estaba parado al tocar el botón, sin que la pantalla se mueva sola.
@@ -1137,6 +1137,29 @@
         return lineas.join('\n');
     }
 
+    function rsvpBuildAgradecimientoTexto() {
+        if (rsvpState.estado === 'Rechazado') {
+            return 'Lamentamos mucho que no puedas acompañarnos, ¡pero te mandamos un abrazo enorme! Gracias por avisarnos.\n\nSe abrió WhatsApp para que nos mandes el resumen.';
+        }
+
+        // Plural si confirma junto a algun acompañante, singular si va solo.
+        const esPlural = rsvpState.acompanantesSeleccionados.length > 0;
+        const lineas = esPlural
+            ? [
+                'Nos hace inmensamente felices saber que nos acompañarán en este día tan especial para nosotros. Su presencia hará que nuestra boda sea aún más memorable.',
+                'Guarden la fecha en su calendario, ¡que ya estamos contando los días para celebrar juntos! 🥂✨',
+                'Les enviamos un abrazo enorme y nos vemos muy pronto para celebrar. ❤️'
+              ]
+            : [
+                'Nos hace inmensamente felices saber que nos acompañarás en este día tan especial para nosotros. Tu presencia hará que nuestra boda sea aún más memorable.',
+                'Guarda la fecha en tu calendario, ¡que ya estamos contando los días para celebrar juntos! 🥂✨',
+                'Te enviamos un abrazo enorme y nos vemos muy pronto para celebrar. ❤️'
+              ];
+        lineas.push('');
+        lineas.push('Se abrió WhatsApp para que nos mandes el resumen.');
+        return lineas.join('\n');
+    }
+
     function rsvpEnviar() {
         const nombre = principalParam || 'Invitado';
         const acompanantesConfirmados = rsvpState.estado === 'Aceptado' ? rsvpState.acompanantesSeleccionados : [];
@@ -1162,8 +1185,8 @@
         const acompanantesTexto = hayAcompanantes ? ` junto a ${acompanantesConfirmados.join(', ')}` : '';
         const posesivo = hayAcompanantes ? 'nuestra' : 'mi';
         const mensajeWhatsapp = rsvpState.estado === 'Aceptado'
-            ? `¡Hola Nathaly y Pedro! 💍 Acabo de confirmar ${posesivo} asistencia a su boda${acompanantesTexto}. ¡Ya quiero que llegue el 06 de febrero para celebrar junto a ustedes! Nos vemos ahí 🎉`
-            : `¡Hola Nathaly y Pedro! 💛 Lamentablemente no podré acompañarlos en su boda, pero voy a estar con ustedes en el corazón ese día. ¡Gracias por pensar en mí para un momento tan especial! 🙏`;
+            ? `¡Hola Nathaly y Pedro! 💍 Les escribo con mucha alegría para confirmar ${posesivo} asistencia a su boda${acompanantesTexto}. ¡Ya quiero que llegue el 06 de febrero para celebrar este día tan especial junto a ustedes! Nos vemos ahí 🎉`
+            : `¡Hola Nathaly y Pedro! 💛 Con mucha pena les cuento que no podré acompañarlos en su boda, pero voy a estar con ustedes en el corazón ese día. ¡Gracias por pensar en mí para un momento tan especial, los quiero mucho! 🙏`;
         // Primero se muestra el paso de agradecimiento (asi queda confirmado a la vista
         // de inmediato) y recien despues se abre WhatsApp; si se hace al reves, el salto
         // a WhatsApp puede ganarle al repintado de la pantalla y el invitado vuelve a la
