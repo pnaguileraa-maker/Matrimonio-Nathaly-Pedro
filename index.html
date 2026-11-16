@@ -60,8 +60,10 @@
     <!-- Favicon: emoji embebido, sin depender de un archivo externo -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>">
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS: compilado y guardado en el propio sitio (no depende de un script
+         externo en el momento de abrir la pagina), para que no se vea roto si la
+         conexion del invitado esta lenta justo en ese instante. -->
+    <link rel="stylesheet" href="tailwind.css">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

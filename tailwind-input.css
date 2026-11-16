@@ -1,0 +1,9 @@
+/* Fuente para generar tailwind.css (version compilada y servida desde el propio
+   sitio, sin depender de script.tailwindcss.com en tiempo de ejecucion).
+
+   Cada vez que se agregue o cambie una clase de Tailwind en index.html, hay que
+   volver a generar tailwind.css corriendo:
+     npm install
+     npm run build:css */
+@import "tailwindcss";
+@source "./index.html";

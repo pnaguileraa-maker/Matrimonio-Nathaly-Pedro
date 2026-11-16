@@ -1,0 +1,24 @@
+{
+  "name": "matrimonio-nathaly-pedro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "build:css": "tailwindcss -i tailwind-input.css -o tailwind.css --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pnaguileraa-maker/Matrimonio-Nathaly-Pedro.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pnaguileraa-maker/Matrimonio-Nathaly-Pedro/issues"
+  },
+  "homepage": "https://github.com/pnaguileraa-maker/Matrimonio-Nathaly-Pedro#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "tailwindcss": "^4.3.5"
+  }
+}
